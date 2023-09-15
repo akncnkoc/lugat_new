@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->uuid('id')->primary();
-//            $table->foreignUuid('expense_type_id')->constrained('expense_types')->restrictOnDelete();
+            $table->foreignUuid('expense_type_id')->constrained('expense_types')->restrictOnDelete();
             $table->decimal('amount', 15);
             $table->foreignUuid('vault_id')->constrained('vaults')->restrictOnDelete();
             $table->string('comment')->nullable();
@@ -20,13 +20,5 @@ return new class extends Migration {
             $table->timestamps();
             $table->softDeletes();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('expenses');
     }
 };

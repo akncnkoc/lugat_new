@@ -2,10 +2,10 @@
 
 namespace App\Services\Customer\Tests\Feature;
 
-use App\Services\Customer\Database\Seeders\CustomerRoleSeeder;
+use App\Services\Customer\Database\Seeders\CustomerTypesSeeder;
 use App\Services\Customer\Database\Seeders\CustomerSeeder;
 use App\Services\Customer\Models\Customer;
-use App\Services\Customer\Models\CustomerRole;
+use App\Services\Customer\Models\CustomerType;
 use App\Services\User\Database\Seeders\UserSeeder;
 use App\Services\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -30,7 +30,7 @@ class CustomerTest extends TestCase
         parent::setUp();
         $this->seed(UserSeeder::class);
         $this->seed(CustomerSeeder::class);
-        $this->seed(CustomerRoleSeeder::class);
+        $this->seed(CustomerTypesSeeder::class);
         $this->params = $this->setParams();
         $this->user = User::first();
         $this->customer = Customer::first();
@@ -50,7 +50,7 @@ class CustomerTest extends TestCase
             'city'             => $this->faker->city,
             'gender'           => $this->faker->boolean(),
             'post_code'        => $this->faker->postcode,
-            'customer_role_id' => CustomerRole::inRandomOrder()->first()->id
+            'customer_type_id' => CustomerType::inRandomOrder()->first()->id
         ];
     }
 
@@ -61,7 +61,7 @@ class CustomerTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'name', 'surname', 'email', 'phone', 'gender', 'customer_role', 'city', 'district', 'neighborhood', 'address', 'comment']
+                '*' => ['id', 'name', 'surname', 'email', 'phone', 'gender', 'customer_type', 'city', 'district', 'neighborhood', 'address', 'comment']
             ], 'links', 'meta'
         ]);
     }
@@ -87,7 +87,7 @@ class CustomerTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                'id', 'name', 'surname', 'email', 'phone', 'gender', 'customer_role', 'city', 'district', 'neighborhood', 'address', 'comment'
+                'id', 'name', 'surname', 'email', 'phone', 'gender', 'customer_type', 'city', 'district', 'neighborhood', 'address', 'comment'
             ]
         ]);
     }
@@ -152,7 +152,7 @@ class CustomerTest extends TestCase
     {
         Sanctum::actingAs($this->user);
         $this->params['name'] = $this->faker->name;
-        unset($this->params['customer_role_id']);
+        unset($this->params['customer_type_id']);
         $response = $this->putJson(route('customer.update', $this->customer->id), $this->params);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas('customers', [
@@ -211,7 +211,7 @@ class CustomerTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'name', 'surname', 'email', 'phone', 'gender', 'customer_role', 'city', 'district', 'neighborhood', 'address', 'comment']
+                '*' => ['id', 'name', 'surname', 'email', 'phone', 'gender', 'customer_type', 'city', 'district', 'neighborhood', 'address', 'comment']
             ], 'links', 'meta'
         ]);
     }

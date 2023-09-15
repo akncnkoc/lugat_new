@@ -2,7 +2,7 @@
 
 
 use App\Services\Customer\Http\Controllers\CustomerController;
-use App\Services\Customer\Http\Controllers\CustomerRoleController;
+use App\Services\Customer\Http\Controllers\CustomerTypeController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->prefix('/v1/customer')->name('customer.')->group(function () {
@@ -13,12 +13,12 @@ Route::middleware(['auth:sanctum'])->prefix('/v1/customer')->name('customer.')->
     Route::put('/{customer}', [CustomerController::class, 'update'])->name('update');
     Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('destroy');
 });
-Route::middleware(['auth:sanctum'])->prefix('/v1/customerRole')->name('customerRole.')->group(function () {
-    Route::get('/', [CustomerRoleController::class, 'index'])->name('index');
-    Route::get('/{customerRole}', [CustomerRoleController::class, 'show'])->name('show');
-    Route::post('/search', [CustomerRoleController::class, 'search'])->name('search');
-    Route::post('/', [CustomerRoleController::class, 'store'])->name('store');
-    Route::put('/{customerRole}', [CustomerRoleController::class, 'update'])->name('update');
-    Route::delete('/{customerRole}', [CustomerRoleController::class, 'destroy'])->name('destroy');
+Route::middleware(['auth:sanctum'])->prefix('/v1/customer-type')->name('customer-type.')->group(function () {
+    Route::get('/', [CustomerTypeController::class, 'index'])->name('index');
+    Route::get('/{customerType}', [CustomerTypeController::class, 'show'])->name('show');
+    Route::post('/search', [CustomerTypeController::class, 'search'])->name('search');
+    Route::post('/', [CustomerTypeController::class, 'store'])->name('store');
+    Route::put('/{customerType}', [CustomerTypeController::class, 'update'])->name('update');
+    Route::delete('/{customerType}', [CustomerTypeController::class, 'destroy'])->name('destroy');
 });
 

@@ -21,9 +21,9 @@ class Customer extends Model
         return CustomerFactory::new();
     }
 
-    public function customerRole(): BelongsTo
+    public function customerType(): BelongsTo
     {
-        return $this->belongsTo(CustomerRole::class, 'customer_role_id', 'id');
+        return $this->belongsTo(CustomerType::class, 'customer_type_id', 'id');
     }
 
     protected function fullName(): Attribute

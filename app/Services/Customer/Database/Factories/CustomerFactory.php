@@ -3,7 +3,7 @@
 namespace App\Services\Customer\Database\Factories;
 
 use App\Services\Customer\Models\Customer;
-use App\Services\Customer\Models\CustomerRole;
+use App\Services\Customer\Models\CustomerType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -27,7 +27,7 @@ class CustomerFactory extends Factory
             'post_code'        => $this->faker->postcode,
             'comment'          => $this->faker->sentence,
             'gender'           => $this->faker->boolean(),
-            'customer_role_id' => CustomerRole::factory()->create()->id
+            'customer_type_id' => CustomerType::factory()->create()->id
         ];
     }
 }

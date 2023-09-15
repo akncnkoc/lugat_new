@@ -2,13 +2,14 @@
 
 namespace App\Services\Vault\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\SearchRequest;
+use App\Global\Http\Controllers\Controller;
+use App\Global\Http\Requests\SearchRequest;
+use App\Global\Traits\ResponseTrait;
 use App\Services\Vault\Http\Requests\VaultStoreRequest;
 use App\Services\Vault\Http\Resources\VaultResource;
 use App\Services\Vault\Models\Vault;
-use App\Traits\ResponseTrait;
-use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,14 +17,14 @@ class VaultController extends Controller
 {
     use ResponseTrait;
 
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $this->authorize('vaultView', Vault::class);
         return VaultResource::collection(Vault::paginate());
     }
 
 
-    public function search(SearchRequest $request)
+    public function search(SearchRequest $request): AnonymousResourceCollection
     {
         $this->authorize('vaultView', Vault::class);
         $vaultQuery = Vault::query();
@@ -32,52 +33,37 @@ class VaultController extends Controller
         return VaultResource::collection($vaultQuery->paginate());
     }
 
-    public function store(VaultStoreRequest $request)
+    public function store(VaultStoreRequest $request): ?JsonResponse
     {
         $this->authorize('vaultStore', Vault::class);
-        try {
-            DB::beginTransaction();
+        DB::transaction(static function () use ($request) {
             Vault::create($request->safe()->all());
-            DB::commit();
-            return $this->success('vault created', statusCode: Response::HTTP_CREATED);
-        } catch (Exception $e) {
-            DB::rollBack();
-            return $this->error('internal error');
-        }
+        });
+        return $this->success('vault created', statusCode: Response::HTTP_CREATED);
     }
 
-    public function show(Vault $vault)
+    public function show(Vault $vault): VaultResource
     {
         $this->authorize('vaultView', Vault::class);
         return VaultResource::make($vault);
     }
 
-    public function update(Vault $vault, VaultStoreRequest $request)
+    public function update(Vault $vault, VaultStoreRequest $request): ?JsonResponse
     {
         $this->authorize('vaultUpdate', Vault::class);
-        try {
-            DB::beginTransaction();
+        DB::transaction(static function () use ($vault, $request) {
             $vault->update($request->safe()->all());
-            DB::commit();
-            return $this->success('vault updated');
-        } catch (Exception $e) {
-            DB::rollBack();
-            return $this->error('internal error');
-        }
+        });
+        return $this->success('vault updated');
     }
 
-    public function destroy(Vault $vault)
+    public function destroy(Vault $vault): ?JsonResponse
     {
         $this->authorize('vaultDelete', Vault::class);
-        try {
-            DB::beginTransaction();
+        DB::transaction(static function () use ($vault) {
             $vault->delete();
-            DB::commit();
-            return $this->success('vault deleted');
-        } catch (Exception $e) {
-            DB::rollBack();
-            return $this->error('internal error');
-        }
+        });
+        return $this->success('vault deleted');
     }
 
 }

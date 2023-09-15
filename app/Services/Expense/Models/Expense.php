@@ -27,4 +27,9 @@ class Expense extends Model
     {
         return $this->belongsTo(Vault::class, 'vault_id', 'id');
     }
+
+    public function expenseType(): BelongsTo
+    {
+        return $this->belongsTo(ExpenseType::class, 'expense_type_id', 'id');
+    }
 }

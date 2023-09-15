@@ -2,6 +2,7 @@
 
 namespace App\Services\Vault\Database\Seeders;
 
+use App\Services\Vault\Models\Vault;
 use Illuminate\Database\Seeder;
 
 class VaultSeeder extends Seeder
@@ -11,6 +12,6 @@ class VaultSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Vault::factory()->create();
     }
 }

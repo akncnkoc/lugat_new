@@ -5,14 +5,11 @@
          colors="true"
 >
     <testsuites>
-        <testsuite name="Unit">
-            <directory>tests/Unit</directory>
-        </testsuite>
         <testsuite name="Feature">
-            <directory suffix="Test.php">./app/Services/**/Tests/Feature</directory>
+            <directory>./app/Services/**/Tests/Feature</directory>
         </testsuite>
     </testsuites>
-    <coverage>
+    <coverage cacheDirectory="reports/temp">
         <report>
             <html outputDirectory="reports/coverage"/>
         </report>

@@ -22,20 +22,21 @@ class ExpenseStoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        if ($this->routeIs('expense.store')) {
+        if ($this->routeIs('expense.update')) {
             return [
-                'amount'       => 'required|numeric',
-                'receipt_date' => 'required|date_format:d.m.Y H:i:s',
-                'vault_id'     => 'required|uuid|exists:vaults,id',
-                'comment'      => 'sometimes|max:255',
-            ];
-        } else {
-            return [
-                'amount'       => 'sometimes|numeric',
+                'amount' => 'sometimes|numeric',
                 'receipt_date' => 'sometimes|date_format:d.m.Y H:i:s',
-                'vault_id'     => 'sometimes|uuid|exists:vaults,id',
-                'comment'      => 'sometimes|max:255',
+                'vault_id' => 'sometimes|uuid|exists:vaults,id',
+                'comment' => 'sometimes|max:255',
+                'expense_type_id' => 'sometimes|uuid|exists:expense_types,id',
             ];
         }
+        return [
+            'amount' => 'required|numeric',
+            'receipt_date' => 'required|date_format:d.m.Y H:i:s',
+            'vault_id' => 'required|uuid|exists:vaults,id',
+            'expense_type_id' => 'required|uuid|exists:expense_types,id',
+            'comment' => 'sometimes|max:255',
+        ];
     }
 }

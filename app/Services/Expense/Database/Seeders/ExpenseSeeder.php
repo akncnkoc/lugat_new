@@ -2,6 +2,7 @@
 
 namespace App\Services\Expense\Database\Seeders;
 
+use App\Services\Expense\Models\Expense;
 use Illuminate\Database\Seeder;
 
 class ExpenseSeeder extends Seeder
@@ -11,6 +12,6 @@ class ExpenseSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Expense::factory()->create();
     }
 }

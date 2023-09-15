@@ -20,11 +20,12 @@ class ExpenseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'           => $this->id,
-            'amount'       => $this->amount,
-            'vault'        => VaultResource::make($this->vault),
-            'comment'      => $this->comment,
+            'id' => $this->id,
+            'amount' => $this->amount,
+            'vault' => VaultResource::make($this->vault),
+            'comment' => $this->comment,
             'receipt_date' => $this->receipt_date,
+            'expense_type' => ExpenseTypeResource::make($this->expenseType)
         ];
     }
 }

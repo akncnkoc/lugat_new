@@ -2,12 +2,12 @@
 
 namespace App\Services\User\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Global\Http\Controllers\Controller;
+use App\Global\Traits\ResponseTrait;
 use App\Services\User\Http\Requests\UserStoreRequest;
 use App\Services\User\Http\Resources\UserResource;
 use App\Services\User\Models\User;
 use App\Services\User\Models\UserRole;
-use App\Traits\ResponseTrait;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;

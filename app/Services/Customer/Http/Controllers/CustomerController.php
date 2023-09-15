@@ -2,14 +2,15 @@
 
 namespace App\Services\Customer\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\SearchRequest;
+use App\Global\Http\Controllers\Controller;
+use App\Global\Http\Requests\SearchRequest;
+use App\Global\Traits\ResponseTrait;
 use App\Services\Customer\Http\Requests\CustomerSearchRequest;
 use App\Services\Customer\Http\Requests\CustomerStoreRequest;
 use App\Services\Customer\Http\Resources\CustomerResource;
 use App\Services\Customer\Models\Customer;
-use App\Traits\ResponseTrait;
-use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,14 +18,14 @@ class CustomerController extends Controller
 {
     use ResponseTrait;
 
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $this->authorize('customerView', Customer::class);
         return CustomerResource::collection(Customer::paginate());
     }
 
 
-    public function search(SearchRequest $request)
+    public function search(SearchRequest $request): AnonymousResourceCollection
     {
         $this->authorize('customerView', Customer::class);
         $customerQuery = Customer::query();
@@ -33,52 +34,38 @@ class CustomerController extends Controller
         return CustomerResource::collection($customerQuery->paginate());
     }
 
-    public function store(CustomerStoreRequest $request)
+    public function store(CustomerStoreRequest $request): ?JsonResponse
     {
         $this->authorize('customerStore', Customer::class);
-        try {
-            DB::beginTransaction();
+        DB::transaction(static function () use ($request) {
             Customer::create($request->safe()->all());
-            DB::commit();
-            return $this->success('customer created', statusCode: Response::HTTP_CREATED);
-        } catch (Exception $e) {
-            DB::rollBack();
-            return $this->error('internal error');
-        }
+        });
+        return $this->success('customer created', statusCode: Response::HTTP_CREATED);
     }
 
-    public function show(Customer $customer)
+    public function show(Customer $customer): CustomerResource
     {
         $this->authorize('customerView', Customer::class);
         return CustomerResource::make($customer);
     }
 
-    public function update(Customer $customer, CustomerStoreRequest $request)
+    public function update(Customer $customer, CustomerStoreRequest $request): ?JsonResponse
     {
         $this->authorize('customerUpdate', Customer::class);
-        try {
-            DB::beginTransaction();
+        DB::transaction(static function () use ($request, $customer) {
+
             $customer->update($request->safe()->all());
-            DB::commit();
-            return $this->success('customer updated');
-        } catch (Exception $e) {
-            DB::rollBack();
-            return $this->error('internal error');
-        }
+        });
+        return $this->success('customer updated');
     }
 
-    public function destroy(Customer $customer)
+    public function destroy(Customer $customer): ?JsonResponse
     {
         $this->authorize('customerDelete', Customer::class);
-        try {
-            DB::beginTransaction();
+        DB::transaction(static function () use ($customer) {
             $customer->delete();
-            DB::commit();
-            return $this->success('customer deleted');
-        } catch (Exception $e) {
-            DB::rollBack();
-            return $this->error('internal error');
-        }
+        });
+        return $this->success('customer deleted');
     }
 
 }

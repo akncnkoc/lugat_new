@@ -2,12 +2,12 @@
 
 namespace App\Services\Auth\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Global\Http\Controllers\Controller;
+use App\Global\Traits\ResponseTrait;
 use App\Services\Auth\Http\Requests\ForgotPasswordRequest;
 use App\Services\Auth\Http\Requests\LoginRequest;
 use App\Services\Auth\Http\Requests\ResetPasswordRequest;
 use App\Services\User\Models\User;
-use App\Traits\ResponseTrait;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
