@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->decimal('amount', 15);
             $table->foreignUuid('vault_id')->constrained('vaults')->restrictOnDelete();
             $table->string('comment')->nullable();
-            $table->dateTime('receipt_date');
+            $table->dateTime('receipt_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

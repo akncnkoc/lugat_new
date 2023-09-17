@@ -3,19 +3,42 @@
 
 use App\Services\Product\Http\Controllers\ProductController;
 use App\Services\Product\Http\Controllers\ProductImageController;
+use App\Services\Product\Http\Controllers\ProductSupplierController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:sanctum'])->prefix('/v1/product')->name('product.')->group(function () {
-    Route::get('/', [ProductController::class, 'index'])->name('index');
-    Route::get('/{product}', [ProductController::class, 'show'])->name('show');
-    Route::post('/search', [ProductController::class, 'search'])->name('search');
-    Route::post('/', [ProductController::class, 'store'])->name('store');
-    Route::put('/{product}', [ProductController::class, 'update'])->name('update');
-    Route::delete('/{product}', [ProductController::class, 'destroy'])->name('destroy');
-});
+
+Route::prefix('/api/v1/')
+     ->middleware('auth:sanctum')
+     ->group(function () {
+         Route::apiResource('product', ProductController::class);
+     });
+
+Route::prefix('/api/v1/product')
+     ->controller(ProductController::class)
+     ->name('product.')
+     ->middleware('auth:sanctum')
+     ->group(function () {
+         Route::post('search', 'search')->name('search');
+     });
 
 
-Route::middleware(['auth:sanctum'])->prefix('/v1/product-image')->name('product-image.')->group(function () {
-    Route::post('/{product}', [ProductImageController::class, 'storeImage'])->name('store-image');
-    Route::delete('/{product}/{productImage}', [ProductImageController::class, 'deleteImage'])->name('delete-image');
-});
+Route::prefix('/api/v1/product-image')
+     ->controller(ProductImageController::class)
+     ->name('product-image.')
+     ->middleware('auth:sanctum')
+     ->group(function () {
+         Route::get('/{product}', 'index')->name('index');
+         Route::get('/product/{productImage}', 'show')->name('show');
+         Route::post('/{product}', 'store')->name('store');
+         Route::delete('/{product}/{productImage}', 'destroy')->name('destroy');
+     });
+
+
+Route::prefix('/api/v1/product-supplier')
+     ->controller(ProductSupplierController::class)
+     ->name('product-supplier.')
+     ->middleware('auth:sanctum')
+     ->group(function () {
+         Route::post('/{product}', 'store')->name('store');
+         Route::delete('/{productSupplier}/{product}', 'destroy')->name('destroy');
+     });

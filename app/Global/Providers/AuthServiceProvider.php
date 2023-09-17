@@ -12,8 +12,12 @@ use App\Services\Expense\Policies\ExpensePolicy;
 use App\Services\Expense\Policies\ExpenseTypePolicy;
 use App\Services\Product\Models\Product;
 use App\Services\Product\Models\ProductImage;
+use App\Services\Product\Models\ProductSupplier;
 use App\Services\Product\Policies\ProductImagePolicy;
 use App\Services\Product\Policies\ProductPolicy;
+use App\Services\Product\Policies\ProductSupplierPolicy;
+use App\Services\Staff\Models\Staff;
+use App\Services\Staff\Policies\StaffPolicy;
 use App\Services\Supplier\Models\Supplier;
 use App\Services\Supplier\Policies\SupplierPolicy;
 use App\Services\Vault\Models\Vault;
@@ -28,14 +32,16 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        Customer::class => CustomerPolicy::class,
-        CustomerType::class => CustomerTypePolicy::class,
-        Expense::class => ExpensePolicy::class,
-        ExpenseType::class => ExpenseTypePolicy::class,
-        Vault::class => VaultPolicy::class,
-        Supplier::class => SupplierPolicy::class,
-        Product::class => ProductPolicy::class,
-        ProductImage::class => ProductImagePolicy::class,
+        Customer::class        => CustomerPolicy::class,
+        CustomerType::class    => CustomerTypePolicy::class,
+        Expense::class         => ExpensePolicy::class,
+        ExpenseType::class     => ExpenseTypePolicy::class,
+        Vault::class           => VaultPolicy::class,
+        Supplier::class        => SupplierPolicy::class,
+        Product::class         => ProductPolicy::class,
+        ProductImage::class    => ProductImagePolicy::class,
+        ProductSupplier::class => ProductSupplierPolicy::class,
+        Staff::class           => StaffPolicy::class,
     ];
 
     /**

@@ -4,7 +4,9 @@ namespace App\Services\User\Database\Seeders;
 
 use App\Services\User\Models\Permission;
 use App\Services\User\Models\User;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -15,7 +17,13 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::factory(10)->create();
+        $users = User::factory(1)
+                     ->state(new Sequence(
+                         [
+                             'email'   => 'test@test.com',
+                             'password' => Hash::make('password')
+                         ]
+                     ))->create();
         $users->each(function (User $user) {
             $user->givePermissionTo(Permission::where('guard_name', 'web')->get());
         });

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
@@ -35,7 +36,7 @@ class AuthController extends Controller
             $user->tokens()->delete();
             $token = $user->createToken(Str::random())->plainTextToken;
             DB::commit();
-            return $this->success("logged in", data: [
+            return $this->success("logged in", statusCode: Response::HTTP_CREATED, data: [
                 "token" => $token
             ]);
         } catch (Exception) {

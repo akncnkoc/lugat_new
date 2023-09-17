@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('path');
             $table->json('properties');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 };

@@ -8,7 +8,7 @@ return [
     'env' => env('APP_ENV', 'production'),
 
 
-    'debug' => (bool)env('APP_DEBUG', false),
+    'debug' => (bool) env('APP_DEBUG', false),
 
     'url' => env('APP_URL', 'http://localhost'),
 
@@ -41,6 +41,7 @@ return [
         \App\Global\Providers\EventServiceProvider::class,
         \App\Global\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        App\Services\Auth\Providers\AuthServiceProvider::class,
         App\Services\Currency\Providers\CurrencyServiceProvider::class,
         App\Services\Vault\Providers\VaultServiceProvider::class,
         App\Services\User\Providers\UserServiceProvider::class,
@@ -48,6 +49,7 @@ return [
         App\Services\Expense\Providers\ExpenseServiceProvider::class,
         App\Services\Supplier\Providers\SupplierServiceProvider::class,
         App\Services\Product\Providers\ProductServiceProvider::class,
+        App\Services\Staff\Providers\StaffServiceProvider::class,
     ])->toArray(),
 
 ];

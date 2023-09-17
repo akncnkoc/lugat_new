@@ -4,11 +4,16 @@
 use App\Services\Supplier\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:sanctum'])->prefix('/v1/supplier')->name('supplier.')->group(function () {
-    Route::get('/', [SupplierController::class, 'index'])->name('index');
-    Route::get('/{supplier}', [SupplierController::class, 'show'])->name('show');
-    Route::post('/search', [SupplierController::class, 'search'])->name('search');
-    Route::post('/', [SupplierController::class, 'store'])->name('store');
-    Route::put('/{supplier}', [SupplierController::class, 'update'])->name('update');
-    Route::delete('/{supplier}', [SupplierController::class, 'destroy'])->name('destroy');
-});
+
+Route::prefix('/api/v1/')
+     ->middleware('auth:sanctum')
+     ->group(function () {
+         Route::apiResource('supplier', SupplierController::class);
+     });
+Route::prefix('/api/v1/supplier')
+     ->controller(SupplierController::class)
+     ->name('supplier.')
+     ->middleware('auth:sanctum')
+     ->group(function () {
+         Route::post('search', 'search')->name('search');
+     });
