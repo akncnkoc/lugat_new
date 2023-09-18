@@ -17,7 +17,7 @@ const LugatTable: React.FC<LugatTableProps> = ({ table }) => {
 								{headerGroup.headers.map((header) => (
 									<th
 										className={
-											'py-3 px-6 text-xs font-medium tracking-wider text-center uppercase text-white'
+											'py-3 px-6 text-xs font-medium tracking-wider text-center text-white'
 										}
 										key={header.id}
 										colSpan={header.colSpan}
@@ -34,7 +34,7 @@ const LugatTable: React.FC<LugatTableProps> = ({ table }) => {
 						{table.getRowModel().rows.map((row) => (
 							<tr key={row.id} className={'text-center hover:bg-gray-900 text-white align-middle'}>
 								{row.getVisibleCells().map((cell) => (
-									<td className={'p-4 w-4'} key={cell.id}>
+									<td className={'p-2 w-4'} key={cell.id}>
 										{flexRender(cell.column.columnDef.cell, cell.getContext())}
 									</td>
 								))}

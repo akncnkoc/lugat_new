@@ -13,16 +13,18 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Request;use Intervention\Image\ImageManager;
+use Intervention\Image\ImageManager;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductImageController extends Controller
 {
     use ResponseTrait;
 
-    public function show(ProductImage $productImage){
+    public function show(ProductImage $productImage)
+    {
 
     }
+
     public function index(Product $product): AnonymousResourceCollection
     {
         $this->authorize('productImageView', ProductImage::class);
@@ -36,13 +38,13 @@ class ProductImageController extends Controller
             foreach ($request->file('images') as $image) {
                 $image->storePubliclyAs("product/$product->id/images", $image->hashName());
                 $manager = new ImageManager;
-                $savedPath = "app/product/$product->id/images/".$image->hashName();
+                $savedPath = "app/product/$product->id/images/" . $image->hashName();
                 $manager->make(storage_path($savedPath))
                         ->resize(1024, 768, fn($constraint) => $constraint->aspectRatio())
                         ->insert(public_path('assets/companylogowatermark.png'), 'bottom-right', 20, 20)
                         ->save(storage_path($savedPath));
                 ProductImage::create([
-                    'path'       => "app/product/$product->id/images/".$image->hashName(),
+                    'path'       => "app/product/$product->id/images/" . $image->hashName(),
                     'product_id' => $product->id,
                     'properties' => json_encode([
                         'width'     => $image->dimensions()[0],

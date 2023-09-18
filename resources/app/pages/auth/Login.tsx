@@ -21,17 +21,15 @@ const Login: React.FC = () => {
 			password: 'password',
 		},
 		validationSchema: loginFormValidationSchema,
-		validateOnChange: false,
-		validateOnBlur: true,
-		onSubmit: (values) => {
+		onSubmit: async (values) => {
 			toast.dismiss()
-			toast.promise(authenticate(values), {
+			await toast.promise(authenticate(values), {
 				loading: 'İşleniyor',
 				success: function () {
 					navigate('/')
 					return 'Giriş yapıldı'
 				},
-				error: 'OTP kodu yanlış',
+				error: 'Kullanıcı bilgileri yanlış',
 			})
 		},
 	})

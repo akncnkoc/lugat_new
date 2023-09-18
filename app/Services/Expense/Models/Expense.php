@@ -3,6 +3,7 @@
 namespace App\Services\Expense\Models;
 
 use App\Services\Expense\Database\Factories\ExpenseFactory;
+use App\Services\Expense\Enums\ExpenseType;
 use App\Services\Vault\Models\Vault;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,19 +18,17 @@ class Expense extends Model
     protected $table = 'expenses';
     protected $guarded = [];
 
+    protected $casts = [
+        'type' => ExpenseType::class
+    ];
+
     protected static function newFactory(): ExpenseFactory
     {
         return ExpenseFactory::new();
     }
 
-
     public function vault(): BelongsTo
     {
         return $this->belongsTo(Vault::class, 'vault_id', 'id');
-    }
-
-    public function expenseType(): BelongsTo
-    {
-        return $this->belongsTo(ExpenseType::class, 'expense_type_id', 'id');
     }
 }

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import LoadingAnim from '@/components/anims/LoadingAnim'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import Pagination from '@/components/Pagination'
 import LugatButton from '@/components/form/LugatButton'
 import LugatAlert from '@/components/LugatAlert.tsx'
@@ -8,26 +8,27 @@ import { lugatExpenseAll } from '@/services/api/lugat-expense.ts'
 import { ExpenseDataType, ExpenseResource } from '@/helpers/types.ts'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import LugatTable from '@/components/table/LugatTable.tsx'
-
-// import { FaFileExcel } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next'
 
 const Expenses: React.FC = () => {
+	const { t } = useTranslation()
 	const defaultColumns: ColumnDef<ExpenseDataType>[] = [
 		{
-			header: 'Tutar',
+			header: t(''),
 			accessorKey: 'amount',
 		},
 		{
-			header: 'Tip',
-			accessorFn: (originalRow) => originalRow.expense_type.name,
+			header: 'Expense Type',
+			accessorFn: (originalRow) => originalRow.type,
 		},
 		{
-			header: 'Tarih',
+			header: 'Receipt Date',
 			accessorKey: 'receipt_date',
 		},
 	]
 
 	const navigate = useNavigate()
+	const location = useLocation()
 	const [expenses, setExpenses] = useState<ExpenseResource>()
 	const [loading, setLoading] = useState(false)
 	const [params] = useSearchParams()
@@ -58,7 +59,11 @@ const Expenses: React.FC = () => {
 			<div className='p-2 border-2 border-dashed rounded-lg border-gray-700 bg-gray-700 mt-14'>
 				<div className={'flex space-x-4 justify-end'}>
 					<div className='w-fit'>
-						<LugatButton onClick={() => navigate('create')}>Gider Ekle</LugatButton>
+						<LugatButton
+							onClick={() => navigate('/expense/create', { state: { background: location } })}
+						>
+							Gider Ekle
+						</LugatButton>
 					</div>
 				</div>
 			</div>

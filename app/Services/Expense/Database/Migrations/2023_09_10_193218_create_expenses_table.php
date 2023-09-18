@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\Expense\Enums\ExpenseType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,7 +13,7 @@ return new class extends Migration {
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('expense_type_id')->constrained('expense_types')->restrictOnDelete();
+            $table->enum('type', ExpenseType::values());
             $table->decimal('amount', 15);
             $table->foreignUuid('vault_id')->constrained('vaults')->restrictOnDelete();
             $table->string('comment')->nullable();

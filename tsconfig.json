@@ -22,7 +22,9 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["resources/app"],
+  "include": ["resources/app",
+		"resources/app/@types/i18next.d.ts"
+	],
   "references": [{ "path": "./tsconfig.node.json" }],
   "lib": ["WebWorker"]
 }

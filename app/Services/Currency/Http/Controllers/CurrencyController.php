@@ -14,7 +14,6 @@ class CurrencyController extends Controller
 {
     use ResponseTrait;
 
-
     public function index(): AnonymousResourceCollection
     {
         return CurrencyResource::collection(Currency::all());
@@ -39,23 +38,23 @@ class CurrencyController extends Controller
 
         $currencyConverted = [
             [
-                'unit' => 1,
-                'name' => 'Türk Lirası',
-                'code' => 'TRY',
-                'forex_buy' => 1,
-                'forex_sell' => 1,
-                'banknote_buy' => 1,
+                'unit'          => 1,
+                'name'          => 'Türk Lirası',
+                'code'          => 'TRY',
+                'forex_buy'     => 1,
+                'forex_sell'    => 1,
+                'banknote_buy'  => 1,
                 'banknote_sell' => 1
             ]
         ];
         foreach ($xml->children() as $currency) {
             $currencyConverted[] = [
-                'unit' => $currency->Unit,
-                'name' => $currency->Isim,
-                'code' => $currency->attributes()->CurrencyCode,
-                'forex_buy' => $currency->ForexBuying ?? 1,
-                'forex_sell' => $currency->ForexSelling ?? 1,
-                'banknote_buy' => $currency->BanknoteBuying ?? 1,
+                'unit'          => $currency->Unit,
+                'name'          => $currency->Isim,
+                'code'          => $currency->attributes()->CurrencyCode,
+                'forex_buy'     => $currency->ForexBuying ?? 1,
+                'forex_sell'    => $currency->ForexSelling ?? 1,
+                'banknote_buy'  => $currency->BanknoteBuying ?? 1,
                 'banknote_sell' => $currency->BanknoteSelling ?? 1
             ];
         }

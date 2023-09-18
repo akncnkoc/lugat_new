@@ -25,7 +25,7 @@ class ExpenseResource extends JsonResource
             'vault' => VaultResource::make($this->vault),
             'comment' => $this->comment,
             'receipt_date' => $this->receipt_date,
-            'expense_type' => ExpenseTypeResource::make($this->expenseType)
+            'type' => $this->type
         ];
     }
 }

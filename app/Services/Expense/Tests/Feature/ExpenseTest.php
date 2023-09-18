@@ -3,8 +3,8 @@
 namespace App\Services\Expense\Tests\Feature;
 
 use App\Services\Expense\Database\Seeders\ExpenseSeeder;
+use App\Services\Expense\Enums\ExpenseType;
 use App\Services\Expense\Models\Expense;
-use App\Services\Expense\Models\ExpenseType;
 use App\Services\User\Database\Seeders\UserSeeder;
 use App\Services\User\Models\User;
 use App\Services\Vault\Models\Vault;
@@ -37,13 +37,13 @@ class ExpenseTest extends TestCase
 
     public function setParams(): array
     {
-        return [
-            'amount' => $this->faker->numberBetween(1, 50),
-            'vault_id' => Vault::factory()->create()->id,
-            'comment' => $this->faker->sentence,
+        return array(
+            'amount'       => $this->faker->numberBetween(1, 50),
+            'vault_id'     => Vault::factory()->create()->id,
+            'comment'      => $this->faker->sentence,
             'receipt_date' => $this->faker->dateTimeBetween('-2 month')->format('d.m.Y H:i:s'),
-            'expense_type_id' => ExpenseType::factory()->create()->id
-        ];
+            'type'         => $this->faker->randomElement(ExpenseType::cases())->value,
+        );
     }
 
     public function test_authenticated_user_can_get_expense_list(): void
@@ -53,8 +53,10 @@ class ExpenseTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'amount', 'vault', 'receipt_date', 'comment', 'expense_type']
-            ], 'links', 'meta'
+                '*' => ['id', 'amount', 'vault', 'receipt_date', 'comment', 'type']
+            ],
+            'links',
+            'meta'
         ]);
     }
 
@@ -79,7 +81,12 @@ class ExpenseTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                'id', 'amount', 'vault', 'receipt_date', 'comment', 'expense_type'
+                'id',
+                'amount',
+                'vault',
+                'receipt_date',
+                'comment',
+                'type'
             ]
         ]);
     }
@@ -113,9 +120,9 @@ class ExpenseTest extends TestCase
         $response = $this->postJson(route('expense.store'), $this->params);
         $response->assertStatus(Response::HTTP_CREATED);
         $this->assertDatabaseHas('expenses', [
-            'amount' => $this->expense->amount,
-            'vault_id' => $this->expense->vault_id,
-            'comment' => $this->expense->comment,
+            'amount'       => $this->expense->amount,
+            'vault_id'     => $this->expense->vault_id,
+            'comment'      => $this->expense->comment,
             'receipt_date' => $this->expense->receipt_date,
         ]);
     }
@@ -151,7 +158,7 @@ class ExpenseTest extends TestCase
         $response = $this->putJson(route('expense.update', $this->expense->id), $this->params);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas('expenses', [
-            'id' => $this->expense->id,
+            'id'     => $this->expense->id,
             'amount' => $this->params["amount"]
         ]);
     }
@@ -201,13 +208,15 @@ class ExpenseTest extends TestCase
         $this->searchBindings = ['%a%'];
         $response = $this->postJson(route('expense.search'), [
             'expression' => $this->searchExpression,
-            'bindings' => $this->searchBindings
+            'bindings'   => $this->searchBindings
         ]);
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'amount', 'vault', 'receipt_date', 'comment', 'expense_type']
-            ], 'links', 'meta'
+                '*' => ['id', 'amount', 'vault', 'receipt_date', 'comment', 'type']
+            ],
+            'links',
+            'meta'
         ]);
     }
 
@@ -219,7 +228,7 @@ class ExpenseTest extends TestCase
         $this->searchBindings = ['%a%'];
         $response = $this->postJson(route('expense.search'), [
             'expression' => $this->searchExpression,
-            'bindings' => $this->searchBindings
+            'bindings'   => $this->searchBindings
         ]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
