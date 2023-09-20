@@ -3,22 +3,22 @@ import { useNavigate } from 'react-router-dom'
 import { Dialog, Transition } from '@headlessui/react'
 import { FaMoneyCheck } from 'react-icons/fa6'
 import { useFormik } from 'formik'
-import { ExpenseCreateFormType, ExpenseTypeData, Shape } from '@/helpers/types.ts'
+import { ExpenseCreateFormType, ExpenseTypeData, Shape } from '@/helpers/types'
 import { date, number, object, string } from 'yup'
 import CurrencyInput from 'react-currency-input-field'
 import LugatSelect from '@/components/form/LugatSelect'
-import { useVaults } from '@/hooks/useVaults'
 import { motion } from 'framer-motion'
-import { turkeyLocaleConfig } from '@/config/datepicker-config.ts'
+import { turkeyLocaleConfig } from '@/config/datepicker-config'
 import DatePicker, { DateObject } from 'react-multi-date-picker'
 import TimePicker from 'react-multi-date-picker/plugins/time_picker'
 import parse from 'date-fns/parse'
-import LugatInput from '@/components/form/LugatInput.tsx'
-import LugatTextarea from '@/components/form/LugatTextarea.tsx'
+import LugatTextarea from '@/components/form/LugatTextarea'
+import useVaults from '@/hooks/useVaults'
 
 const ExpenseCreate: React.FC = () => {
 	const navigate = useNavigate()
 	const cancelButtonRef = useRef(null)
+	const { VaultSelect } = useVaults()
 
 	const expenseCreateFormik = useFormik<ExpenseCreateFormType>({
 		initialValues: {
@@ -31,7 +31,7 @@ const ExpenseCreate: React.FC = () => {
 		validateOnBlur: false,
 		validationSchema: object().shape<Shape<ExpenseCreateFormType>>({
 			amount: number().required().min(1).max(1000),
-			comment: string().notRequired(),
+			comment: string(),
 			type: string().required().notOneOf(['-1'], 'Expense type must be selected'),
 			vault_id: string().required().notOneOf(['-1'], 'Vault must be selected'),
 			receipt_date: date().transform(function (value, originalValue) {
@@ -41,10 +41,9 @@ const ExpenseCreate: React.FC = () => {
 				return parse(originalValue, 'dd.MM.yyyy', new Date())
 			}),
 		}),
-		onSubmit: (values: ExpenseCreateFormType) => {},
+		onSubmit: () => {},
 	})
 
-	const { data: vaultData } = useVaults('1')
 
 	return (
 		<Transition.Root show={true} as={Fragment}>
@@ -65,7 +64,6 @@ const ExpenseCreate: React.FC = () => {
 				>
 					<div className='fixed inset-0 bg-gray-700 bg-opacity-75 transition-opacity' />
 				</Transition.Child>
-
 				<div className='fixed inset-0 z-10 overflow-y-auto'>
 					<div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
 						<Transition.Child
@@ -121,22 +119,23 @@ const ExpenseCreate: React.FC = () => {
 														)}
 													</div>
 													<div className='md:col-span-5'>
-														<LugatSelect
-															label={'Vault'}
-															value={expenseCreateFormik.values.vault_id}
-															onChange={(e) =>
-																expenseCreateFormik.setFieldValue('vault_id', e.target.value)
-															}
-															error={expenseCreateFormik.errors.vault_id}
-														>
-															<option value='-1'>Select</option>
-															{vaultData?.data &&
-																vaultData.data.map((vault) => (
-																	<option key={vault.id} value={`${vault.id}`}>
-																		{vault.name}
-																	</option>
-																))}
-														</LugatSelect>
+														{VaultSelect}
+														{/*<LugatSelect*/}
+														{/*	label={'Vault'}*/}
+														{/*	value={expenseCreateFormik.values.vault_id}*/}
+														{/*	onChange={(e) =>*/}
+														{/*		expenseCreateFormik.setFieldValue('vault_id', e.target.value)*/}
+														{/*	}*/}
+														{/*	error={expenseCreateFormik.errors.vault_id}*/}
+														{/*>*/}
+														{/*	<option value='-1'>Select</option>*/}
+														{/*	{vaultData?.data &&*/}
+														{/*		vaultData.data.map((vault) => (*/}
+														{/*			<option key={vault.id} value={`${vault.id}`}>*/}
+														{/*				{vault.name}*/}
+														{/*			</option>*/}
+														{/*		))}*/}
+														{/*</LugatSelect>*/}
 													</div>
 													<div className='md:col-span-5'>
 														<LugatSelect

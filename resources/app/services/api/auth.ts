@@ -1,4 +1,4 @@
-import lugatAxios from '@/services/lugatAxios.ts'
+import lugatAxios from '@/services/lugatAxios'
 import { storeDispatch } from '@/store'
 import { setToken } from '@/store/slices/userSlice'
 import toast from 'react-hot-toast'

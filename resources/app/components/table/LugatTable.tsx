@@ -1,6 +1,6 @@
 import { flexRender, Table } from '@tanstack/react-table'
 import React from 'react'
-import { ExpenseDataType } from '@/helpers/types.ts'
+import { ExpenseDataType } from '@/helpers/types'
 
 type LugatTableProps = {
 	table: Table<ExpenseDataType>

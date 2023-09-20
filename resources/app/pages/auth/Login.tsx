@@ -6,7 +6,7 @@ import LugatButton from '@/components/form/LugatButton'
 import toast from 'react-hot-toast'
 import { authenticate } from '@/services/api/auth'
 import { useNavigate } from 'react-router-dom'
-import type { LoginFormType } from '@/helpers/types.ts'
+import type { LoginFormType } from '@/helpers/types'
 import LugatLink from '@/components/LugatLink'
 
 const Login: React.FC = () => {

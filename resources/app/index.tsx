@@ -4,8 +4,7 @@ import '@/styles/index.scss'
 import { Provider } from 'react-redux'
 import store from '@/store'
 import { Toaster } from 'react-hot-toast'
-import '@/locales/config.ts'
-
+import './i18n'
 ReactDOM.createRoot(document.getElementById('app') as HTMLElement).render(
 	<Provider store={store}>
 		<Toaster containerStyle={{ zIndex: 99999999 }} />

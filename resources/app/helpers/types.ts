@@ -1,4 +1,5 @@
 import * as yup from 'yup'
+import { string } from 'yup'
 
 type ColletionLinkType = {
 	first: string | null
@@ -89,6 +90,19 @@ export enum ExpenseTypeData {
 	lawyer = 'Lawyer',
 	transport = 'Transport',
 	travel = 'Travel',
+}
+
+export const CurrencyCodeToSign = (code: string): string | null => {
+	const signs = {
+		USD: '$',
+		TRY: '₺',
+		EURO: '€',
+		JPY: '¥',
+		GBP: '£',
+		PKR: '₹',
+		RUB: '₽',
+	}
+	return signs[code as keyof typeof signs] ?? code
 }
 
 export type ExpenseDataType = {

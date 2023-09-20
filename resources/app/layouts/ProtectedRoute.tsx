@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { storeDispatch } from '@/store'
-import { setToken } from '@/store/slices/userSlice' // import {useAppSelector} from '@/store/hooks';
+import { setToken } from '@/store/slices/userSlice'
 import { history } from '@/helpers'
-import LugatButton from '@/components/form/LugatButton.tsx'
-import NavigationItem from '@/components/NavigationItem.tsx'
+import LugatButton from '@/components/form/LugatButton'
+import NavigationItem from '@/components/NavigationItem'
 import NavigationItems from '@/static/data/navigationItems.json'
 
 const ProtectedRoute: React.FC = () => {

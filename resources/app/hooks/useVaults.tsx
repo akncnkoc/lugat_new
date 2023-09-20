@@ -1,19 +1,28 @@
-import { useEffect, useState } from 'react'
-import { VaultResource } from '@/helpers/types.ts'
-import { lugatVaultAll } from '@/services/api/lugat-vault.ts'
+import LugatSelect from '@/components/form/LugatSelect'
+import { useMemo } from 'react'
+import { useGetVaultsQuery } from '@/services/api/vault-api'
 
-export const useVaults = (page: string) => {
-	const [loading, setLoading] = useState<boolean>(false)
-	const [data, setData] = useState<VaultResource>()
+const useVaults = () => {
+	const { data, error, isLoading, refetch } = useGetVaultsQuery()
 
-	useEffect(() => {
-		const fetchVaults = async () => {
-			setLoading(true)
-			let response = await lugatVaultAll(page)
-			setData(response.data)
-			setLoading(false)
+	const VaultSelect = useMemo(() => {
+		if (!isLoading) {
+			return (
+				<LugatSelect disabled>
+					<option value=''>Loading...</option>
+				</LugatSelect>
+			)
 		}
-		fetchVaults()
-	}, [])
-	return { loading, data }
+		if (error){
+			return (
+				<LugatSelect disabled>
+					<option value=''>Someting went wrong and cannot load vaults...</option>
+				</LugatSelect>
+			)
+		}
+		return <LugatSelect></LugatSelect>
+	}, [data])
+	return { VaultSelect }
 }
+
+export default useVaults

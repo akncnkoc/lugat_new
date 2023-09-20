@@ -1,6 +1,8 @@
 import lugatAxios from '@/services/lugatAxios.ts'
+import { AxiosResponse } from 'axios'
+import { ExpenseResource } from '@/helpers/types.ts'
 
-export const lugatExpenseAll = async (page: string): Promise<any> => {
+export const lugatExpenseAll = async (page: string): Promise<AxiosResponse<ExpenseResource>> => {
 	const url = new URL(window.location.toString())
 	url.searchParams.set('page', page.toString())
 	return await lugatAxios.get('/v1/expense?' + decodeURIComponent(url.searchParams.toString()))

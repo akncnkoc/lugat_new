@@ -4,6 +4,7 @@ namespace App\Services\Expense\Http\Resources;
 
 use App\Services\Expense\Models\Expense;
 use App\Services\Vault\Http\Resources\VaultResource;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,7 +25,7 @@ class ExpenseResource extends JsonResource
             'amount' => $this->amount,
             'vault' => VaultResource::make($this->vault),
             'comment' => $this->comment,
-            'receipt_date' => $this->receipt_date,
+            'receipt_date' => $this->whenNotNull(Carbon::make($this->receipt_date)?->format('d.m.Y H:i:s')),
             'type' => $this->type
         ];
     }

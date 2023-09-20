@@ -1,25 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LoadingAnim from '@/components/anims/LoadingAnim'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Pagination from '@/components/Pagination'
 import LugatButton from '@/components/form/LugatButton'
-import LugatAlert from '@/components/LugatAlert.tsx'
-import { lugatExpenseAll } from '@/services/api/lugat-expense.ts'
-import { ExpenseDataType, ExpenseResource } from '@/helpers/types.ts'
+import LugatAlert from '@/components/LugatAlert'
+import { CurrencyCodeToSign, ExpenseDataType, ExpenseTypeData } from '@/helpers/types'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
-import LugatTable from '@/components/table/LugatTable.tsx'
-import { useTranslation } from 'react-i18next'
+import LugatTable from '@/components/table/LugatTable'
+import { useGetExpensesQuery } from '@/services/api/expense-api'
 
 const Expenses: React.FC = () => {
-	const { t } = useTranslation()
 	const defaultColumns: ColumnDef<ExpenseDataType>[] = [
 		{
-			header: t(''),
-			accessorKey: 'amount',
+			header: 'Amount',
+			accessorFn: (originalRow) =>
+				originalRow.amount + ' ' + CurrencyCodeToSign(originalRow.vault.currency.code),
 		},
 		{
 			header: 'Expense Type',
-			accessorFn: (originalRow) => originalRow.type,
+			accessorFn: (originalRow) => ExpenseTypeData[originalRow.type],
 		},
 		{
 			header: 'Receipt Date',
@@ -29,30 +28,18 @@ const Expenses: React.FC = () => {
 
 	const navigate = useNavigate()
 	const location = useLocation()
-	const [expenses, setExpenses] = useState<ExpenseResource>()
-	const [loading, setLoading] = useState(false)
-	const [params] = useSearchParams()
 	const [currentPage, setCurrentPage] = useState('1')
 
+	const { data: expenses, error, isLoading, refetch } = useGetExpensesQuery(currentPage)
 	const table = useReactTable({
-		data: expenses?.data ?? [],
+		data: expenses?.data ? expenses.data : [],
 		columns: defaultColumns,
 		getCoreRowModel: getCoreRowModel(),
 	})
-	const fetchExpenses = useCallback(
-		(page = '1') => {
-			setLoading(true)
-			lugatExpenseAll(page.toString()).then((res) => {
-				setExpenses(res.data)
-				setLoading(false)
-				setCurrentPage(page)
-			})
-		},
-		[params],
-	)
+
 	useEffect(() => {
-		fetchExpenses(localStorage.getItem('current_page') ?? '1')
-	}, [])
+		refetch()
+	}, [currentPage])
 
 	return (
 		<>
@@ -68,24 +55,27 @@ const Expenses: React.FC = () => {
 				</div>
 			</div>
 			<div className='p-4 border-2 border-dashed rounded-lg border-gray-700 bg-gray-700 mt-4'>
-				{loading && (
+				{isLoading && (
 					<div className={'h-96 flex items-center justify-center'}>
 						<LoadingAnim />
 					</div>
 				)}
 				<section className='grid grid-cols-1 gap-2 gap-y-2'>
-					{!loading && expenses && <LugatTable table={table} />}
+					{!isLoading && expenses && <LugatTable table={table} />}
 				</section>
-				{!loading && expenses && expenses.data.length === 0 && (
-					<LugatAlert>Herhangi bir kupon bulunamadı.</LugatAlert>
+				{!isLoading && expenses && expenses.data.length === 0 && (
+					<LugatAlert alertClassNames={'bg-red-300 text-red-600'}>No expense found.</LugatAlert>
+				)}
+				{!isLoading && error && (
+					<LugatAlert alertClassNames={'bg-red-200 text-red-900'}>
+						Someting went wrong cant get expenses.
+					</LugatAlert>
 				)}
 				{expenses && expenses.meta && (
 					<Pagination
 						perPage={expenses.meta.per_page}
 						total={expenses.meta.total}
-						paginate={(page: string) => {
-							fetchExpenses(page)
-						}}
+						paginate={(page: string) => setCurrentPage(page)}
 						currentPage={Number(currentPage)}
 					/>
 				)}
