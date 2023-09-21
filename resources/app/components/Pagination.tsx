@@ -14,7 +14,7 @@ export default function Pagination({ perPage, total, paginate, currentPage }: Pa
 	return (
 		<div className='py-2 flex justify-between flex-col space-y-4 md:space-y-0 md:flex-row items-center'>
 			<div>
-				<p className='text-sm text-gray-400'>
+				<p className='text-sm text-gray-900'>
 					Sayfada
 					<span className='font-medium'> {total} </span>
 					kayıttan
@@ -33,28 +33,26 @@ export default function Pagination({ perPage, total, paginate, currentPage }: Pa
 			<nav className='block'>
 				<ReactPaginate
 					breakLabel='...'
-					nextLabel='İleri'
 					onPageChange={(event) => paginate(event.selected + 1)}
 					pageRangeDisplayed={isMobile ? 3 : 10}
 					pageCount={nPages}
-					previousLabel='Geri'
 					renderOnZeroPageCount={null}
 					forcePage={currentPage - 1}
 					pageLinkClassName={
-						'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white px-3 py-2 ml-0 leading-tight border rounded-lg cursor-pointer block'
+						'bg-gray-100 border-gray-400 text-gray-600 hover:bg-gray-300 hover:text-gray-800 px-3 py-2 ml-0 leading-tight border rounded-lg cursor-pointer block'
 					}
-					containerClassName={'flex pl-0 rounded list-none'}
+					containerClassName={'flex pl-0 rounded list-none space-x-1'}
 					previousClassName={
-						'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white px-3 py-2 ml-0 leading-tight border rounded-lg cursor-pointer'
+						'bg-gray-300 border-gray-400 text-gray-600 hover:bg-gray-300 hover:text-gray-800 px-3 py-2 ml-0 leading-tight border rounded-lg cursor-pointer'
 					}
 					nextClassName={
-						'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white px-3 py-2 ml-0 leading-tight border rounded-lg cursor-pointer'
+						'bg-gray-300 border-gray-400 text-gray-600 hover:bg-gray-300 hover:text-gray-800 px-3 py-2 ml-0 leading-tight border rounded-lg cursor-pointer'
 					}
-					pageClassName={''}
+					pageClassName={'bg-gray-300 text-white rounded-lg'}
 					breakClassName={
-						'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white px-3 py-2 ml-0 leading-tight border rounded-lg'
+						'bg-gray-300 border-gray-400 text-gray-600 hover:bg-gray-300 hover:text-gray-800 px-3 py-2 ml-0 leading-tight border rounded-lg'
 					}
-					activeLinkClassName={'border-gray-700 bg-gray-900 text-white block'}
+					activeLinkClassName={'!border-transparent bg-blue-700 text-white block'}
 					marginPagesDisplayed={0}
 				/>
 			</nav>

@@ -1,5 +1,5 @@
 import React, { ComponentPropsWithoutRef } from 'react'
-import WarningLinkBrokeIcon from '@/icons/WarningLinkBrokeIcon'
+import WarningLinkBrokeIcon from '@/components/icons/WarningLinkBrokeIcon'
 
 type RabbitAlertProps = {
 	alertClassNames?: string

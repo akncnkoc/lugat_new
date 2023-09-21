@@ -1,10 +1,7 @@
 import React from 'react'
+import { SvgProps } from '@/helpers/types'
 
-const WarningLinkBrokeIcon: React.FC<{
-	width?: number | string
-	height?: number | string
-	fillColor?: string
-}> = (props) => {
+const WarningLinkBrokeIcon: React.FC<SvgProps> = (props) => {
 	const { width = 50, height = 50, fillColor = '#000' } = props
 	return (
 		<svg

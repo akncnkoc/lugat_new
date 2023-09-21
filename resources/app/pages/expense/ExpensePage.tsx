@@ -9,7 +9,7 @@ import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table
 import LugatTable from '@/components/table/LugatTable'
 import { useGetExpensesQuery } from '@/services/api/expense-api'
 
-const Expenses: React.FC = () => {
+const ExpensePage: React.FC = () => {
 	const defaultColumns: ColumnDef<ExpenseDataType>[] = [
 		{
 			header: 'Amount',
@@ -43,18 +43,18 @@ const Expenses: React.FC = () => {
 
 	return (
 		<>
-			<div className='p-2 border-2 border-dashed rounded-lg border-gray-700 bg-gray-700 mt-14'>
+			<div className='p-2 border-2 border-dashed rounded-lg border-gray-700 bg-gray-100'>
 				<div className={'flex space-x-4 justify-end'}>
 					<div className='w-fit'>
 						<LugatButton
 							onClick={() => navigate('/expense/create', { state: { background: location } })}
 						>
-							Gider Ekle
+							Create Expense
 						</LugatButton>
 					</div>
 				</div>
 			</div>
-			<div className='p-4 border-2 border-dashed rounded-lg border-gray-700 bg-gray-700 mt-4'>
+			<div className='p-4 rounded-lg border-gray-700 bg-gray-200 mt-4'>
 				{isLoading && (
 					<div className={'h-96 flex items-center justify-center'}>
 						<LoadingAnim />
@@ -83,4 +83,4 @@ const Expenses: React.FC = () => {
 		</>
 	)
 }
-export default Expenses
+export default ExpensePage

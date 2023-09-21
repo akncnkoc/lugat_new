@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { string } from 'yup'
+import React from 'react'
 
 type ColletionLinkType = {
 	first: string | null
@@ -136,6 +136,24 @@ export type ExpenseCreateFormType = {
 	receipt_date: Date | null
 }
 
+export type SvgProps = {
+	width?: number | string
+	height?: number | string
+	fillColor?: string
+}
+
+export type NavigationItemType = {
+	route: string
+	text: string
+	icon?: React.ReactNode
+	popover?: React.ReactNode
+	isPopover?: boolean
+}
+export type NavigationItemProps = {
+	handleNavigate: Function
+	item: NavigationItemType
+	isPopover?: boolean
+}
 export type ConditionalSchema<T> = T extends string
 	? yup.StringSchema
 	: T extends number

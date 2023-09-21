@@ -1,10 +1,10 @@
 import React from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import RouteLoading from '@/components/RouteLoading'
-import ProtectedRoute from '@/layouts/ProtectedRoute.tsx'
-import Expenses from '@/pages/expense/Expenses.tsx'
+import ProtectedRoute from '@/layouts/ProtectedRoute'
+import ExpensePage from '@/pages/expense/ExpensePage'
 import Notfound from '@/pages/notfound'
-import ExpenseCreate from '@/pages/expense/modals/ExpenseCreate.tsx'
+import ExpenseCreate from '@/pages/expense/modals/ExpenseCreate'
 import { CookiesProvider } from 'react-cookie'
 
 const Home = React.lazy(() => import('@/pages/Home'))
@@ -28,9 +28,10 @@ const Router: React.FC = () => {
 					<Route path={'expense'}>
 						<Route
 							index
+							path={'list'}
 							element={
 								<React.Suspense fallback={<RouteLoading />}>
-									<Expenses />
+									<ExpensePage />
 								</React.Suspense>
 							}
 						/>
