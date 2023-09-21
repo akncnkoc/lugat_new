@@ -13,7 +13,7 @@ const ProtectedRoute: React.FC = () => {
 			<Navbar />
 			<div className={'flex flex-1'}>
 				<Aside />
-				<div className={'p-4 bg-gray-50 flex-1'}>
+				<div className={'p-4 flex-1'}>
 					<Outlet />
 				</div>
 			</div>

@@ -54,7 +54,7 @@ const ExpensePage: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			<div className='p-4 rounded-lg border-gray-700 bg-gray-200 mt-4'>
+			<div className='p-4 rounded-lg mt-4'>
 				{isLoading && (
 					<div className={'h-96 flex items-center justify-center'}>
 						<LoadingAnim />

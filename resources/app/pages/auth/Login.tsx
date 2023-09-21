@@ -24,28 +24,28 @@ const Login: React.FC = () => {
 		onSubmit: async (values) => {
 			toast.dismiss()
 			await toast.promise(authenticate(values), {
-				loading: 'İşleniyor',
+				loading: 'Loading...',
 				success: function () {
 					navigate('/')
-					return 'Giriş yapıldı'
+					return 'Logged In'
 				},
-				error: 'Kullanıcı bilgileri yanlış',
+				error: 'Wrong credientals',
 			})
 		},
 	})
 	return (
-		<div className='flex flex-col items-center justify-center px-6 pt-8 mx-auto h-screen pt:mt-0 bg-gray-800'>
-			<a className='flex items-center justify-center mb-8 text-2xl font-semibold lg:mb-10 text-white'>
+		<div className='flex flex-col items-center justify-center px-6 pt-8 mx-auto h-screen pt:mt-0 bg-gray-200 w-full'>
+			<a className='flex items-center justify-center mb-8 text-2xl font-semibold lg:mb-10 text-gray-700'>
 				<span>Lügat</span>
 			</a>
-			<div className='w-full max-w-xl p-6 space-y-8 sm:p-8 rounded-lg shadow bg-gray-900'>
-				<h2 className='text-2xl font-bold text-white text-center'>Platforma Giriş Yap</h2>
+			<div className='w-full max-w-xl p-6 space-y-8 sm:p-8 rounded-lg shadow bg-gray-100'>
+				<h2 className='text-2xl font-bold text-gray-800 text-center'>Login to your account</h2>
 				<form className='mt-8 space-y-6' onSubmit={loginForm.handleSubmit}>
 					<LugatInput
 						name={'email'}
 						type={'email'}
 						placeholder={'ornek@rbbt.com.tr'}
-						label={'E-Posta'}
+						label={'Email'}
 						onChange={loginForm.handleChange}
 						onBlur={loginForm.handleBlur}
 						value={loginForm.values.email}
@@ -55,7 +55,7 @@ const Login: React.FC = () => {
 						name={'password'}
 						type={'password'}
 						placeholder={'********'}
-						label={'Şifre'}
+						label={'Password'}
 						onChange={loginForm.handleChange}
 						onBlur={loginForm.handleBlur}
 						value={loginForm.values.password}
@@ -64,14 +64,11 @@ const Login: React.FC = () => {
 						}
 					/>
 					<div className='flex items-start'>
-						<LugatLink
-							className='ml-auto text-xs hover:underline text-blue-500'
-							to={'/forgot-password'}
-						>
-							Şifrenimi Unuttun ?
+						<LugatLink className='ml-auto text-xs hover:underline' to={'/forgot-password'}>
+							Forgot Password ?
 						</LugatLink>
 					</div>
-					<LugatButton>Giriş Yap</LugatButton>
+					<LugatButton>Login</LugatButton>
 				</form>
 			</div>
 		</div>

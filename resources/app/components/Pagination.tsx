@@ -1,5 +1,7 @@
 import ReactPaginate from 'react-paginate'
 import { isMobile } from 'react-device-detect'
+import PreviousIcon from '@/components/icons/PreviousIcon'
+import NextIcon from '@/components/icons/NextIcon'
 
 type PaginationType = {
 	perPage: number
@@ -37,22 +39,20 @@ export default function Pagination({ perPage, total, paginate, currentPage }: Pa
 					pageRangeDisplayed={isMobile ? 3 : 10}
 					pageCount={nPages}
 					renderOnZeroPageCount={null}
+					previousLabel={<PreviousIcon width={20} height={20} fillColor={'#005CE8'} />}
+					nextLabel={<NextIcon width={20} height={20} fillColor={'#005CE8'} />}
 					forcePage={currentPage - 1}
 					pageLinkClassName={
-						'bg-gray-100 border-gray-400 text-gray-600 hover:bg-gray-300 hover:text-gray-800 px-3 py-2 ml-0 leading-tight border rounded-lg cursor-pointer block'
+						'bg-transparent w-10 h-10 rounded-full flex items-center justify-center hover:!bg-gray-50 hover:!text-gray-900 transition-all'
 					}
-					containerClassName={'flex pl-0 rounded list-none space-x-1'}
+					containerClassName={'flex pl-0 list-none space-x-1'}
 					previousClassName={
-						'bg-gray-300 border-gray-400 text-gray-600 hover:bg-gray-300 hover:text-gray-800 px-3 py-2 ml-0 leading-tight border rounded-lg cursor-pointer'
+						'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center'
 					}
 					nextClassName={
-						'bg-gray-300 border-gray-400 text-gray-600 hover:bg-gray-300 hover:text-gray-800 px-3 py-2 ml-0 leading-tight border rounded-lg cursor-pointer'
+						'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center'
 					}
-					pageClassName={'bg-gray-300 text-white rounded-lg'}
-					breakClassName={
-						'bg-gray-300 border-gray-400 text-gray-600 hover:bg-gray-300 hover:text-gray-800 px-3 py-2 ml-0 leading-tight border rounded-lg'
-					}
-					activeLinkClassName={'!border-transparent bg-blue-700 text-white block'}
+					activeLinkClassName={'!border-transparent !bg-blue-500 text-white block'}
 					marginPagesDisplayed={0}
 				/>
 			</nav>
