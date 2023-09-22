@@ -12,7 +12,7 @@ type CollectionMetaLinkType = {
 	label: string | null
 	active: boolean
 }
-type CollectionMetaType = {
+export type CollectionMetaType = {
 	current_page: number
 	from: number
 	last_page: number

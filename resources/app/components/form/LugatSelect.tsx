@@ -12,14 +12,14 @@ const LugatSelect: React.FC<RabbitSelectProps> = forwardRef<HTMLSelectElement, R
 		const { label, error, selectClassNames, ...inputProps } = props
 		return (
 			<div>
-				<label htmlFor={props.name} className='block mb-2 text-sm font-medium text-white'>
+				<label htmlFor={props.name} className='block mb-2 text-sm font-semibold text-gray-900'>
 					{props.label}
 				</label>
 				<select
 					ref={ref}
 					id={props.name}
 					autoComplete={'off'}
-					className={`sm:text-sm rounded-lg block w-full p-2.5 outline-none bg-gray-50 text-black ${
+					className={`sm:text-sm rounded-lg block w-full p-2.5 outline-none bg-white border border-gray-100 text-gray-900 ${
 						!error
 							? `${
 									inputProps.disabled && 'cursor-not-allowed'

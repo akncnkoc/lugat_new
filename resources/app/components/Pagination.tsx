@@ -2,32 +2,27 @@ import ReactPaginate from 'react-paginate'
 import { isMobile } from 'react-device-detect'
 import PreviousIcon from '@/components/icons/PreviousIcon'
 import NextIcon from '@/components/icons/NextIcon'
+import { CollectionMetaType } from '@/helpers/types'
 
 type PaginationType = {
-	perPage: number
-	total: number
-	paginate: any
+	paginate: Function
 	currentPage: number
+	meta: CollectionMetaType
 }
 
-export default function Pagination({ perPage, total, paginate, currentPage }: PaginationType) {
-	const nPages = Math.ceil(total / perPage)
+export default function Pagination({ paginate, currentPage, meta }: PaginationType) {
+	const nPages = Math.ceil(meta.total / meta.per_page)
 
 	return (
 		<div className='py-2 flex justify-between flex-col space-y-4 md:space-y-0 md:flex-row items-center'>
 			<div>
 				<p className='text-sm text-gray-900'>
 					Sayfada
-					<span className='font-medium'> {total} </span>
+					<span className='font-medium'> {meta.total} </span>
 					kayıttan
 					<span className='font-medium'>
 						&nbsp;
-						{total > perPage
-							? currentPage * perPage - perPage > 0
-								? currentPage * perPage - perPage
-								: 1
-							: total}{' '}
-						- {total > perPage ? currentPage * perPage : total}
+						{meta.from} - {meta.to}
 					</span>
 					&nbsp;arasındakiler gösteriliyor
 				</p>
@@ -46,12 +41,8 @@ export default function Pagination({ perPage, total, paginate, currentPage }: Pa
 						'bg-transparent w-10 h-10 rounded-full flex items-center justify-center hover:!bg-gray-50 hover:!text-gray-900 transition-all'
 					}
 					containerClassName={'flex pl-0 list-none space-x-1'}
-					previousClassName={
-						'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center'
-					}
-					nextClassName={
-						'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center'
-					}
+					previousClassName={'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center'}
+					nextClassName={'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center'}
 					activeLinkClassName={'!border-transparent !bg-blue-500 text-white block'}
 					marginPagesDisplayed={0}
 				/>

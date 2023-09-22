@@ -1,24 +1,25 @@
 import React, { Fragment, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Dialog, Transition } from '@headlessui/react'
-import { FaMoneyCheck } from 'react-icons/fa6'
 import { useFormik } from 'formik'
 import { ExpenseCreateFormType, ExpenseTypeData, Shape } from '@/helpers/types'
 import { date, number, object, string } from 'yup'
 import CurrencyInput from 'react-currency-input-field'
 import LugatSelect from '@/components/form/LugatSelect'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { turkeyLocaleConfig } from '@/config/datepicker-config'
 import DatePicker, { DateObject } from 'react-multi-date-picker'
 import TimePicker from 'react-multi-date-picker/plugins/time_picker'
 import parse from 'date-fns/parse'
 import LugatTextarea from '@/components/form/LugatTextarea'
 import useVaults from '@/hooks/useVaults'
+import LugatButton from '@/components/form/LugatButton'
+import TimesIcon from '@/components/icons/TimesIcon'
+import { tr } from 'date-fns/locale'
 
 const ExpenseCreate: React.FC = () => {
 	const navigate = useNavigate()
 	const cancelButtonRef = useRef(null)
-	const { VaultSelect } = useVaults()
 
 	const expenseCreateFormik = useFormik<ExpenseCreateFormType>({
 		initialValues: {
@@ -30,7 +31,7 @@ const ExpenseCreate: React.FC = () => {
 		},
 		validateOnBlur: false,
 		validationSchema: object().shape<Shape<ExpenseCreateFormType>>({
-			amount: number().required().min(1).max(1000),
+			amount: number().label('Amount').required().min(1).max(100000),
 			comment: string(),
 			type: string().required().notOneOf(['-1'], 'Expense type must be selected'),
 			vault_id: string().required().notOneOf(['-1'], 'Vault must be selected'),
@@ -44,6 +45,11 @@ const ExpenseCreate: React.FC = () => {
 		onSubmit: () => {},
 	})
 
+	const VaultSelect = useVaults({
+		error: expenseCreateFormik.errors.vault_id,
+		onChangeCallback: (value) => expenseCreateFormik.setFieldValue('vault_id', value),
+		value: expenseCreateFormik.values.vault_id,
+	})
 
 	return (
 		<Transition.Root show={true} as={Fragment}>
@@ -55,14 +61,14 @@ const ExpenseCreate: React.FC = () => {
 			>
 				<Transition.Child
 					as={Fragment}
-					enter='ease-out duration-300'
-					enterFrom='opacity-0'
-					enterTo='opacity-100'
-					leave='ease-in duration-200'
-					leaveFrom='opacity-100'
-					leaveTo='opacity-0'
+					enter="ease-out duration-300"
+					enterFrom="opacity-0 scale-95"
+					enterTo="opacity-100 scale-100"
+					leave="ease-in duration-200"
+					leaveFrom="opacity-100 scale-100"
+					leaveTo="opacity-0 scale-95"
 				>
-					<div className='fixed inset-0 bg-gray-700 bg-opacity-75 transition-opacity' />
+					<div className='fixed inset-0 bg-black/70 transition-opacity' />
 				</Transition.Child>
 				<div className='fixed inset-0 z-10 overflow-y-auto'>
 					<div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
@@ -75,67 +81,59 @@ const ExpenseCreate: React.FC = () => {
 							leaveFrom='opacity-100 translate-y-0 sm:scale-100'
 							leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
 						>
-							<Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-gray-700 text-left shadow-2xl shadow-gray-800 transition-all sm:my-8 sm:w-full sm:max-w-3xl'>
-								<div className='bg-gray-700 px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
+							<Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white text-left shadow-2xl shadow-gray-800 transition-all sm:my-8 sm:w-full sm:max-w-3xl'>
+								<div
+									className={
+										'h-16 px-6 py-5  border-b border-gray-100 flex items-center justify-between'
+									}
+								>
+									<h3 className={'text-lg font-semibold'}>Create New Expense</h3>
+									<button
+										className={
+											'w-10 h-10 bg-gray-50 hover:bg-gray-100 transition-colors grid place-items-center rounded-full'
+										}
+										onClick={() => navigate(-1)}
+									>
+										<TimesIcon width={20} height={20} fillColor={'#191B1C'} />
+									</button>
+								</div>
+								<div className='bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
 									<div className='sm:flex sm:items-start'>
-										<div className='mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-700 sm:mx-0 sm:h-10 sm:w-10'>
-											<FaMoneyCheck color={'white'} />
-										</div>
-										<div className='mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full'>
-											<div className='flex space-x-4 flex-1 grow'>
-												<div>
-													<p className='font-medium text-lg'>Expense Details</p>
-													<p>Please fill out all the fields.</p>
-												</div>
-
+										<div className='mt-3 text-center sm:mt-0 sm:text-left w-full'>
+											<div className='flex flex-1 grow'>
 												<div className='flex flex-col flex-1 space-y-2'>
-													<div className={'flex-1'}>
-														<label className={'block my-2 text-sm font-medium'}>Amount</label>
-														<CurrencyInput
-															className={`${
-																expenseCreateFormik.errors.amount &&
-																'focus:!ring-red-500 text-red-500 placeholder-red-500 !border-red-500'
-															} sm:text-sm mt-2 rounded-lg block w-full p-2.5 outline-none bg-gray-100 placeholder-gray-400 text-gray-800 ring-blue-200 border-blue-200`}
-															value={expenseCreateFormik.values.amount}
-															onValueChange={(_, __, values) =>
-																expenseCreateFormik.setFieldValue('amount', values?.value ?? 0)
-															}
-															onChange={() => {}}
-															suffix={' ₺'}
-															groupSeparator={'.'}
-															decimalSeparator={','}
-															allowDecimals
-															step={0.1}
-														/>
-														{expenseCreateFormik.errors.amount && (
-															<motion.p
-																initial={{ opacity: 0 }}
-																animate={{ opacity: 1 }}
-																exit={{ opacity: 0 }}
-																className='mt-2 text-sm text-red-600'
-															>
-																{expenseCreateFormik.errors.amount}
-															</motion.p>
-														)}
-													</div>
-													<div className='md:col-span-5'>
-														{VaultSelect}
-														{/*<LugatSelect*/}
-														{/*	label={'Vault'}*/}
-														{/*	value={expenseCreateFormik.values.vault_id}*/}
-														{/*	onChange={(e) =>*/}
-														{/*		expenseCreateFormik.setFieldValue('vault_id', e.target.value)*/}
-														{/*	}*/}
-														{/*	error={expenseCreateFormik.errors.vault_id}*/}
-														{/*>*/}
-														{/*	<option value='-1'>Select</option>*/}
-														{/*	{vaultData?.data &&*/}
-														{/*		vaultData.data.map((vault) => (*/}
-														{/*			<option key={vault.id} value={`${vault.id}`}>*/}
-														{/*				{vault.name}*/}
-														{/*			</option>*/}
-														{/*		))}*/}
-														{/*</LugatSelect>*/}
+													<div className={'flex-1 flex space-x-2'}>
+														<div className={'flex-1'}>
+															<label className={'block mb-2 text-sm font-semibold text-gray-900'}>
+																Amount
+															</label>
+															<CurrencyInput
+																className={`${
+																	expenseCreateFormik.touched.amount &&
+																	expenseCreateFormik.errors.amount &&
+																	'focus:!ring-red-500 text-red-500 placeholder-red-500 !border-red-500'
+																} text-sm font-semibold mt-2 rounded-lg block w-full p-2.5 outline-none bg-white border border-gray-100 placeholder-gray-400 text-gray-900`}
+																value={expenseCreateFormik.values.amount}
+																onValueChange={(_, __, values) => {
+																	expenseCreateFormik.setFieldTouched('amount', true)
+																	expenseCreateFormik.setFieldValue('amount', values?.value ?? 0)
+																}}
+																onChange={() => {}}
+																suffix={' ₺'}
+															/>
+															{expenseCreateFormik.touched.amount &&
+																expenseCreateFormik.errors.amount && (
+																	<motion.p
+																		initial={{ opacity: 0 }}
+																		animate={{ opacity: 1 }}
+																		exit={{ opacity: 0 }}
+																		className='mt-2 text-sm text-red-600 font-semibold'
+																	>
+																		{expenseCreateFormik.errors.amount}
+																	</motion.p>
+																)}
+														</div>
+														<div className={'flex-1'}>{VaultSelect}</div>
 													</div>
 													<div className='md:col-span-5'>
 														<LugatSelect
@@ -144,7 +142,9 @@ const ExpenseCreate: React.FC = () => {
 															onChange={(e) =>
 																expenseCreateFormik.setFieldValue('type', e.target.value)
 															}
-															error={expenseCreateFormik.errors.type}
+															error={
+																expenseCreateFormik.touched.type && expenseCreateFormik.errors.type
+															}
 														>
 															<option value='-1'>Select</option>
 															{ExpenseTypeData &&
@@ -163,7 +163,9 @@ const ExpenseCreate: React.FC = () => {
 														</LugatSelect>
 													</div>
 													<div className='md:col-span-5'>
-														<label className={'block my-2 text-sm font-medium'}>Receipt Date</label>
+														<label className={'block mb-2 text-sm font-semibold text-gray-900'}>
+															Receipt Date
+														</label>
 														<DatePicker
 															format='DD/MM/YYYY HH:mm:ss'
 															plugins={[<TimePicker position='bottom' />]}
@@ -195,22 +197,21 @@ const ExpenseCreate: React.FC = () => {
 										</div>
 									</div>
 								</div>
-								<div className='bg-gray-700 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
-									<button
-										type='button'
-										className='inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto'
+								<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-between'>
+									<LugatButton
+										buttonClassNames={
+											'bg-gray-50 !text-gray-900 hover:!bg-gray-100 !w-fit text-base'
+										}
+									>
+										Cancel
+									</LugatButton>
+									<LugatButton
+										ref={cancelButtonRef}
 										onClick={() => navigate(-1)}
+										buttonClassNames={'bg-green-600 !w-fit text-base'}
 									>
 										İçeri Aktar
-									</button>
-									<button
-										type='button'
-										className='mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 sm:mt-0 sm:w-auto'
-										onClick={() => navigate(-1)}
-										ref={cancelButtonRef}
-									>
-										Kapat
-									</button>
+									</LugatButton>
 								</div>
 							</Dialog.Panel>
 						</Transition.Child>
