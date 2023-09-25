@@ -46,6 +46,7 @@ class ExpenseController extends Controller
     public function show(Expense $expense): ExpenseResource
     {
         $this->authorize('expenseView', Expense::class);
+        sleep(2);
         return ExpenseResource::make($expense);
     }
 

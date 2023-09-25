@@ -38,7 +38,7 @@ const Login: React.FC = () => {
 			<a className='flex items-center justify-center mb-8 text-2xl font-semibold lg:mb-10 text-gray-700'>
 				<span>Lügat</span>
 			</a>
-			<div className='w-full max-w-xl p-6 space-y-8 sm:p-8 rounded-lg shadow bg-gray-100'>
+			<div className='w-full max-w-xl p-6 space-y-8 sm:p-8 rounded-lg shadow shadow-gray-100 bg-gray-100'>
 				<h2 className='text-2xl font-bold text-gray-800 text-center'>Login to your account</h2>
 				<form className='mt-8 space-y-6' onSubmit={loginForm.handleSubmit}>
 					<LugatInput

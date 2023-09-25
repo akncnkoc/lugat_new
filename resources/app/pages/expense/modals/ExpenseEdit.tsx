@@ -1,7 +1,7 @@
-import React from 'react'
-import { useLoaderData, useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { ExpenseEditFormType, ExpenseSingleResource, ExpenseTypeData, Shape } from '@/helpers/types'
+import { ExpenseEditFormType, ExpenseTypeData, Shape } from '@/helpers/types'
 import { date, number, object, string } from 'yup'
 import CurrencyInput from 'react-currency-input-field'
 import { motion } from 'framer-motion'
@@ -11,27 +11,25 @@ import TimePicker from 'react-multi-date-picker/plugins/time_picker'
 import parse from 'date-fns/parse'
 import LugatTextarea from '@/components/form/LugatTextarea'
 import LugatButton from '@/components/form/LugatButton'
-import { useStoreExpenseMutation } from '@/services/api/expense-api'
+import { useGetExpenseQuery, useStoreExpenseMutation } from '@/services/api/expense-api'
 import toast, { LoaderIcon } from 'react-hot-toast'
 import { lugatVaultAll } from '@/services/api/lugat-vault'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
 
 const ExpenseEdit: React.FC = () => {
-	const data = useLoaderData() as ExpenseSingleResource
-
-	console.log(data)
 	const navigate = useNavigate()
+	const { id } = useParams()
 	const [storeExpense, { isLoading }] = useStoreExpenseMutation()
-
+	const { data: expense, isLoading: expenseLoading } = useGetExpenseQuery(id ?? '')
 	const expenseCreateFormik = useFormik<ExpenseEditFormType>({
 		initialValues: {
-			amount: data.data.amount,
-			type: data.data.type,
-			comment: data.data.comment,
-			receipt_date: data.data.receipt_date,
+			amount: 0,
+			type: '-1',
+			comment: '',
+			receipt_date: new Date(),
 			vault: {
-				id: data.data.vault.id,
-				name: data.data.vault.name,
+				id: '-1',
+				name: 'Select',
 			},
 		},
 		validateOnBlur: false,
@@ -68,6 +66,14 @@ const ExpenseEdit: React.FC = () => {
 	const goBack = () => {
 		navigate(-1)
 	}
+
+	useEffect(() => {
+		if (expense){
+			expenseCreateFormik.setValues({
+
+			})
+		}
+	}, [expense])
 
 	const loadVaults = async (search: string, _: any, { page }: any) => {
 		const response = await lugatVaultAll(page, search)

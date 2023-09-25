@@ -160,7 +160,7 @@ export type ExpenseEditFormType = {
 		id: string
 		name: string
 	}
-	type: keyof typeof ExpenseTypeData
+	type: keyof typeof ExpenseTypeData | '-1'
 	comment: string | null
 	receipt_date: Date | null
 }
