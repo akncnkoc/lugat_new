@@ -9,6 +9,7 @@ use App\Services\Currency\Models\Currency;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class CurrencyController extends Controller
 {
@@ -31,10 +32,8 @@ class CurrencyController extends Controller
 
     public function loadCurrenciesFromTCMB(): ?JsonResponse
     {
-        $xml = simplexml_load_string(file_get_contents("https://www.tcmb.gov.tr/kurlar/today.xml"));
-        if (!$xml->current()) {
-            return $this->error("internal error");
-        }
+//        $response = Http::get('https://www.tcmb.gov.tr/kurlar/today.xml');
+        $xml = simplexml_load_string(File::get(storage_path('app/currency-data.xml')));
 
         $currencyConverted = [
             [
@@ -52,10 +51,10 @@ class CurrencyController extends Controller
                 'unit'          => $currency->Unit,
                 'name'          => $currency->Isim,
                 'code'          => $currency->attributes()->CurrencyCode,
-                'forex_buy'     => $currency->ForexBuying ?? 1,
-                'forex_sell'    => $currency->ForexSelling ?? 1,
-                'banknote_buy'  => $currency->BanknoteBuying ?? 1,
-                'banknote_sell' => $currency->BanknoteSelling ?? 1
+                'forex_buy'     => $currency->ForexBuying == '' ? 1 : $currency->ForexBuying,
+                'forex_sell'    => $currency->ForexSelling == '' ? 1 : $currency->ForexSelling,
+                'banknote_buy'  => $currency->BanknoteBuying == '' ? 1 : $currency->BanknoteBuying,
+                'banknote_sell' => $currency->BanknoteSelling == '' ? 1 : $currency->BanknoteSelling
             ];
         }
         DB::transaction(static function () use ($currencyConverted) {

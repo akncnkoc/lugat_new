@@ -8,6 +8,7 @@ use App\Global\Traits\ResponseTrait;
 use App\Services\Vault\Http\Requests\VaultStoreRequest;
 use App\Services\Vault\Http\Resources\VaultResource;
 use App\Services\Vault\Models\Vault;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +21,14 @@ class VaultController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $this->authorize('vaultView', Vault::class);
-        return VaultResource::collection(Vault::paginate());
+        $vaultQuery = Vault::query();
+        if ($search = request()->query('search')) {
+            $vaultQuery->where('name', 'ILIKE', "%$search%")
+                       ->orWhereHas('currency', function (Builder $builder) use ($search) {
+                           $builder->where('code', 'ILIKE', "%$search%");;
+                       });
+        }
+        return VaultResource::collection($vaultQuery->paginate());
     }
 
 

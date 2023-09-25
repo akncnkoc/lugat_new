@@ -3,33 +3,26 @@ import NavigationItem from '@/components/NavigationItem'
 import { NavigationItemType } from '@/helpers/types'
 import PopoverNavigationItem from '@/components/PopoverNavigationItem'
 import { useNavigate } from 'react-router-dom'
-import ProductsIcon from '@/components/icons/ProductsIcon'
-import PlusCircleIcon from '@/components/icons/PlusCircleIcon'
+import { NavigateOptions } from 'react-router/dist/lib/context'
+import ExpensesIcon from '@/components/icons/ExpensesIcon'
 
 const ExpenseMenuPopover: React.FC = () => {
 	const navigate = useNavigate()
 
-	const handleNavigate = (route: string) => {
+	const handleNavigate = (route: string, state?: NavigateOptions['state']) => {
 		navigate(route, {
 			replace: true,
+			state: state,
 		})
 	}
+
 	const navigationItems: NavigationItemType[] = [
 		{
 			text: 'Expense List',
 			route: '/expense/list',
 			icon: (
 				<>
-					<ProductsIcon fillColor={'currentColor'} />
-				</>
-			),
-		},
-		{
-			text: 'Create',
-			route: '/expense/create',
-			icon: (
-				<>
-					<PlusCircleIcon fillColor={'currentColor'} />
+					<ExpensesIcon width={18} height={18} fillColor={'currentColor'} />
 				</>
 			),
 		},

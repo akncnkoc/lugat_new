@@ -19,7 +19,7 @@ const LugatSelect: React.FC<RabbitSelectProps> = forwardRef<HTMLSelectElement, R
 					ref={ref}
 					id={props.name}
 					autoComplete={'off'}
-					className={`sm:text-sm rounded-lg block w-full p-2.5 outline-none bg-white border border-gray-100 text-gray-900 ${
+					className={`font-semibold rounded-lg block w-full p-2.5 outline-none bg-white border border-gray-100 text-gray-900 ${
 						!error
 							? `${
 									inputProps.disabled && 'cursor-not-allowed'
@@ -36,7 +36,7 @@ const LugatSelect: React.FC<RabbitSelectProps> = forwardRef<HTMLSelectElement, R
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }}
-						className='mt-2 text-sm text-red-600'
+						className='mt-2 text-sm text-red-600 font-semibold'
 					>
 						{error}
 					</motion.p>

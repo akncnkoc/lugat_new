@@ -1,11 +1,21 @@
-import lugatAxios from '@/services/lugatAxios.ts'
-import { VaultResource } from '@/helpers/types.ts'
+import lugatAxios from '@/services/lugatAxios'
+import { VaultResource } from '@/helpers/types'
 import { AxiosResponse } from 'axios'
 
-export const lugatVaultAll = async (page: string): Promise<AxiosResponse<VaultResource>> => {
+export const lugatVaultAll = async (
+	page: number,
+	search?: string,
+): Promise<AxiosResponse<VaultResource>> => {
 	const url = new URL(window.location.toString())
 	url.searchParams.set('page', page.toString())
-	return await lugatAxios.get('/v1/vault?' + decodeURIComponent(url.searchParams.toString()))
+	if (search && search != '') {
+		url.searchParams.set('search', search)
+	}
+	return await lugatAxios.get('/v1/vault?' + decodeURIComponent(url.searchParams.toString()), {
+		data: {
+			search,
+		},
+	})
 }
 
 export const rbbtCouponGet = async (couponId: string): Promise<any> => {

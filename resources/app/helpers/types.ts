@@ -1,5 +1,6 @@
 import * as yup from 'yup'
 import React from 'react'
+import { NavigateOptions } from 'react-router/dist/lib/context'
 
 type ColletionLinkType = {
 	first: string | null
@@ -92,11 +93,19 @@ export enum ExpenseTypeData {
 	travel = 'Travel',
 }
 
+export type ExpenseStoreFormType = {
+	amount: number
+	receipt_date: Date | null
+	vault_id: string
+	type: keyof typeof ExpenseTypeData | '-1'
+	comment?: string | null
+}
+
 export const CurrencyCodeToSign = (code: string): string | null => {
 	const signs = {
 		USD: '$',
 		TRY: '₺',
-		EURO: '€',
+		EUR: '€',
 		JPY: '¥',
 		GBP: '£',
 		PKR: '₹',
@@ -110,7 +119,7 @@ export type ExpenseDataType = {
 	amount: number
 	vault: VaultDataType
 	comment: string | null
-	receipt_date: string
+	receipt_date: Date
 	type: keyof typeof ExpenseTypeData
 }
 
@@ -119,8 +128,13 @@ export type LoginFormType = {
 	password: string
 }
 
-type DefaultResponseType<T> = {
-	data?: T
+export type DefaultResponseType = {
+	status: string | number
+	message: string
+}
+
+export type DefaultResponseCollectionType<T> = {
+	data: T
 	message: string
 }
 
@@ -130,9 +144,24 @@ type LoginResponseDataType = {
 
 export type ExpenseCreateFormType = {
 	amount: number
-	vault_id: string
+	vault: {
+		id: string
+		name: string
+	}
 	type: keyof typeof ExpenseTypeData | '-1'
-	comment: string
+	comment: string | null
+	receipt_date: Date | null
+}
+
+
+export type ExpenseEditFormType = {
+	amount: number
+	vault: {
+		id: string
+		name: string
+	}
+	type: keyof typeof ExpenseTypeData
+	comment: string | null
 	receipt_date: Date | null
 }
 
@@ -148,6 +177,7 @@ export type NavigationItemType = {
 	icon?: React.ReactNode
 	popover?: React.ReactNode
 	isPopover?: boolean
+	state?: NavigateOptions['state']
 }
 export type NavigationItemProps = {
 	handleNavigate: Function
@@ -172,7 +202,8 @@ export type Shape<Fields> = {
 	[Key in keyof Fields]: ConditionalSchema<Fields[Key]>
 }
 
-export type LoginResponseType = DefaultResponseType<LoginResponseDataType>
+export type LoginResponseType = DefaultResponseCollectionType<LoginResponseDataType>
 
 export type ExpenseResource = CollectionDataType<ExpenseDataType>
+export type ExpenseSingleResource = DefaultResponseCollectionType<ExpenseDataType>
 export type VaultResource = CollectionDataType<VaultDataType>

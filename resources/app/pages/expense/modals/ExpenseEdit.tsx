@@ -1,7 +1,7 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLoaderData, useNavigate } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { ExpenseCreateFormType, ExpenseTypeData, Shape } from '@/helpers/types'
+import { ExpenseEditFormType, ExpenseSingleResource, ExpenseTypeData, Shape } from '@/helpers/types'
 import { date, number, object, string } from 'yup'
 import CurrencyInput from 'react-currency-input-field'
 import { motion } from 'framer-motion'
@@ -16,23 +16,26 @@ import toast, { LoaderIcon } from 'react-hot-toast'
 import { lugatVaultAll } from '@/services/api/lugat-vault'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
 
-const ExpenseCreate: React.FC = () => {
+const ExpenseEdit: React.FC = () => {
+	const data = useLoaderData() as ExpenseSingleResource
+
+	console.log(data)
 	const navigate = useNavigate()
 	const [storeExpense, { isLoading }] = useStoreExpenseMutation()
 
-	const expenseCreateFormik = useFormik<ExpenseCreateFormType>({
+	const expenseCreateFormik = useFormik<ExpenseEditFormType>({
 		initialValues: {
-			amount: 0,
-			type: '-1',
-			comment: '',
-			receipt_date: new Date(),
+			amount: data.data.amount,
+			type: data.data.type,
+			comment: data.data.comment,
+			receipt_date: data.data.receipt_date,
 			vault: {
-				id: '-1',
-				name: 'Select',
+				id: data.data.vault.id,
+				name: data.data.vault.name,
 			},
 		},
 		validateOnBlur: false,
-		validationSchema: object().shape<Shape<ExpenseCreateFormType>>({
+		validationSchema: object().shape<Shape<ExpenseEditFormType>>({
 			amount: number().label('Amount').required().min(1).max(100000),
 			comment: string(),
 			type: string().required().notOneOf(['-1'], 'Expense type must be selected'),
@@ -144,6 +147,10 @@ const ExpenseCreate: React.FC = () => {
 								<div className='md:col-span-5'>
 									<LugatAsyncSelect
 										label={'Expense Type'}
+										value={{
+											label: ExpenseTypeData[expenseCreateFormik.values.type],
+											value: expenseCreateFormik.values.type,
+										}}
 										error={expenseCreateFormik.touched.type && expenseCreateFormik.errors.type}
 										onChange={(value: any) => {
 											expenseCreateFormik.setFieldValue('type', value.value)
@@ -203,4 +210,4 @@ const ExpenseCreate: React.FC = () => {
 	)
 }
 
-export default ExpenseCreate
+export default ExpenseEdit

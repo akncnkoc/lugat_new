@@ -13,10 +13,17 @@ const PopoverNavigationItem: React.FC<PopoverNavigationItemType> = (props) => {
 
 	return (
 		<Popover className={'relative'}>
-			{({ open }) => (
+			{({ open, close }) => (
 				<>
 					<Popover.Button ref={refs.setReference} className={'w-full focus:outline-0'}>
-						<NavigationItem handleNavigate={props.handleNavigate} isPopover item={props.item} />
+						<NavigationItem
+							handleNavigate={() => {
+								props.handleNavigate(props.item.route, props.item.state)
+								close()
+							}}
+							isPopover
+							item={props.item}
+						/>
 					</Popover.Button>
 					<Transition
 						as={Fragment}

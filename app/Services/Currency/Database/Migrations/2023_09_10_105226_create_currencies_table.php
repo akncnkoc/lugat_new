@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->integer('unit')->default(1);
-            $table->string('code')->nullable();
+            $table->string('code')->unique();
             $table->decimal('forex_buy', 15, 5);
             $table->decimal('forex_sell', 15, 5);
             $table->decimal('banknote_buy', 15, 5);

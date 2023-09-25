@@ -65,11 +65,7 @@ const Aside: React.FC = () => {
 	return (
 		<aside
 			id='logo-sidebar'
-			className={`
-				z-40 max-w-[260px] min-w-[260px] flex-1 transition-transform border-r border-gray-200 bg-white
-				shadow-[3px_2px_20px_5px_rgba(0,0,0,0.1)]
-
-			`}
+			className={`z-40 max-w-[260px] min-w-[260px] flex-1 transition-transform border-r border-gray-200 bg-white`}
 			aria-label='Sidebar'
 		>
 			<div className='h-full'>

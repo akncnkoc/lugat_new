@@ -36,6 +36,7 @@ class ExpenseController extends Controller
     public function store(ExpenseStoreRequest $request): ?JsonResponse
     {
         $this->authorize('expenseStore', Expense::class);
+        sleep(2);
         DB::transaction(static function () use ($request) {
             Expense::create($request->safe()->all());
         });

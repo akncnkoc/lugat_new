@@ -5,7 +5,7 @@ const NavigationItem: React.FC<NavigationItemProps> = ({ handleNavigate, item, i
 	return (
 		<li>
 			<div
-				onClick={() => !isPopover && handleNavigate(item.route)}
+				onClick={() => !isPopover && handleNavigate(item.route, item.state)}
 				className='flex items-center text-sm rounded-lg p-2 text-gray-500 hover:bg-blue-200 hover:text-white group cursor-pointer transition-all'
 			>
 				<div

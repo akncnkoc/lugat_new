@@ -3,6 +3,7 @@
 namespace App\Global\Providers;
 
 use App\Services\Auth\Models\PersonalAccessToken;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 

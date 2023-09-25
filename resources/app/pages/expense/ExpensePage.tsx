@@ -23,6 +23,19 @@ const ExpensePage: React.FC = () => {
 			header: 'Receipt Date',
 			accessorKey: 'receipt_date',
 		},
+		{
+			header: 'Actions',
+			cell: ({ cell }) => {
+				return (
+					<div
+						className={'text-right'}
+						onClick={() => navigate(`/expense/${cell.row.original.id}/edit`, { state: { background: location } })}
+					>
+						<LugatButton buttonClassNames={'!w-fit'}>Edit</LugatButton>
+					</div>
+				)
+			},
+		},
 	]
 
 	const navigate = useNavigate()

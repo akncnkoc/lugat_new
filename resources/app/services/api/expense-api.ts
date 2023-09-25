@@ -1,5 +1,10 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { ExpenseResource } from '@/helpers/types'
+import {
+	DefaultResponseType,
+	ExpenseResource,
+	ExpenseSingleResource,
+	ExpenseStoreFormType,
+} from '@/helpers/types'
 import baseQueryConfigWithAuth from '@/store/config/baseQueryConfigWithAuth'
 
 export const expenseApi = createApi({
@@ -11,7 +16,20 @@ export const expenseApi = createApi({
 			query: (page: string = '1') => `v1/expense?page=${page}`,
 			providesTags: ['Expense'],
 		}),
+		getExpense: builder.query<ExpenseSingleResource, string>({
+			query: (id: string) => `v1/expense/${id}`,
+			providesTags: ['Expense'],
+		}),
+		storeExpense: builder.mutation<DefaultResponseType, ExpenseStoreFormType>({
+			query(body) {
+				return {
+					url: `v1/expense`,
+					method: 'POST',
+					body,
+				}
+			},
+		}),
 	}),
 })
 
-export const { useGetExpensesQuery } = expenseApi
+export const { useGetExpensesQuery, useStoreExpenseMutation, useGetExpenseQuery } = expenseApi

@@ -18,12 +18,12 @@ const LugatTable: React.FC<LugatTableProps> = ({ table, meta, onPaginate, curren
 				<table className='min-w-full divide-y table-fixed divide-gray-100 border-b border-b-gray-100'>
 					<thead className={'bg-gray-50'}>
 						{table.getHeaderGroups().map((headerGroup) => (
-							<tr key={headerGroup.id} className={'h-9'}>
+							<tr key={headerGroup.id} className={'h-9 flex-1'}>
 								{headerGroup.headers.map((header) => (
 									<th
-										className={
-											'py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase'
-										}
+										className={`py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase ${
+											header.column.columnDef.header === 'Actions' ? 'text-right' : 'text-left'
+										}`}
 										key={header.id}
 										colSpan={header.colSpan}
 									>

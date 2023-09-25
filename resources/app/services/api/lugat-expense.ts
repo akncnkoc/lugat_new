@@ -1,11 +1,15 @@
-import lugatAxios from '@/services/lugatAxios.ts'
+import lugatAxios from '@/services/lugatAxios'
 import { AxiosResponse } from 'axios'
-import { ExpenseResource } from '@/helpers/types.ts'
+import { ExpenseResource, ExpenseSingleResource } from '@/helpers/types'
 
 export const lugatExpenseAll = async (page: string): Promise<AxiosResponse<ExpenseResource>> => {
 	const url = new URL(window.location.toString())
 	url.searchParams.set('page', page.toString())
 	return await lugatAxios.get('/v1/expense?' + decodeURIComponent(url.searchParams.toString()))
+}
+
+export const lugatExpenseGet = async (expenseId: string): Promise<AxiosResponse<ExpenseSingleResource>> => {
+	return await lugatAxios.get('/v1/expense/' + expenseId);
 }
 
 export const rbbtCouponGet = async (couponId: string): Promise<any> => {

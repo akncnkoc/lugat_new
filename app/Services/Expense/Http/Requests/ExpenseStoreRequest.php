@@ -27,15 +27,14 @@ class ExpenseStoreRequest extends FormRequest
         if ($this->routeIs('expense.update')) {
             return [
                 'amount'       => 'sometimes|numeric',
-                'receipt_date' => 'sometimes|date_format:d.m.Y H:i:s',
+                'receipt_date' => 'sometimes|date',
                 'vault_id'     => 'sometimes|uuid|exists:vaults,id',
                 'type'         => ['sometimes', Rule::in(ExpenseType::values())],
-                'expense_type' => 'sometimes|in:',
             ];
         }
         return [
             'amount'       => 'required|numeric',
-            'receipt_date' => 'required|date_format:d.m.Y H:i:s',
+            'receipt_date' => 'required|date',
             'vault_id'     => 'required|uuid|exists:vaults,id',
             'type'         => ['required', Rule::in(ExpenseType::values())],
             'comment'      => 'sometimes|max:255',
