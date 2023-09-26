@@ -4,9 +4,10 @@ import {
 	fetchBaseQuery,
 	FetchBaseQueryError,
 } from '@reduxjs/toolkit/dist/query/react'
-import store from '@/store'
+import store, { storeDispatch } from '@/store'
 import toast from 'react-hot-toast'
 import { setToken } from '@/store/slices/userSlice'
+import { setIsGlobalLoading } from '@/store/slices/appSlice'
 
 const API_URL = '/api/'
 const baseQueryConfig = fetchBaseQuery({
@@ -27,14 +28,18 @@ const baseQueryConfigWithReAuth: BaseQueryFn<
 	unknown,
 	FetchBaseQueryError
 > = async (args, api, extraOptions) => {
+	storeDispatch(setIsGlobalLoading(true))
 	const result = await baseQueryConfig(args, api, extraOptions)
 	if (result.error && result.error.status === 401) {
 		toast.error('Oturum sonlandırıldı. Lütfen tekrar giriş yapın.')
 		store.dispatch(setToken(null))
+		storeDispatch(setIsGlobalLoading(false))
 		window.location.pathname = '/login'
 	} else if (result.error && result.error.status === 403) {
+		storeDispatch(setIsGlobalLoading(false))
 		toast.error('Yetkiniz bulunmamaktadır.')
 	}
+	storeDispatch(setIsGlobalLoading(false))
 	return result
 }
 

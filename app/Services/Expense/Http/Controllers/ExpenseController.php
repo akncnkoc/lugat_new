@@ -20,7 +20,7 @@ class ExpenseController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $this->authorize('expenseView', Expense::class);
-        return ExpenseResource::collection(Expense::paginate());
+        return ExpenseResource::collection(Expense::orderBy('receipt_date', 'DESC')->paginate());
     }
 
 
@@ -36,7 +36,6 @@ class ExpenseController extends Controller
     public function store(ExpenseStoreRequest $request): ?JsonResponse
     {
         $this->authorize('expenseStore', Expense::class);
-        sleep(2);
         DB::transaction(static function () use ($request) {
             Expense::create($request->safe()->all());
         });

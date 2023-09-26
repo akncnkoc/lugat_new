@@ -4,7 +4,7 @@ import ProtectedRoute from '@/layouts/ProtectedRoute'
 import ExpensePage from '@/pages/expense/ExpensePage'
 import ExpenseCreate from '@/pages/expense/modals/ExpenseCreate'
 import Login from '@/pages/auth/Login'
-import ExpenseEdit from '@/pages/expense/modals/ExpenseEdit'
+import ExpenseEdit, { expenseLoader } from '@/pages/expense/modals/ExpenseEdit'
 
 const Home = React.lazy(() => import('@/pages/Home'))
 
@@ -16,7 +16,7 @@ const router = createBrowserRouter(
 				<Route path={'expense'}>
 					<Route path={'list'} element={<ExpensePage />} />
 					<Route path={'create'} element={<ExpenseCreate />} />
-					<Route path={':id/edit'} element={<ExpenseEdit />} />
+					<Route path={':id/edit'} element={<ExpenseEdit />} loader={expenseLoader} />
 				</Route>
 			</Route>
 			<Route path={'login'} element={<Login />} />

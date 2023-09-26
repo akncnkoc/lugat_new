@@ -29,7 +29,19 @@ export const expenseApi = createApi({
 				}
 			},
 		}),
+		updateExpense: builder.mutation<
+			DefaultResponseType,
+			{ body: ExpenseStoreFormType; id: string }
+		>({
+			query({ id, body }) {
+				return {
+					url: `v1/expense/${id}`,
+					method: 'PUT',
+					body,
+				}
+			},
+		}),
 	}),
 })
 
-export const { useGetExpensesQuery, useStoreExpenseMutation, useGetExpenseQuery } = expenseApi
+export const { useGetExpensesQuery, useStoreExpenseMutation, useGetExpenseQuery, useUpdateExpenseMutation } = expenseApi

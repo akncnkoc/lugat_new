@@ -5,6 +5,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Lügat</title>
+        <link rel="preconnect" href="{{url('')}}">
+
         @viteReactRefresh
         @vite("resources/app/index.tsx")
 

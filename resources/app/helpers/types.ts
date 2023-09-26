@@ -153,14 +153,13 @@ export type ExpenseCreateFormType = {
 	receipt_date: Date | null
 }
 
-
 export type ExpenseEditFormType = {
 	amount: number
 	vault: {
 		id: string
 		name: string
 	}
-	type: keyof typeof ExpenseTypeData | '-1'
+	type: keyof typeof ExpenseTypeData
 	comment: string | null
 	receipt_date: Date | null
 }
