@@ -1,11 +1,20 @@
 import React from 'react'
 import { NavigationItemProps } from '@/helpers/types'
 
-const NavigationItem: React.FC<NavigationItemProps> = ({ handleNavigate, item, isPopover }) => {
+const NavigationItem: React.FC<NavigationItemProps> = ({
+	handleNavigate,
+	item,
+	isPopover,
+}) => {
 	return (
 		<li>
 			<div
-				onClick={() => !isPopover && handleNavigate(item.route, item.state)}
+				onClick={() => {
+					if (!isPopover) {
+						handleNavigate(item.route, item.state)
+					}
+					close && close()
+				}}
 				className='flex items-center text-sm rounded-lg p-2 text-gray-500 hover:bg-blue-200 hover:text-white group cursor-pointer transition-all'
 			>
 				<div

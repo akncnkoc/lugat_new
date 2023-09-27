@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { NavigateOptions } from 'react-router/dist/lib/context'
 
 type ColletionLinkType = {
@@ -30,6 +30,7 @@ type CollectionDataType<T> = {
 }
 
 type CurrencyDataType = {
+	id: string
 	name: string
 	code: string
 	forex_buy: number
@@ -99,6 +100,14 @@ export type ExpenseStoreFormType = {
 	vault_id: string
 	type: keyof typeof ExpenseTypeData | '-1'
 	comment?: string | null
+}
+
+export type VaultStoreFormType = {
+	name: string
+	currency: {
+		id: string
+		name: string
+	}
 }
 
 export const CurrencyCodeToSign = (code: string): string | null => {
@@ -174,7 +183,7 @@ export type NavigationItemType = {
 	route: string
 	text: string
 	icon?: React.ReactNode
-	popover?: React.ReactNode
+	popover?: React.ReactElement | ReactNode
 	isPopover?: boolean
 	state?: NavigateOptions['state']
 }
@@ -206,3 +215,4 @@ export type LoginResponseType = DefaultResponseCollectionType<LoginResponseDataT
 export type ExpenseResource = CollectionDataType<ExpenseDataType>
 export type ExpenseSingleResource = DefaultResponseCollectionType<ExpenseDataType>
 export type VaultResource = CollectionDataType<VaultDataType>
+export type CurrencyResource = CollectionDataType<CurrencyDataType>

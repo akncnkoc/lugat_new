@@ -22,10 +22,10 @@ class VaultController extends Controller
     {
         $this->authorize('vaultView', Vault::class);
         $vaultQuery = Vault::query();
-        if ($search = request()->query('search')) {
+        if ($search = request()?->query('search')) {
             $vaultQuery->where('name', 'ILIKE', "%$search%")
                        ->orWhereHas('currency', function (Builder $builder) use ($search) {
-                           $builder->where('code', 'ILIKE', "%$search%");;
+                           $builder->where('code', 'ILIKE', "%$search%");
                        });
         }
         return VaultResource::collection($vaultQuery->paginate());

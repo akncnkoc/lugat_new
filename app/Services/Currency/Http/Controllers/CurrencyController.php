@@ -17,7 +17,7 @@ class CurrencyController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        return CurrencyResource::collection(Currency::all());
+        return CurrencyResource::collection(Currency::paginate());
     }
 
     public function updatePrimaryCurrency(Currency $currency): JsonResponse

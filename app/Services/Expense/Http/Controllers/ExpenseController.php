@@ -60,7 +60,6 @@ class ExpenseController extends Controller
     public function destroy(Expense $expense): ?JsonResponse
     {
         $this->authorize('expenseDelete', Expense::class);
-        sleep(2);
         DB::transaction(static function () use ($expense) {
             $expense->delete();
         });

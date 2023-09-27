@@ -4,6 +4,7 @@ import userSlice from '@/store/slices/userSlice'
 import { expenseApi } from '@/services/api/expense-api'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { vaultApi } from '@/services/api/vault-api'
+import { currencyApi } from '@/services/api/currency-api'
 
 export const store = configureStore({
 	reducer: {
@@ -11,9 +12,13 @@ export const store = configureStore({
 		appSlice,
 		[expenseApi.reducerPath]: expenseApi.reducer,
 		[vaultApi.reducerPath]: vaultApi.reducer,
+		[currencyApi.reducerPath]: currencyApi.reducer,
 	},
 	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware().concat(expenseApi.middleware).concat(vaultApi.middleware),
+		getDefaultMiddleware()
+			.concat(expenseApi.middleware)
+			.concat(vaultApi.middleware)
+			.concat(currencyApi.middleware),
 })
 
 setupListeners(store.dispatch)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { ExpenseCreateFormType, ExpenseTypeData, Shape } from '@/helpers/types'
+import { ExpenseCreateFormType, ExpenseTypeData, Shape, VaultResource } from '@/helpers/types'
 import { date, number, object, string } from 'yup'
 import CurrencyInput from 'react-currency-input-field'
 import { motion } from 'framer-motion'
@@ -13,8 +13,9 @@ import LugatTextarea from '@/components/form/LugatTextarea'
 import LugatButton from '@/components/form/LugatButton'
 import { useStoreExpenseMutation } from '@/services/api/expense-api'
 import toast, { LoaderIcon } from 'react-hot-toast'
-import { lugatVaultAll } from '@/services/api/lugat-vault'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
+import { storeDispatch } from '@/store'
+import { vaultApi } from '@/services/api/vault-api'
 
 const ExpenseCreate: React.FC = () => {
 	const navigate = useNavigate()
@@ -67,12 +68,14 @@ const ExpenseCreate: React.FC = () => {
 	}
 
 	const loadVaults = async (search: string, _: any, { page }: any) => {
-		const response = await lugatVaultAll(page, search)
-		const responseJSON = response.data.data.map((vault) => ({ id: vault.id, name: vault.name }))
+		const response = (await storeDispatch(
+			vaultApi.endpoints?.getVaults.initiate({ page, search }),
+		).then((res) => res.data)) as VaultResource
+		const responseJSON = response.data.map((vault) => ({ id: vault.id, name: vault.name }))
 
 		return {
 			options: responseJSON,
-			hasMore: response.data.meta.last_page > response.data.meta.current_page,
+			hasMore: response.meta.last_page > response.meta.current_page,
 			additional: {
 				page: page + 1,
 			},

@@ -1,10 +1,12 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, ReactElement } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import NavigationItem from '@/components/NavigationItem'
 import { NavigationItemProps } from '@/helpers/types'
 import { useFloating } from '@floating-ui/react-dom'
 
-type PopoverNavigationItemType = { popover: React.ReactNode } & NavigationItemProps
+type PopoverNavigationItemType = {
+	popover: React.ReactElement | React.ReactNode
+} & NavigationItemProps
 const PopoverNavigationItem: React.FC<PopoverNavigationItemType> = (props) => {
 	const { x, y, refs } = useFloating({
 		placement: 'right-start',
@@ -13,13 +15,12 @@ const PopoverNavigationItem: React.FC<PopoverNavigationItemType> = (props) => {
 
 	return (
 		<Popover className={'relative'}>
-			{({ open, close }) => (
+			{({ open }) => (
 				<>
 					<Popover.Button ref={refs.setReference} className={'w-full focus:outline-0'}>
 						<NavigationItem
 							handleNavigate={() => {
 								props.handleNavigate(props.item.route, props.item.state)
-								close()
 							}}
 							isPopover
 							item={props.item}
@@ -41,7 +42,7 @@ const PopoverNavigationItem: React.FC<PopoverNavigationItemType> = (props) => {
 								className='w-64 z-[9999999] max-w-lg bg-white divide-y divide-gray-200 rounded-md shadow-lg focus:outline-none'
 								style={{ position: 'fixed', top: y, left: x }}
 							>
-								{props.popover}
+								{React.cloneElement(props.popover as ReactElement)}
 							</div>
 						</Popover.Panel>
 					</Transition>

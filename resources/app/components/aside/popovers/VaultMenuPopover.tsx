@@ -4,10 +4,10 @@ import { NavigationItemType } from '@/helpers/types'
 import PopoverNavigationItem from '@/components/PopoverNavigationItem'
 import { useNavigate } from 'react-router-dom'
 import { NavigateOptions } from 'react-router/dist/lib/context'
-import ExpensesIcon from '@/components/icons/ExpensesIcon'
 import PlusCircleIcon from '@/components/icons/PlusCircleIcon'
+import VaultIcon from '@/components/icons/VaultIcon'
 
-const ExpenseMenuPopover: React.FC = () => {
+const VaultMenuPopover: React.FC = () => {
 	const navigate = useNavigate()
 
 	const handleNavigate = (route: string, state?: NavigateOptions['state']) => {
@@ -20,16 +20,16 @@ const ExpenseMenuPopover: React.FC = () => {
 	const navigationItems: NavigationItemType[] = [
 		{
 			text: 'List',
-			route: '/expense/list',
+			route: '/vault/list',
 			icon: (
 				<>
-					<ExpensesIcon width={18} height={18} fillColor={'currentColor'} />
+					<VaultIcon width={18} height={18} fillColor={'currentColor'} />
 				</>
 			),
 		},
 		{
 			text: 'Create',
-			route: '/expense/create',
+			route: '/vault/create',
 			icon: (
 				<>
 					<PlusCircleIcon width={18} height={18} fillColor={'currentColor'} />
@@ -55,4 +55,4 @@ const ExpenseMenuPopover: React.FC = () => {
 	)
 }
 
-export default ExpenseMenuPopover
+export default VaultMenuPopover

@@ -7,13 +7,13 @@ const Header: React.FC = () => {
 			<nav>
 				<Link
 					to=""
-					className="mr-4 text-lg font-medium"
+					className="mr-4 text-lg font-semibold"
 				>
 					Home
 				</Link>
 				<Link
 					to="/login"
-					className="mr-4 text-lg font-medium"
+					className="mr-4 text-lg font-semibold"
 				>
 					Login
 				</Link>

@@ -12,6 +12,7 @@ import VaultIcon from '@/components/icons/VaultIcon'
 import PopoverNavigationItem from '@/components/PopoverNavigationItem'
 import ProductMenuPopover from '@/components/aside/popovers/ProductMenuPopover'
 import ExpenseMenuPopover from '@/components/aside/popovers/ExpenseMenuPopover'
+import VaultMenuPopover from '@/components/aside/popovers/VaultMenuPopover'
 
 const Aside: React.FC = () => {
 	const navigate = useNavigate()
@@ -37,6 +38,8 @@ const Aside: React.FC = () => {
 			text: 'Vault',
 			route: '/vault',
 			icon: <VaultIcon fillColor={'currentColor'} />,
+			isPopover: true,
+			popover: <VaultMenuPopover />,
 		},
 		{
 			text: 'Invoice',
@@ -69,7 +72,7 @@ const Aside: React.FC = () => {
 			aria-label='Sidebar'
 		>
 			<div className='h-full'>
-				<ul className='space-y-2 flex flex-col font-medium p-2'>
+				<ul className='space-y-2 flex flex-col font-semibold p-2'>
 					{navigationItems.map((item) => {
 						return item.isPopover ? (
 							<PopoverNavigationItem

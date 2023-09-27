@@ -12,8 +12,14 @@ export const expenseApi = createApi({
 	baseQuery: baseQueryConfigWithAuth,
 	tagTypes: ['Expense'],
 	endpoints: (builder) => ({
-		getExpenses: builder.query<ExpenseResource, string>({
-			query: (page: string = '1') => `v1/expense?page=${page}`,
+		getExpenses: builder.query<ExpenseResource, { page: string; search: string }>({
+			query({ page = '1', search }) {
+				const url = new URL(window.location.toString())
+				url.searchParams.set('search', search.toString())
+				return {
+					url: `v1/expense?page=${page}&${decodeURIComponent(url.searchParams.toString())}`,
+				}
+			},
 			providesTags: ['Expense'],
 		}),
 		getExpense: builder.query<ExpenseSingleResource, string>({
@@ -28,6 +34,7 @@ export const expenseApi = createApi({
 					body,
 				}
 			},
+			invalidatesTags: ['Expense'],
 		}),
 		updateExpense: builder.mutation<
 			DefaultResponseType,
@@ -40,6 +47,7 @@ export const expenseApi = createApi({
 					body,
 				}
 			},
+			invalidatesTags: ['Expense'],
 		}),
 		deleteExpense: builder.mutation<DefaultResponseType, string>({
 			query(id) {
@@ -48,6 +56,7 @@ export const expenseApi = createApi({
 					method: 'DELETE',
 				}
 			},
+			invalidatesTags: ['Expense'],
 		}),
 	}),
 })

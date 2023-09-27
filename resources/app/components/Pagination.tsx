@@ -18,9 +18,9 @@ export default function Pagination({ paginate, currentPage, meta }: PaginationTy
 			<div>
 				<p className='text-sm text-gray-900'>
 					Sayfada
-					<span className='font-medium'> {meta.total} </span>
+					<span className='font-semibold'> {meta.total} </span>
 					kayıttan
-					<span className='font-medium'>
+					<span className='font-semibold'>
 						&nbsp;
 						{meta.from} - {meta.to}
 					</span>

@@ -13,7 +13,7 @@ const RabbitAlert: React.FC<RabbitAlertProps> = (props) => {
 			role='alert'
 			{...divProps}
 		>
-			<WarningLinkBrokeIcon fillColor={'#FE5F55'} />
+			<WarningLinkBrokeIcon fillColor={'currentColor'} />
 			<div className={'text-center'}>{divProps.children}</div>
 		</div>
 	)

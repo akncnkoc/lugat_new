@@ -15,7 +15,7 @@ class DelayMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        sleep(2);
+        usleep(300000);
         return $next($request);
     }
 }
