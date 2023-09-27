@@ -38,7 +38,7 @@ type CurrencyDataType = {
 	banknote_sell: number
 	updated_at: number
 }
-type VaultDataType = {
+export type VaultDataType = {
 	id: string
 	name: string
 	currency: CurrencyDataType

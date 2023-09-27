@@ -2,15 +2,23 @@ import { flexRender, Table } from '@tanstack/react-table'
 import React from 'react'
 import { CollectionMetaType, ExpenseDataType } from '@/helpers/types'
 import Pagination from '@/components/Pagination'
+import LoaderComponent from '@/components/LoaderComponent'
 
 type LugatTableProps = {
 	table: Table<ExpenseDataType>
-	meta: CollectionMetaType
+	meta?: CollectionMetaType
 	onPaginate: Function
 	currentPage: number | string
+	fetching: boolean
 }
 
-const LugatTable: React.FC<LugatTableProps> = ({ table, meta, onPaginate, currentPage }) => {
+const LugatTable: React.FC<LugatTableProps> = ({
+	table,
+	meta,
+	onPaginate,
+	currentPage,
+	fetching,
+}) => {
 	return (
 		<div className='overflow-x-auto  sm:rounded-lg bg-white'>
 			<div className='overflow-hidden'>
@@ -35,17 +43,25 @@ const LugatTable: React.FC<LugatTableProps> = ({ table, meta, onPaginate, curren
 							</tr>
 						))}
 					</thead>
-					<tbody className={'divide-y bg-white divide-gray-100'}>
-						{table.getRowModel().rows.map((row) => (
-							<tr key={row.id} className={'text-left text-gray-700 text-sm align-middle'}>
-								{row.getVisibleCells().map((cell) => (
-									<td className={'py-3 px-6 min-h-[72px] h-[72px]'} key={cell.id}>
-										{flexRender(cell.column.columnDef.cell, cell.getContext())}
-									</td>
-								))}
-							</tr>
-						))}
-					</tbody>
+					{fetching ? (
+						<tr>
+							<td className={'w-full h-96'} colSpan={100}>
+								<LoaderComponent loaderClassName={'after:bg-gray-200'} />
+							</td>
+						</tr>
+					) : (
+						<tbody className={'divide-y bg-white divide-gray-100'}>
+							{table.getRowModel().rows.map((row) => (
+								<tr key={row.id} className={'text-left text-gray-700 text-sm align-middle'}>
+									{row.getVisibleCells().map((cell) => (
+										<td className={'py-3 px-6 min-h-[52px] h-[52px]'} key={cell.id}>
+											{flexRender(cell.column.columnDef.cell, cell.getContext())}
+										</td>
+									))}
+								</tr>
+							))}
+						</tbody>
+					)}
 				</table>
 			</div>
 			<div className={'px-6 py-4'}>

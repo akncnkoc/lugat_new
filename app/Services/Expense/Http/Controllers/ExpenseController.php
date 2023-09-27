@@ -45,7 +45,6 @@ class ExpenseController extends Controller
     public function show(Expense $expense): ExpenseResource
     {
         $this->authorize('expenseView', Expense::class);
-        sleep(2);
         return ExpenseResource::make($expense);
     }
 
@@ -61,6 +60,7 @@ class ExpenseController extends Controller
     public function destroy(Expense $expense): ?JsonResponse
     {
         $this->authorize('expenseDelete', Expense::class);
+        sleep(2);
         DB::transaction(static function () use ($expense) {
             $expense->delete();
         });

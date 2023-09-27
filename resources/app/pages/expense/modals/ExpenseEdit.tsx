@@ -1,22 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Await, defer, useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { ExpenseDataType, ExpenseEditFormType, ExpenseTypeData, Shape } from '@/helpers/types'
+import { ExpenseEditFormType, ExpenseTypeData, Shape } from '@/helpers/types'
 import { date, number, object, string } from 'yup'
 import CurrencyInput from 'react-currency-input-field'
 import { motion } from 'framer-motion'
 import DatePicker, { DateObject } from 'react-multi-date-picker'
 import TimePicker from 'react-multi-date-picker/plugins/time_picker'
-import parse from 'date-fns/parse'
 import LugatTextarea from '@/components/form/LugatTextarea'
 import LugatButton from '@/components/form/LugatButton'
 import { expenseApi, useUpdateExpenseMutation } from '@/services/api/expense-api'
 import toast, { LoaderIcon } from 'react-hot-toast'
 import { lugatVaultAll } from '@/services/api/lugat-vault'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
-import * as fns from 'date-fns'
 import { storeDispatch } from '@/store'
 import LoaderComponent from '@/components/LoaderComponent'
+import { TrackedPromise } from '@remix-run/router/utils'
+import { parse } from 'date-fns'
 
 export const expenseLoader = async ({ params }: any) => {
 	const results = storeDispatch(expenseApi.endpoints?.getExpense.initiate(params.id ?? '')).then(
@@ -31,7 +31,7 @@ const ExpenseEdit: React.FC = () => {
 	const navigate = useNavigate()
 	const { id } = useParams<'id'>()
 	const data = useLoaderData() as {
-		results: ExpenseDataType
+		results: TrackedPromise
 	}
 	const [updateExpense, { isLoading }] = useUpdateExpenseMutation()
 	const expenseUpdateFormik = useFormik<ExpenseEditFormType>({
@@ -46,9 +46,8 @@ const ExpenseEdit: React.FC = () => {
 			},
 		},
 		validateOnBlur: false,
-		validationSchema: object().shape<Shape<ExpenseEditFormType>>({
+		validationSchema: object().shape<Shape<Partial<ExpenseEditFormType>>>({
 			amount: number().label('Amount').required().min(1).max(100000),
-			comment: string(),
 			type: string().required().notOneOf(['-1'], 'Expense type must be selected'),
 			vault: object()
 				.label('Vault')
@@ -92,24 +91,27 @@ const ExpenseEdit: React.FC = () => {
 		}
 	}
 
+	useEffect(() => {
+		if (data) {
+			data.results.then((expense) => {
+				expenseUpdateFormik.setValues({
+					amount: expense.amount,
+					type: expense.type,
+					comment: expense.comment,
+					receipt_date: parse(expense.receipt_date.toString(), 'dd.MM.yyyy HH:mm:ss', new Date()),
+					vault: {
+						id: expense.vault.id,
+						name: expense.vault.name,
+					},
+				})
+			})
+		}
+	}, [data])
+
 	return (
 		<React.Suspense fallback={<LoaderComponent />}>
 			<Await resolve={data.results}>
-				{(expense) => {
-					expenseUpdateFormik.setValues({
-						amount: expense.amount,
-						type: expense.type,
-						comment: expense.comment,
-						receipt_date: fns.parse(
-							expense.receipt_date.toString(),
-							'dd.MM.yyyy HH:mm:ss',
-							new Date(),
-						),
-						vault: {
-							id: expense.vault.id,
-							name: expense.vault.name,
-						},
-					})
+				{() => {
 					return (
 						<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all pb-4'>
 							<div

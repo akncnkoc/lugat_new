@@ -28,7 +28,7 @@ const LugatTextarea: React.FC<RabbitTextareaProps> = forwardRef<
 					!error
 						? `${
 								inputProps.disabled && 'cursor-not-allowed'
-						  } placeholder-gray-400 text-gray-900 ring-blue-500 border-blue-500`
+						  } placeholder-gray-400 text-gray-900 ring-red-500 border-blue-500`
 						: `focus:!ring-red-500 bg-gray-700 text-red-500 placeholder-red-500 !border-red-500`
 				}
 					 ${textareaClassnames}

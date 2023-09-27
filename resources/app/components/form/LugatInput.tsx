@@ -21,7 +21,7 @@ const LugatInput: React.FC<RabbitInputProps> = forwardRef<HTMLInputElement, Rabb
 					autoComplete={'off'}
 					className={`rounded-lg block w-full p-2.5 outline-none border border-gray-50 ${
 						!error
-							? `placeholder-gray-400 text-gray-900 ring-blue-500 border-blue-500`
+							? `placeholder-gray-400 text-gray-900 ring-red-500 border-blue-500`
 							: `focus:!ring-red-500 text-red-500 placeholder-red-500 !border-red-500`
 					}
 					 ${inputClassnames}

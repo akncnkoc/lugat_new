@@ -41,7 +41,21 @@ export const expenseApi = createApi({
 				}
 			},
 		}),
+		deleteExpense: builder.mutation<DefaultResponseType, string>({
+			query(id) {
+				return {
+					url: `v1/expense/${id}`,
+					method: 'DELETE',
+				}
+			},
+		}),
 	}),
 })
 
-export const { useGetExpensesQuery, useStoreExpenseMutation, useGetExpenseQuery, useUpdateExpenseMutation } = expenseApi
+export const {
+	useGetExpensesQuery,
+	useStoreExpenseMutation,
+	useGetExpenseQuery,
+	useDeleteExpenseMutation,
+	useUpdateExpenseMutation,
+} = expenseApi
