@@ -58,7 +58,7 @@ const VaultPage: React.FC = () => {
 	const debouncedChangeHandler = useCallback(debounce(handleInputChange, 500), [])
 	return (
 		<>
-			<div className={'flex space-x-4 justify-between px-4'}>
+			<div className={'flex space-x-4 justify-between px-4 items-center'}>
 				<div>
 					<div className='w-fit'>
 						<LugatInput

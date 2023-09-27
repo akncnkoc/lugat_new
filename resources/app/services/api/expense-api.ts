@@ -3,7 +3,7 @@ import {
 	DefaultResponseType,
 	ExpenseResource,
 	ExpenseSingleResource,
-	ExpenseStoreFormType,
+	ExpenseStoreType,
 } from '@/helpers/types'
 import baseQueryConfigWithAuth from '@/store/config/baseQueryConfigWithAuth'
 
@@ -26,7 +26,7 @@ export const expenseApi = createApi({
 			query: (id: string) => `v1/expense/${id}`,
 			providesTags: ['Expense'],
 		}),
-		storeExpense: builder.mutation<DefaultResponseType, ExpenseStoreFormType>({
+		storeExpense: builder.mutation<DefaultResponseType, ExpenseStoreType>({
 			query(body) {
 				return {
 					url: `v1/expense`,
@@ -36,10 +36,7 @@ export const expenseApi = createApi({
 			},
 			invalidatesTags: ['Expense'],
 		}),
-		updateExpense: builder.mutation<
-			DefaultResponseType,
-			{ body: ExpenseStoreFormType; id: string }
-		>({
+		updateExpense: builder.mutation<DefaultResponseType, { body: ExpenseStoreType; id: string }>({
 			query({ id, body }) {
 				return {
 					url: `v1/expense/${id}`,
@@ -64,7 +61,6 @@ export const expenseApi = createApi({
 export const {
 	useGetExpensesQuery,
 	useStoreExpenseMutation,
-	useGetExpenseQuery,
 	useDeleteExpenseMutation,
 	useUpdateExpenseMutation,
 } = expenseApi

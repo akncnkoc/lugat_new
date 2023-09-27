@@ -1,6 +1,6 @@
 import React from 'react'
 import NavigationItem from '@/components/NavigationItem'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import DashboardIcon from '@/components/icons/DashboardIcon'
 import type { NavigationItemType } from '@/helpers/types'
 import ProductsIcon from '@/components/icons/ProductsIcon'
@@ -71,7 +71,7 @@ const Aside: React.FC = () => {
 			className={`z-40 max-w-[260px] min-w-[260px] flex-1 transition-transform border-r border-gray-200 bg-white`}
 			aria-label='Sidebar'
 		>
-			<div className='h-full'>
+			<div className='h-full flex flex-col'>
 				<ul className='space-y-2 flex flex-col font-semibold p-2'>
 					{navigationItems.map((item) => {
 						return item.isPopover ? (
@@ -86,6 +86,17 @@ const Aside: React.FC = () => {
 						)
 					})}
 				</ul>
+				<div className={'flex-1'}></div>
+				<div className={'flex items-center justify-center p-2 font-semibold text-base'}>
+					Made by&nbsp;
+					<Link
+						to={'https://akincankoc.com'}
+						target={'_blank'}
+						className={'font-bold underline underline-offset-2'}
+					>
+						Akın Can Koç
+					</Link>
+				</div>
 			</div>
 		</aside>
 	)

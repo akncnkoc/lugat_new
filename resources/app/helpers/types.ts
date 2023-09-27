@@ -101,6 +101,13 @@ export type ExpenseStoreFormType = {
 	type: keyof typeof ExpenseTypeData | '-1'
 	comment?: string | null
 }
+export type ExpenseStoreType = {
+	amount: number
+	receipt_date: Date | null
+	vault_id: string
+	type: keyof typeof ExpenseTypeData | '-1'
+	comment?: string | null
+}
 
 export type VaultStoreFormType = {
 	name: string
@@ -108,6 +115,11 @@ export type VaultStoreFormType = {
 		id: string
 		name: string
 	}
+}
+
+export type VaultStoreType = {
+	name: string
+	currency_id: string
 }
 
 export const CurrencyCodeToSign = (code: string): string | null => {
@@ -173,6 +185,14 @@ export type ExpenseEditFormType = {
 	receipt_date: Date | null
 }
 
+export type VaultEditFormType = {
+	name: string
+	currency: {
+		id: string
+		name: string
+	}
+}
+
 export type SvgProps = {
 	width?: number | string
 	height?: number | string
@@ -214,5 +234,6 @@ export type LoginResponseType = DefaultResponseCollectionType<LoginResponseDataT
 
 export type ExpenseResource = CollectionDataType<ExpenseDataType>
 export type ExpenseSingleResource = DefaultResponseCollectionType<ExpenseDataType>
+export type VaultSingleResource = DefaultResponseCollectionType<VaultDataType>
 export type VaultResource = CollectionDataType<VaultDataType>
 export type CurrencyResource = CollectionDataType<CurrencyDataType>

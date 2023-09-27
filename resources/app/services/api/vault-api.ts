@@ -1,5 +1,10 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { DefaultResponseType, VaultResource, VaultStoreFormType } from '@/helpers/types'
+import {
+	DefaultResponseType,
+	VaultResource,
+	VaultSingleResource,
+	VaultStoreType,
+} from '@/helpers/types'
 import baseQueryConfigWithAuth from '@/store/config/baseQueryConfigWithAuth'
 
 export const vaultApi = createApi({
@@ -17,18 +22,30 @@ export const vaultApi = createApi({
 			},
 			providesTags: ['Vault'],
 		}),
-		storeVault: builder.mutation<DefaultResponseType, VaultStoreFormType & { currency_id: string }>(
-			{
-				query(body) {
-					return {
-						url: `v1/vault`,
-						method: 'POST',
-						body,
-					}
-				},
-				invalidatesTags: ['Vault'],
+		getVault: builder.query<VaultSingleResource, string>({
+			query: (id: string) => `v1/vault/${id}`,
+			providesTags: ['Vault'],
+		}),
+		storeVault: builder.mutation<DefaultResponseType, VaultStoreType>({
+			query(body) {
+				return {
+					url: `v1/vault`,
+					method: 'POST',
+					body,
+				}
 			},
-		),
+			invalidatesTags: ['Vault'],
+		}),
+		updateVault: builder.mutation<DefaultResponseType, { body: VaultStoreType; id: string }>({
+			query({ id, body }) {
+				return {
+					url: `v1/vault/${id}`,
+					method: 'PUT',
+					body,
+				}
+			},
+			invalidatesTags: ['Vault'],
+		}),
 		deleteVault: builder.mutation<DefaultResponseType, string>({
 			query(id) {
 				return {
@@ -41,4 +58,9 @@ export const vaultApi = createApi({
 	}),
 })
 
-export const { useGetVaultsQuery, useStoreVaultMutation, useDeleteVaultMutation } = vaultApi
+export const {
+	useGetVaultsQuery,
+	useStoreVaultMutation,
+	useDeleteVaultMutation,
+	useUpdateVaultMutation,
+} = vaultApi

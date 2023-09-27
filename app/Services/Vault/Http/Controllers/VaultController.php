@@ -25,10 +25,11 @@ class VaultController extends Controller
         if ($search = request()?->query('search')) {
             $vaultQuery->where('name', 'ILIKE', "%$search%")
                        ->orWhereHas('currency', function (Builder $builder) use ($search) {
-                           $builder->where('code', 'ILIKE', "%$search%");
+                           $builder->where('code', 'ILIKE', "%$search%")
+                                   ->orWhere('name', 'ILIKE', "%$search%");
                        });
         }
-        return VaultResource::collection($vaultQuery->paginate());
+        return VaultResource::collection($vaultQuery->orderBy('name')->paginate());
     }
 
 
