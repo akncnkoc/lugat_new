@@ -5,11 +5,11 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { Cell } from '@tanstack/react-table'
 import { useModal } from '@/components/modal/useModal'
-import { useDeleteVaultMutation } from '@/services/api/vault-api'
-import { VaultDataType } from '@/types/vault'
+import { CustomerDataType } from '@/types/customer'
+import { useDeleteCustomerMutation } from '@/services/api/customer-api'
 
-const VaultTableActionColumn: React.FC<{
-	cell: Cell<VaultDataType, unknown>
+const CustomerTableActionColumn: React.FC<{
+	cell: Cell<CustomerDataType, unknown>
 	refetch: Function
 }> = ({ cell, refetch }) => {
 	const navigate = useNavigate()
@@ -19,14 +19,14 @@ const VaultTableActionColumn: React.FC<{
 		closeOnOverlayClick: true,
 		defaultResolved: Response.NO,
 	})
-	const [deleteVault, { isLoading: deleteIsLoading }] = useDeleteVaultMutation()
+	const [deleteCustomer, { isLoading: deleteIsLoading }] = useDeleteCustomerMutation()
 
 	return (
 		<>
 			<div className={'text-right space-x-1'}>
 				<LugatButton
 					buttonClassNames={'!w-fit'}
-					onClick={() => navigate(`/vault/${cell.row.original.id}/edit`)}
+					onClick={() => navigate(`/customer/${cell.row.original.id}/edit`)}
 				>
 					Edit
 				</LugatButton>
@@ -38,12 +38,12 @@ const VaultTableActionColumn: React.FC<{
 							return
 						}
 						if (!deleteIsLoading) {
-							await toast.promise(deleteVault(cell.row.original.id), {
-								loading: 'Vault deleting...',
-								error: 'Vault cannot deleted',
+							await toast.promise(deleteCustomer(cell.row.original.id), {
+								loading: 'Customer deleting...',
+								error: 'Customer cannot deleted',
 								success: () => {
 									refetch()
-									return 'Vault Deleted'
+									return 'Customer Deleted'
 								},
 							})
 						} else {
@@ -61,4 +61,4 @@ const VaultTableActionColumn: React.FC<{
 	)
 }
 
-export default VaultTableActionColumn
+export default CustomerTableActionColumn

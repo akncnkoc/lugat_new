@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Await, defer, useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { ExpenseEditFormType, ExpenseTypeData, Shape, VaultResource } from '@/helpers/types'
+import { Shape } from '@/helpers/types'
 import { date, number, object, string } from 'yup'
 import CurrencyInput from 'react-currency-input-field'
 import { motion } from 'framer-motion'
@@ -17,6 +17,8 @@ import LoaderComponent from '@/components/LoaderComponent'
 import { TrackedPromise } from '@remix-run/router/utils'
 import { parse } from 'date-fns'
 import { vaultApi } from '@/services/api/vault-api'
+import { ExpenseEditFormType, ExpenseTypeData } from '@/types/expense'
+import { VaultDataType, VaultResource } from '@/types/vault'
 
 export const expenseLoader = async ({ params }: any) => {
 	const results = storeDispatch(expenseApi.endpoints?.getExpense.initiate(params.id ?? '')).then(
@@ -82,7 +84,10 @@ const ExpenseEdit: React.FC = () => {
 		const response = (await storeDispatch(
 			vaultApi.endpoints?.getVaults.initiate({ page, search }),
 		).then((res) => res.data)) as VaultResource
-		const responseJSON = response.data.map((vault) => ({ id: vault.id, name: vault.name }))
+		const responseJSON = response.data.map((vault: VaultDataType) => ({
+			id: vault.id,
+			name: vault.name,
+		}))
 
 		return {
 			options: responseJSON,

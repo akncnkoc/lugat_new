@@ -1,4 +1,4 @@
-import lugatAxios from '@/services/lugatAxios.ts';
+import lugatAxios from '@/services/lugatAxios';
 
 export const dashboardOrderMarkers = async (values:any): Promise<any> => {
 	return await lugatAxios.post('/v1/dashboard/order-markers', values);

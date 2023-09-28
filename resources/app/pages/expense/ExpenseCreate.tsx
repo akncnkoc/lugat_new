@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { ExpenseCreateFormType, ExpenseTypeData, Shape, VaultResource } from '@/helpers/types'
+import { Shape } from '@/helpers/types'
 import { date, number, object, string } from 'yup'
 import CurrencyInput from 'react-currency-input-field'
 import { motion } from 'framer-motion'
@@ -16,6 +16,8 @@ import toast, { LoaderIcon } from 'react-hot-toast'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
 import { storeDispatch } from '@/store'
 import { vaultApi } from '@/services/api/vault-api'
+import { ExpenseCreateFormType, ExpenseTypeData } from '@/types/expense'
+import { VaultDataType, VaultResource } from '@/types/vault'
 
 const ExpenseCreate: React.FC = () => {
 	const navigate = useNavigate()
@@ -71,7 +73,7 @@ const ExpenseCreate: React.FC = () => {
 		const response = (await storeDispatch(
 			vaultApi.endpoints?.getVaults.initiate({ page, search }),
 		).then((res) => res.data)) as VaultResource
-		const responseJSON = response.data.map((vault) => ({ id: vault.id, name: vault.name }))
+		const responseJSON = response.data.map((vault: VaultDataType) => ({ id: vault.id, name: vault.name }))
 
 		return {
 			options: responseJSON,

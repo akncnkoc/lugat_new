@@ -1,7 +1,7 @@
 import React from 'react'
 import { SvgProps } from '@/helpers/types'
 
-const CustomersIcon: React.FC<SvgProps> = (props) => {
+const VaultIcon: React.FC<SvgProps> = (props) => {
 	const { width = 24, height = 24, fillColor = '#000' } = props
 	return (
 		<svg
@@ -24,4 +24,4 @@ const CustomersIcon: React.FC<SvgProps> = (props) => {
 	)
 }
 
-export default CustomersIcon
+export default VaultIcon

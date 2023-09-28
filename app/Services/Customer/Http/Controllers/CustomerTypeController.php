@@ -22,7 +22,11 @@ class CustomerTypeController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $this->authorize('customerTypeView', CustomerType::class);
-        return CustomerTypeResource::collection(CustomerType::paginate());
+        $customerTypeQuery = CustomerType::query();
+        if ($search = request()?->query('search')) {
+            $customerTypeQuery->where('name', 'ILIKE', "%$search%");
+        }
+        return CustomerTypeResource::collection($customerTypeQuery->paginate());
     }
 
     public function search(SearchRequest $request): AnonymousResourceCollection

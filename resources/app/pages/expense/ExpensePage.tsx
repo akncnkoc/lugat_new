@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import LugatButton from '@/components/form/LugatButton'
-import LugatAlert from '@/components/LugatAlert'
-import { CurrencyCodeToSign, ExpenseDataType, ExpenseTypeData } from '@/helpers/types'
+import { CurrencyCodeToSign } from '@/helpers/types'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import LugatTable from '@/components/table/LugatTable'
 import { useGetExpensesQuery } from '@/services/api/expense-api'
 import ExpenseTableActionColumn from '@/pages/expense/components/ExpenseTableActionColumn'
+import { ExpenseDataType, ExpenseTypeData } from '@/types/expense'
 
 const ExpensePage: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
@@ -72,9 +72,6 @@ const ExpensePage: React.FC = () => {
 						error={error}
 					/>
 				</section>
-				{!isFetching && expenses && expenses.data.length === 0 && (
-					<LugatAlert alertClassNames={'bg-red-300 text-red-600'}>No expense found.</LugatAlert>
-				)}
 			</div>
 		</>
 	)

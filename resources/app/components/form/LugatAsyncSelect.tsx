@@ -18,7 +18,10 @@ const LugatAsyncSelect: React.FC<any> = (props) => {
 	return (
 		<>
 			{props.label && (
-				<label className={'block mb-2 text-sm font-semibold text-gray-900'}>{props.label}</label>
+				<label className={'block mb-2 text-sm font-semibold text-gray-900'}>
+					{props.label}
+					{props.required && <span className={'text-[12px] text-red-700'}>*</span>}
+				</label>
 			)}
 			<AsyncPaginate
 				hideSelectedOptions={false}

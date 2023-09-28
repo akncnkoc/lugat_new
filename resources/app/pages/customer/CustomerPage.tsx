@@ -1,61 +1,69 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import LugatButton from '@/components/form/LugatButton'
-import { CurrencyCodeToSign } from '@/helpers/types'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import LugatTable from '@/components/table/LugatTable'
-import { useGetVaultsQuery } from '@/services/api/vault-api'
-import VaultTableActionColumn from '@/pages/vault/components/VaultTableActionColumn'
+import { useGetCustomersQuery } from '@/services/api/customer-api'
+import { CustomerDataType } from '@/types/customer'
+import CustomerTableActionColumn from '@/pages/customer/components/CustomerTableActionColumn'
 import LugatInput from '@/components/form/LugatInput'
 import debounce from 'lodash.debounce'
-import { VaultDataType } from '@/types/vault'
 
-const VaultPage: React.FC = () => {
+const ExpensePage: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
-	const [searchText, setSearchText] = useState('')
 	const navigate = useNavigate()
+	const [searchText, setSearchText] = useState('')
 	const [currentPage, setCurrentPage] = useState(searchParams.get('page') ?? '1')
 	const {
-		data: vaults,
+		data: customers,
 		error,
 		isFetching,
 		refetch,
-	} = useGetVaultsQuery({ page: currentPage, search: searchText })
-	const defaultColumns: ColumnDef<VaultDataType>[] = [
+	} = useGetCustomersQuery({ page: currentPage, search: searchText })
+	const defaultColumns: ColumnDef<CustomerDataType>[] = [
 		{
-			header: 'Name',
-			accessorFn: (originalRow) => originalRow.name,
+			header: 'Full Name',
+			accessorKey: 'full_name',
 		},
 		{
-			header: 'Currency',
-			accessorFn: (originalRow) =>
-				originalRow.currency.name + ' ( ' + CurrencyCodeToSign(originalRow.currency.code) + ' )',
+			header: 'Email',
+			accessorKey: 'email',
+		},
+		{
+			header: 'Phone',
+			accessorKey: 'phone',
+		},
+		{
+			header: 'Type',
+			accessorFn: (originalRow) => originalRow.customer_type.name,
 		},
 		{
 			header: 'Actions',
 			cell: ({ cell }) => {
-				return <VaultTableActionColumn cell={cell} refetch={refetch} />
+				return <CustomerTableActionColumn cell={cell} refetch={refetch} />
 			},
 		},
 	]
 
 	const table = useReactTable({
-		data: vaults?.data ? vaults.data : [],
+		data: customers?.data ? customers.data : [],
 		columns: defaultColumns,
 		getCoreRowModel: getCoreRowModel(),
 	})
 
 	useEffect(() => {
 		refetch()
-	}, [currentPage])
+		setSearchParams({
+			page: currentPage,
+			search: searchText,
+		})
+	}, [currentPage, searchText])
 	const handleInputChange = (text: string) => {
 		setSearchText(text)
-
 		setSearchParams({
 			page: currentPage,
 			search: text,
 		})
-		// call debounced request here
 		debounce(refetch, 300)
 	}
 
@@ -72,18 +80,16 @@ const VaultPage: React.FC = () => {
 						/>
 					</div>
 				</div>
-				<div>
-					<div className='w-fit'>
-						<LugatButton onClick={() => navigate('/vault/create')}>Create Vault</LugatButton>
-					</div>
+				<div className='w-fit'>
+					<LugatButton onClick={() => navigate('/customer/create')}>Create Customer</LugatButton>
 				</div>
 			</div>
 			<div className='p-4 rounded-lg'>
 				<section className='grid grid-cols-1 gap-2 gap-y-2'>
 					<LugatTable
-						label={'Vault'}
+						label={'Customer'}
 						table={table}
-						meta={vaults?.meta ?? undefined}
+						meta={customers?.meta ?? undefined}
 						fetching={isFetching}
 						onPaginate={(page: string) => setCurrentPage(page)}
 						currentPage={currentPage}
@@ -94,4 +100,4 @@ const VaultPage: React.FC = () => {
 		</>
 	)
 }
-export default VaultPage
+export default ExpensePage

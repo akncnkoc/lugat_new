@@ -13,6 +13,7 @@ class CustomerType extends Model
     use HasFactory, HasUuids, SoftDeletes;
 
     protected $guarded = [];
+
     protected static function newFactory(): CustomerTypeFactory
     {
         return CustomerTypeFactory::new();

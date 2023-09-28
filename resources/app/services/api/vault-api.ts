@@ -1,11 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
-import {
-	DefaultResponseType,
-	VaultResource,
-	VaultSingleResource,
-	VaultStoreType,
-} from '@/helpers/types'
+import { DefaultResponseType } from '@/helpers/types'
 import baseQueryConfigWithAuth from '@/store/config/baseQueryConfigWithAuth'
+import { VaultResource, VaultSingleResource, VaultStoreType } from '@/types/vault'
 
 export const vaultApi = createApi({
 	reducerPath: 'vaultApi',

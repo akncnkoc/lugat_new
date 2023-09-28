@@ -23,13 +23,13 @@ export type CollectionMetaType = {
 	total: number
 	links: CollectionMetaLinkType[]
 }
-type CollectionDataType<T> = {
+export type CollectionDataType<T> = {
 	data: Array<T>
 	links: ColletionLinkType
 	meta: CollectionMetaType
 }
 
-type CurrencyDataType = {
+export type CurrencyDataType = {
 	id: string
 	name: string
 	code: string
@@ -38,88 +38,6 @@ type CurrencyDataType = {
 	banknote_buy: number
 	banknote_sell: number
 	updated_at: number
-}
-export type VaultDataType = {
-	id: string
-	name: string
-	currency: CurrencyDataType
-}
-export type ExpenseTypeDataType =
-	| 'food'
-	| 'rent'
-	| 'phone'
-	| 'internet'
-	| 'water'
-	| 'heating'
-	| 'advertising'
-	| 'promotion'
-	| 'accounting'
-	| 'maintenance_or_repair'
-	| 'supplies'
-	| 'lawyer'
-	| 'transport'
-	| 'travel'
-
-// export enum ExpenseTypeData {
-// 	food = 'Yiyecek & İçecek',
-// 	rent = 'Kira',
-// 	phone = 'Telefon',
-// 	internet = 'İnternet',
-// 	water = 'Su',
-// 	heating = 'Doğalgaz',
-// 	advertising = 'Reklam',
-// 	promotion = 'Promosyon',
-// 	accounting = 'Muhasebe',
-// 	maintenance_or_repair = 'Bakım & Onarım',
-// 	supplies = 'Araç & Gereç',
-// 	lawyer = 'Avukat',
-// 	transport = 'Ulaşım',
-// 	travel = 'Seyahat',
-// }
-
-export enum ExpenseTypeData {
-	food = 'Food & Drinks',
-	rent = 'Rent',
-	phone = 'Phone',
-	internet = 'Internet',
-	water = 'Water',
-	heating = 'Natural Gas',
-	advertising = 'Advertising',
-	promotion = 'Promotion',
-	accounting = 'Accounting',
-	maintenance_or_repair = 'Maintenance Or Repair',
-	supplies = 'Supplies',
-	lawyer = 'Lawyer',
-	transport = 'Transport',
-	travel = 'Travel',
-}
-
-export type ExpenseStoreFormType = {
-	amount: number
-	receipt_date: Date | null
-	vault_id: string
-	type: keyof typeof ExpenseTypeData | '-1'
-	comment?: string | null
-}
-export type ExpenseStoreType = {
-	amount: number
-	receipt_date: Date | null
-	vault_id: string
-	type: keyof typeof ExpenseTypeData | '-1'
-	comment?: string | null
-}
-
-export type VaultStoreFormType = {
-	name: string
-	currency: {
-		id: string
-		name: string
-	}
-}
-
-export type VaultStoreType = {
-	name: string
-	currency_id: string
 }
 
 export const CurrencyCodeToSign = (code: string): string | null => {
@@ -133,15 +51,6 @@ export const CurrencyCodeToSign = (code: string): string | null => {
 		RUB: '₽',
 	}
 	return signs[code as keyof typeof signs] ?? code
-}
-
-export type ExpenseDataType = {
-	id: string
-	amount: number
-	vault: VaultDataType
-	comment: string | null
-	receipt_date: Date
-	type: keyof typeof ExpenseTypeData
 }
 
 export type LoginFormType = {
@@ -161,36 +70,6 @@ export type DefaultResponseCollectionType<T> = {
 
 type LoginResponseDataType = {
 	token: string
-}
-
-export type ExpenseCreateFormType = {
-	amount: number
-	vault: {
-		id: string
-		name: string
-	}
-	type: keyof typeof ExpenseTypeData | '-1'
-	comment: string | null
-	receipt_date: Date | null
-}
-
-export type ExpenseEditFormType = {
-	amount: number
-	vault: {
-		id: string
-		name: string
-	}
-	type: keyof typeof ExpenseTypeData
-	comment: string | null
-	receipt_date: Date | null
-}
-
-export type VaultEditFormType = {
-	name: string
-	currency: {
-		id: string
-		name: string
-	}
 }
 
 export type SvgProps = {
@@ -231,9 +110,4 @@ export type Shape<Fields> = {
 }
 
 export type LoginResponseType = DefaultResponseCollectionType<LoginResponseDataType>
-
-export type ExpenseResource = CollectionDataType<ExpenseDataType>
-export type ExpenseSingleResource = DefaultResponseCollectionType<ExpenseDataType>
-export type VaultSingleResource = DefaultResponseCollectionType<VaultDataType>
-export type VaultResource = CollectionDataType<VaultDataType>
 export type CurrencyResource = CollectionDataType<CurrencyDataType>

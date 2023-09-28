@@ -1,14 +1,17 @@
 import { flexRender, Table } from '@tanstack/react-table'
 import React from 'react'
-import { CollectionMetaType, ExpenseDataType, VaultDataType } from '@/helpers/types'
+import { CollectionMetaType } from '@/helpers/types'
 import Pagination from '@/components/Pagination'
 import LoaderComponent from '@/components/LoaderComponent'
 import LugatAlert from '@/components/LugatAlert'
 import { SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query/react'
+import { ExpenseDataType } from '@/types/expense'
+import { VaultDataType } from '@/types/vault'
+import { CustomerDataType } from '@/types/customer'
 
 type LugatTableProps = {
-	table: Table<ExpenseDataType> | Table<VaultDataType>
+	table: Table<ExpenseDataType> | Table<VaultDataType> | Table<CustomerDataType>
 	meta?: CollectionMetaType
 	onPaginate: Function
 	currentPage: number | string
@@ -54,7 +57,7 @@ const LugatTable: React.FC<LugatTableProps> = ({
 						{error && (
 							<>
 								<tr>
-									<td className={'w-full h-96'} colSpan={100}>
+									<td className={'w-full h-96  align-middle'} colSpan={200}>
 										<LugatAlert alertClassNames={'bg-red-200 text-red-900'}>
 											Someting went wrong cant get expenses.
 										</LugatAlert>
@@ -65,7 +68,9 @@ const LugatTable: React.FC<LugatTableProps> = ({
 						{!fetching && table.getRowModel().rows.length === 0 && (
 							<tr>
 								<td className={'w-full h-96  align-middle'} colSpan={200}>
-									<LugatAlert alertClassNames={'!bg-gray-100 !text-gray-900 mx-auto !w-fit space-y-2'}>
+									<LugatAlert
+										alertClassNames={'!bg-gray-100 !text-gray-900 mx-auto !w-fit space-y-2'}
+									>
 										No {label.toLocaleLowerCase()} found.
 									</LugatAlert>
 								</td>

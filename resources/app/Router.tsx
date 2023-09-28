@@ -9,6 +9,9 @@ import Notfound from '@/pages/notfound'
 import VaultCreate from '@/pages/vault/VaultCreate'
 import VaultPage from '@/pages/vault/VaultPage'
 import VaultEdit, { vaultLoader } from '@/pages/vault/VaultEdit'
+import CustomerPage from '@/pages/customer/CustomerPage'
+import CustomerCreate from '@/pages/customer/CustomerCreate'
+import CustomerEdit, { customerLoader } from '@/pages/customer/CustomerEdit'
 
 const Home = React.lazy(() => import('@/pages/Home'))
 
@@ -26,6 +29,11 @@ const router = createBrowserRouter(
 					<Route path={'list'} element={<VaultPage />} />
 					<Route path={'create'} element={<VaultCreate />} />
 					<Route path={':id/edit'} element={<VaultEdit />} loader={vaultLoader} />
+				</Route>
+				<Route path={'customer'}>
+					<Route path={'list'} element={<CustomerPage />} />
+					<Route path={'create'} element={<CustomerCreate />} />
+					<Route path={':id/edit'} element={<CustomerEdit />} loader={customerLoader} />
 				</Route>
 			</Route>
 			<Route path={'login'} element={<Login />} />

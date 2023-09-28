@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Await, defer, useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { CurrencyResource, Shape, VaultStoreFormType } from '@/helpers/types'
+import { CurrencyResource, Shape } from '@/helpers/types'
 import { object, string } from 'yup'
 import LugatButton from '@/components/form/LugatButton'
 import toast, { LoaderIcon } from 'react-hot-toast'
@@ -12,6 +12,7 @@ import { TrackedPromise } from '@remix-run/router/utils'
 import { useUpdateVaultMutation, vaultApi } from '@/services/api/vault-api'
 import { currencyApi } from '@/services/api/currency-api'
 import LugatInput from '@/components/form/LugatInput'
+import { VaultStoreFormType } from '@/types/vault'
 
 export const vaultLoader = async ({ params }: any) => {
 	const results = storeDispatch(vaultApi.endpoints?.getVault.initiate(params.id ?? '')).then(
@@ -47,7 +48,7 @@ const VaultEdit: React.FC = () => {
 				}),
 		}),
 		onSubmit: (values) => {
-			updateVault({ body: { ...values, currency_id: values.currency.id  }, id: id ?? '' })
+			updateVault({ body: { ...values, currency_id: values.currency.id }, id: id ?? '' })
 				.unwrap()
 				.then((_) => {
 					toast.success('Vault updated')

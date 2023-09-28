@@ -4,6 +4,7 @@ namespace App\Services\Customer\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class CustomerStoreRequest extends FormRequest
 {
@@ -24,33 +25,41 @@ class CustomerStoreRequest extends FormRequest
     {
         if ($this->routeIs('customer.update')) {
             return [
-                'name' => 'sometimes|string|max:255',
-                'surname' => 'sometimes|string|max:255',
-                'email' => 'sometimes|string|max:255|email|unique:customers,email',
-                'phone' => 'sometimes|string|max:13',
+                'name'             => 'sometimes|string|max:255',
+                'surname'          => 'sometimes|string|max:255',
+                'email'            => [
+                    'sometimes',
+                    'string',
+                    'max:255',
+                    'email',
+                    Rule::unique('customers', 'email')
+                        ->whereNull('deleted_at')
+                        ->ignore($this->route('customer'), 'id')
+                ],
+                'phone'            => 'sometimes|string|max:13',
                 'customer_type_id' => 'sometimes|uuid|exists:customer_types,id',
-                'comment' => 'sometimes|max:255',
-                'city' => 'sometimes|max:255',
-                'district' => 'sometimes|max:255',
-                'neighborhood' => 'sometimes|max:255',
-                'address' => 'sometimes|max:255',
-                'post_code' => 'sometimes|max:50',
-                'gender' => 'sometimes|bool',
+                'comment'          => 'sometimes|max:255',
+                'city'             => 'sometimes|max:255',
+                'district'         => 'sometimes|max:255',
+                'neighborhood'     => 'sometimes|max:255',
+                'address'          => 'sometimes|max:255',
+                'post_code'        => 'sometimes|max:50',
+                'gender'           => 'sometimes|bool',
             ];
         }
         return [
-            'name' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
-            'email' => 'required|string|max:255|email|unique:customers,email',
-            'phone' => 'required|string|max:13',
+            'name'             => 'required|string|max:255',
+            'surname'          => 'required|string|max:255',
+            'email'            => 'required|string|max:255|email|unique:customers,email',
+            'phone'            => 'required|string|max:13',
             'customer_type_id' => 'required|uuid|exists:customer_types,id',
-            'comment' => 'sometimes|max:255',
-            'city' => 'sometimes|max:255',
-            'district' => 'sometimes|max:255',
-            'neighborhood' => 'sometimes|max:255',
-            'address' => 'sometimes|max:255',
-            'post_code' => 'sometimes|max:50',
-            'gender' => 'sometimes|bool',
+            'comment'          => 'sometimes|max:255',
+            'city'             => 'sometimes|max:255',
+            'district'         => 'sometimes|max:255',
+            'neighborhood'     => 'sometimes|max:255',
+            'address'          => 'sometimes|max:255',
+            'post_code'        => 'sometimes|max:50',
+            'gender'           => 'sometimes|bool',
         ];
     }
 }

@@ -5,6 +5,8 @@ import { expenseApi } from '@/services/api/expense-api'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { vaultApi } from '@/services/api/vault-api'
 import { currencyApi } from '@/services/api/currency-api'
+import { customerApi } from '@/services/api/customer-api'
+import { customerType } from '@/services/api/customer-type-api'
 
 export const store = configureStore({
 	reducer: {
@@ -13,12 +15,15 @@ export const store = configureStore({
 		[expenseApi.reducerPath]: expenseApi.reducer,
 		[vaultApi.reducerPath]: vaultApi.reducer,
 		[currencyApi.reducerPath]: currencyApi.reducer,
+		[customerApi.reducerPath]: customerApi.reducer,
+		[customerType.reducerPath]: customerType.reducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware()
 			.concat(expenseApi.middleware)
 			.concat(vaultApi.middleware)
-			.concat(currencyApi.middleware),
+			.concat(customerApi.middleware)
+			.concat(customerType.middleware),
 })
 
 setupListeners(store.dispatch)

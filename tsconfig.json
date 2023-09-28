@@ -31,7 +31,7 @@
     "resources/app"
   ],
 	"files": [
-		"resources/app/@types/i18resources.d.ts"
+      "resources/app/types/i18resources.d.ts"
 	],
   "references": [
     {

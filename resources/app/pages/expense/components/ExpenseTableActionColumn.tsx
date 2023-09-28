@@ -4,9 +4,9 @@ import ConfirmationDialog, { Response } from '@/components/ConfirmationDialog'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { Cell } from '@tanstack/react-table'
-import { ExpenseDataType } from '@/helpers/types'
 import { useModal } from '@/components/modal/useModal'
 import { useDeleteExpenseMutation } from '@/services/api/expense-api'
+import { ExpenseDataType } from '@/types/expense'
 
 const ExpenseTableActionColumn: React.FC<{
 	cell: Cell<ExpenseDataType, unknown>
@@ -26,9 +26,7 @@ const ExpenseTableActionColumn: React.FC<{
 			<div className={'text-right space-x-1'}>
 				<LugatButton
 					buttonClassNames={'!w-fit'}
-					onClick={() =>
-						navigate(`/expense/${cell.row.original.id}/edit`)
-					}
+					onClick={() => navigate(`/expense/${cell.row.original.id}/edit`)}
 				>
 					Edit
 				</LugatButton>

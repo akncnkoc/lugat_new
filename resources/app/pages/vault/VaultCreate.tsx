@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { CurrencyResource, Shape, VaultStoreFormType } from '@/helpers/types'
+import { CurrencyResource, Shape } from '@/helpers/types'
 import { object, string } from 'yup'
 import LugatButton from '@/components/form/LugatButton'
 import toast, { LoaderIcon } from 'react-hot-toast'
@@ -10,6 +10,7 @@ import { useStoreVaultMutation } from '@/services/api/vault-api'
 import { storeDispatch } from '@/store'
 import { currencyApi } from '@/services/api/currency-api'
 import LugatInput from '@/components/form/LugatInput'
+import { VaultStoreFormType } from '@/types/vault'
 
 const VaultCreate: React.FC = () => {
 	const navigate = useNavigate()
