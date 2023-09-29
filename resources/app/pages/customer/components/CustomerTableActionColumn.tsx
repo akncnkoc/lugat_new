@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { Cell } from '@tanstack/react-table'
 import { useModal } from '@/components/modal/useModal'
-import { CustomerDataType } from '@/types/customer'
+import { CustomerDataType } from '@/types/customer-types'
 import { useDeleteCustomerMutation } from '@/services/api/customer-api'
 
 const CustomerTableActionColumn: React.FC<{

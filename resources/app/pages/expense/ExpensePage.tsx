@@ -6,7 +6,7 @@ import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table
 import LugatTable from '@/components/table/LugatTable'
 import { useGetExpensesQuery } from '@/services/api/expense-api'
 import ExpenseTableActionColumn from '@/pages/expense/components/ExpenseTableActionColumn'
-import { ExpenseDataType, ExpenseTypeData } from '@/types/expense'
+import { ExpenseDataType, ExpenseTypeData } from '@/types/expense-types'
 
 const ExpensePage: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()

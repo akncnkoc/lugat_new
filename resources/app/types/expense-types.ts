@@ -1,5 +1,5 @@
 import { CollectionDataType, DefaultResponseCollectionType } from '@/helpers/types'
-import { VaultDataType } from '@/types/vault'
+import { VaultDataType } from '@/types/vault-types'
 
 export enum ExpenseTypeData {
 	food = 'Food & Drinks',

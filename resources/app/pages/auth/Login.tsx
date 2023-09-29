@@ -4,10 +4,13 @@ import { useFormik } from 'formik'
 import LugatInput from '@/components/form/LugatInput'
 import LugatButton from '@/components/form/LugatButton'
 import toast from 'react-hot-toast'
-import { authenticate } from '@/services/api/auth'
 import { useNavigate } from 'react-router-dom'
-import type { LoginFormType } from '@/helpers/types'
+
 import LugatLink from '@/components/LugatLink'
+import { LoginFormType } from '@/types/auth-types'
+import { storeDispatch } from '@/store'
+import { authApi } from '@/services/api/auth-api'
+import { setToken } from '@/store/slices/userSlice'
 
 const Login: React.FC = () => {
 	const navigate = useNavigate()
@@ -23,14 +26,16 @@ const Login: React.FC = () => {
 		validationSchema: loginFormValidationSchema,
 		onSubmit: async (values) => {
 			toast.dismiss()
-			await toast.promise(authenticate(values), {
-				loading: 'Loading...',
-				success: function () {
+			toast.loading('Loading')
+			storeDispatch(authApi.endpoints?.authenticate.initiate(values))
+				.then(({ data }) => {
+					storeDispatch(setToken(data?.data.token ?? null))
+					toast.dismiss()
+					toast.success('Logged In')
 					navigate('/')
-					return 'Logged In'
-				},
-				error: 'Wrong credientals',
-			})
+				})
+				.catch(() => toast.error('Wrong credientals'))
+				.finally(() => toast.dismiss())
 		},
 	})
 	return (

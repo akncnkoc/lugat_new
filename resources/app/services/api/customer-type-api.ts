@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import baseQueryConfigWithAuth from '@/store/config/baseQueryConfigWithAuth'
-import { CustomerTypeResource } from '@/types/customer'
+import { CustomerTypeResource } from '@/types/customer-types'
 
 export const customerType = createApi({
 	reducerPath: 'customerType',

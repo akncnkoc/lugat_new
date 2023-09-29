@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { Cell } from '@tanstack/react-table'
 import { useModal } from '@/components/modal/useModal'
 import { useDeleteVaultMutation } from '@/services/api/vault-api'
-import { VaultDataType } from '@/types/vault'
+import { VaultDataType } from '@/types/vault-types'
 
 const VaultTableActionColumn: React.FC<{
 	cell: Cell<VaultDataType, unknown>

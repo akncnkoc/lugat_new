@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { Cell } from '@tanstack/react-table'
 import { useModal } from '@/components/modal/useModal'
 import { useDeleteExpenseMutation } from '@/services/api/expense-api'
-import { ExpenseDataType } from '@/types/expense'
+import { ExpenseDataType } from '@/types/expense-types'
 
 const ExpenseTableActionColumn: React.FC<{
 	cell: Cell<ExpenseDataType, unknown>

@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { DefaultResponseType } from '@/helpers/types'
 import baseQueryConfigWithAuth from '@/store/config/baseQueryConfigWithAuth'
-import { ExpenseResource, ExpenseSingleResource, ExpenseStoreType } from '@/types/expense'
+import { ExpenseResource, ExpenseSingleResource, ExpenseStoreType } from '@/types/expense-types'
 
 export const expenseApi = createApi({
 	reducerPath: 'expenseApi',

@@ -10,7 +10,7 @@ import { useStoreVaultMutation } from '@/services/api/vault-api'
 import { storeDispatch } from '@/store'
 import { currencyApi } from '@/services/api/currency-api'
 import LugatInput from '@/components/form/LugatInput'
-import { VaultStoreFormType } from '@/types/vault'
+import { VaultStoreFormType } from '@/types/vault-types'
 
 const VaultCreate: React.FC = () => {
 	const navigate = useNavigate()

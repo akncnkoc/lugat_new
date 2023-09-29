@@ -14,14 +14,13 @@ import LugatButton from '@/components/form/LugatButton'
 import { useStoreExpenseMutation } from '@/services/api/expense-api'
 import toast, { LoaderIcon } from 'react-hot-toast'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
-import { storeDispatch } from '@/store'
-import { vaultApi } from '@/services/api/vault-api'
-import { ExpenseCreateFormType, ExpenseTypeData } from '@/types/expense'
-import { VaultDataType, VaultResource } from '@/types/vault'
+import { ExpenseCreateFormType, ExpenseTypeData } from '@/types/expense-types'
+import useLoadVault from '@/hooks/useLoadVault'
 
 const ExpenseCreate: React.FC = () => {
 	const navigate = useNavigate()
 	const [storeExpense, { isLoading }] = useStoreExpenseMutation()
+	const { loadVaults } = useLoadVault()
 
 	const expenseCreateFormik = useFormik<ExpenseCreateFormType>({
 		initialValues: {
@@ -67,21 +66,6 @@ const ExpenseCreate: React.FC = () => {
 
 	const goBack = () => {
 		navigate(-1)
-	}
-
-	const loadVaults = async (search: string, _: any, { page }: any) => {
-		const response = (await storeDispatch(
-			vaultApi.endpoints?.getVaults.initiate({ page, search }),
-		).then((res) => res.data)) as VaultResource
-		const responseJSON = response.data.map((vault: VaultDataType) => ({ id: vault.id, name: vault.name }))
-
-		return {
-			options: responseJSON,
-			hasMore: response.meta.last_page > response.meta.current_page,
-			additional: {
-				page: page + 1,
-			},
-		}
 	}
 
 	return (

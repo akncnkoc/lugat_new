@@ -12,7 +12,7 @@ import { TrackedPromise } from '@remix-run/router/utils'
 import { useUpdateVaultMutation, vaultApi } from '@/services/api/vault-api'
 import { currencyApi } from '@/services/api/currency-api'
 import LugatInput from '@/components/form/LugatInput'
-import { VaultStoreFormType } from '@/types/vault'
+import { VaultStoreFormType } from '@/types/vault-types'
 
 export const vaultLoader = async ({ params }: any) => {
 	const results = storeDispatch(vaultApi.endpoints?.getVault.initiate(params.id ?? '')).then(

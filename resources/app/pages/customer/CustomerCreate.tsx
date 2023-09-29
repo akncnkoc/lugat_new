@@ -9,7 +9,7 @@ import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
 import { storeDispatch } from '@/store'
 import LugatInput from '@/components/form/LugatInput'
 import { useStoreCustomerMutation } from '@/services/api/customer-api'
-import { CustomerStoreFormType, CustomerTypeDataType, CustomerTypeResource } from '@/types/customer'
+import { CustomerStoreFormType, CustomerTypeDataType, CustomerTypeResource } from '@/types/customer-types'
 import { customerType } from '@/services/api/customer-type-api'
 import LugatTextarea from '@/components/form/LugatTextarea'
 

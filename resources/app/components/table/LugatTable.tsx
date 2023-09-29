@@ -6,9 +6,9 @@ import LoaderComponent from '@/components/LoaderComponent'
 import LugatAlert from '@/components/LugatAlert'
 import { SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query/react'
-import { ExpenseDataType } from '@/types/expense'
-import { VaultDataType } from '@/types/vault'
-import { CustomerDataType } from '@/types/customer'
+import { ExpenseDataType } from '@/types/expense-types'
+import { VaultDataType } from '@/types/vault-types'
+import { CustomerDataType } from '@/types/customer-types'
 
 type LugatTableProps = {
 	table: Table<ExpenseDataType> | Table<VaultDataType> | Table<CustomerDataType>

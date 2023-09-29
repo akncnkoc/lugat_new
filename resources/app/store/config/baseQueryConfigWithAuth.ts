@@ -4,7 +4,7 @@ import {
 	fetchBaseQuery,
 	FetchBaseQueryError,
 } from '@reduxjs/toolkit/dist/query/react'
-import store, { storeDispatch } from '@/store'
+import { RootState, storeDispatch } from '@/store'
 import toast from 'react-hot-toast'
 import { setToken } from '@/store/slices/userSlice'
 import { setIsGlobalLoading } from '@/store/slices/appSlice'
@@ -13,8 +13,8 @@ const API_URL = '/api/'
 const baseQueryConfig = fetchBaseQuery({
 	baseUrl: API_URL,
 	mode: 'cors',
-	prepareHeaders: (headers) => {
-		const token = store.getState().userSlice.token
+	prepareHeaders: (headers, {getState}) => {
+		const token = (getState() as RootState).userSlice.token
 		if (token !== '') {
 			headers.set('Authorization', `Bearer ${token}`)
 		}
@@ -32,7 +32,7 @@ const baseQueryConfigWithReAuth: BaseQueryFn<
 	const result = await baseQueryConfig(args, api, extraOptions)
 	if (result.error && result.error.status === 401) {
 		toast.error('Oturum sonlandırıldı. Lütfen tekrar giriş yapın.')
-		store.dispatch(setToken(null))
+		storeDispatch(setToken(null))
 		storeDispatch(setIsGlobalLoading(false))
 		window.location.pathname = '/login'
 	} else if (result.error && result.error.status === 403) {

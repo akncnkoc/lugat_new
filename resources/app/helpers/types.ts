@@ -53,11 +53,6 @@ export const CurrencyCodeToSign = (code: string): string | null => {
 	return signs[code as keyof typeof signs] ?? code
 }
 
-export type LoginFormType = {
-	email: string
-	password: string
-}
-
 export type DefaultResponseType = {
 	status: string | number
 	message: string
@@ -68,9 +63,6 @@ export type DefaultResponseCollectionType<T> = {
 	message: string
 }
 
-type LoginResponseDataType = {
-	token: string
-}
 
 export type SvgProps = {
 	width?: number | string
@@ -109,5 +101,4 @@ export type Shape<Fields> = {
 	[Key in keyof Fields]: ConditionalSchema<Fields[Key]>
 }
 
-export type LoginResponseType = DefaultResponseCollectionType<LoginResponseDataType>
 export type CurrencyResource = CollectionDataType<CurrencyDataType>

@@ -16,7 +16,7 @@ import {
 	CustomerStoreFormType,
 	CustomerTypeDataType,
 	CustomerTypeResource,
-} from '@/types/customer'
+} from '@/types/customer-types'
 import { customerType } from '@/services/api/customer-type-api'
 import LugatTextarea from '@/components/form/LugatTextarea'
 
