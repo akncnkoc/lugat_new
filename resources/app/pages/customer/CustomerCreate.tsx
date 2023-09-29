@@ -12,10 +12,12 @@ import { useStoreCustomerMutation } from '@/services/api/customer-api'
 import { CustomerStoreFormType, CustomerTypeDataType, CustomerTypeResource } from '@/types/customer-types'
 import { customerType } from '@/services/api/customer-type-api'
 import LugatTextarea from '@/components/form/LugatTextarea'
+import useCustomerType from '@/hooks/useCustomerType'
 
 const CustomerCreate: React.FC = () => {
 	const navigate = useNavigate()
 	const [storeCustomer, { isLoading }] = useStoreCustomerMutation()
+	const { loadCustomerTypes } = useCustomerType()
 
 	const customerCreateFormik = useFormik<CustomerStoreFormType>({
 		initialValues: {
@@ -77,25 +79,6 @@ const CustomerCreate: React.FC = () => {
 	const goBack = () => {
 		navigate(-1)
 	}
-
-	const loadCustomerTypes = async (search: string, _: any, { page }: any) => {
-		const response = (await storeDispatch(
-			customerType.endpoints?.getCustomerTypes.initiate({ page, search }),
-		).then((res) => res.data)) as CustomerTypeResource
-		const responseJSON = response.data.map((customerType: CustomerTypeDataType) => ({
-			id: customerType.id,
-			name: customerType.name,
-		}))
-
-		return {
-			options: responseJSON,
-			hasMore: response.meta.last_page > response.meta.current_page,
-			additional: {
-				page: page + 1,
-			},
-		}
-	}
-
 	return (
 		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all pb-4'>
 			<div className={'h-16 px-6 border-b border-gray-100 flex items-center justify-between'}>

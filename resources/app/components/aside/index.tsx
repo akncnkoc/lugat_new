@@ -14,6 +14,7 @@ import ProductMenuPopover from '@/components/aside/popovers/ProductMenuPopover'
 import ExpenseMenuPopover from '@/components/aside/popovers/ExpenseMenuPopover'
 import VaultMenuPopover from '@/components/aside/popovers/VaultMenuPopover'
 import CustomerMenuPopover from '@/components/aside/popovers/CustomerMenuPopover'
+import StaffMenuPopover from '@/components/aside/popovers/StaffMenuPopover'
 
 const Aside: React.FC = () => {
 	const navigate = useNavigate()
@@ -58,6 +59,8 @@ const Aside: React.FC = () => {
 			text: 'Staff',
 			route: '/staff',
 			icon: <StaffsIcon fillColor={'currentColor'} />,
+			isPopover: true,
+			popover: <StaffMenuPopover />,
 		},
 		{
 			text: 'Expense',

@@ -29,7 +29,7 @@ class VaultController extends Controller
                                    ->orWhere('name', 'ILIKE', "%$search%");
                        });
         }
-        return VaultResource::collection($vaultQuery->orderBy('name', 'asc')->paginate());
+        return VaultResource::collection($vaultQuery->orderBy('name')->paginate());
     }
 
 

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Services\Currency\Http\Controllers\CurrencyController;
 use App\Services\Customer\Database\Seeders\CustomerSeeder;
 use App\Services\Expense\Database\Seeders\ExpenseSeeder;
+use App\Services\Staff\Database\Seeders\StaffSeeder;
 use App\Services\User\Database\Seeders\UserSeeder;
 use Illuminate\Database\Seeder;
 
@@ -19,7 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ExpenseSeeder::class,
             UserSeeder::class,
-            CustomerSeeder::class
+            CustomerSeeder::class,
+            StaffSeeder::class
         ]);
     }
 }

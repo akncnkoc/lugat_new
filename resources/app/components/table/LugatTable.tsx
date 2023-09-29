@@ -9,9 +9,14 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query/react'
 import { ExpenseDataType } from '@/types/expense-types'
 import { VaultDataType } from '@/types/vault-types'
 import { CustomerDataType } from '@/types/customer-types'
+import { StaffDataType } from '@/types/staff-types'
 
 type LugatTableProps = {
-	table: Table<ExpenseDataType> | Table<VaultDataType> | Table<CustomerDataType>
+	table:
+		| Table<ExpenseDataType>
+		| Table<VaultDataType>
+		| Table<CustomerDataType>
+		| Table<StaffDataType>
 	meta?: CollectionMetaType
 	onPaginate: Function
 	currentPage: number | string
@@ -55,19 +60,17 @@ const LugatTable: React.FC<LugatTableProps> = ({
 					</thead>
 					<tbody className={'divide-y bg-white divide-gray-100'}>
 						{error && (
-							<>
-								<tr>
-									<td className={'w-full h-96  align-middle'} colSpan={200}>
-										<LugatAlert alertClassNames={'bg-red-200 text-red-900'}>
-											Someting went wrong cant get expenses.
-										</LugatAlert>
-									</td>
-								</tr>
-							</>
-						)}
-						{!fetching && table.getRowModel().rows.length === 0 && (
 							<tr>
-								<td className={'w-full h-96  align-middle'} colSpan={200}>
+								<td className={'w-full h-96'} colSpan={200}>
+									<LugatAlert alertClassNames={'bg-red-200 text-red-900 !w-fit mx-auto'}>
+										Someting went wrong cant get {label.toLocaleLowerCase()}.
+									</LugatAlert>
+								</td>
+							</tr>
+						)}
+						{!fetching && !error && table.getRowModel().rows.length === 0 && (
+							<tr>
+								<td className={'w-full h-96 align-middle'} colSpan={200}>
 									<LugatAlert
 										alertClassNames={'!bg-gray-100 !text-gray-900 mx-auto !w-fit space-y-2'}
 									>

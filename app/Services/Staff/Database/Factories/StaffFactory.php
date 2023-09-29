@@ -20,7 +20,7 @@ class StaffFactory extends Factory
             'name'            => $this->faker->name,
             'surname'         => $this->faker->lastName,
             'phone'           => $this->faker->phoneNumber,
-            'type'            => $this->faker->randomElement(StaffType::cases())->value,
+            'type'            => $this->faker->randomElement(StaffType::values()),
             'email'           => $this->faker->email,
             'salary'          => $this->faker->numberBetween(1000, 10000),
             'salary_vault_id' => Vault::factory()

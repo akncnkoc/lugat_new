@@ -4,7 +4,7 @@ import LugatButton from '@/components/form/LugatButton'
 import { CurrencyCodeToSign } from '@/helpers/types'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import LugatTable from '@/components/table/LugatTable'
-import { useGetExpensesQuery } from '@/services/api/expense-api'
+import { useGetExpensesMutation } from '@/services/api/expense-api'
 import ExpenseTableActionColumn from '@/pages/expense/components/ExpenseTableActionColumn'
 import { ExpenseDataType, ExpenseTypeData } from '@/types/expense-types'
 
@@ -12,12 +12,9 @@ const ExpensePage: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
 	const navigate = useNavigate()
 	const [currentPage, setCurrentPage] = useState(searchParams.get('page') ?? '1')
-	const {
-		data: expenses,
-		error,
-		isFetching,
-		refetch,
-	} = useGetExpensesQuery({ page: currentPage, search: '' })
+	const [getExpenses, { isLoading, error, data: expenses }] = useGetExpensesMutation()
+	const fetch = () => getExpenses({ page: currentPage })
+
 	const defaultColumns: ColumnDef<ExpenseDataType>[] = [
 		{
 			header: 'Amount',
@@ -35,7 +32,7 @@ const ExpensePage: React.FC = () => {
 		{
 			header: 'Actions',
 			cell: ({ cell }) => {
-				return <ExpenseTableActionColumn cell={cell} refetch={refetch} />
+				return <ExpenseTableActionColumn cell={cell} refetch={fetch} />
 			},
 		},
 	]
@@ -47,7 +44,7 @@ const ExpensePage: React.FC = () => {
 	})
 
 	useEffect(() => {
-		refetch()
+		fetch()
 		setSearchParams({
 			page: currentPage,
 		})
@@ -66,7 +63,7 @@ const ExpensePage: React.FC = () => {
 						label={'Expense'}
 						table={table}
 						meta={expenses?.meta ?? undefined}
-						fetching={isFetching}
+						fetching={isLoading}
 						onPaginate={(page: string) => setCurrentPage(page)}
 						currentPage={currentPage}
 						error={error}

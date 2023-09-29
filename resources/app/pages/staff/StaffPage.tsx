@@ -3,12 +3,12 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import LugatButton from '@/components/form/LugatButton'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import LugatTable from '@/components/table/LugatTable'
-import { CustomerDataType } from '@/types/customer-types'
-import CustomerTableActionColumn from '@/pages/customer/components/CustomerTableActionColumn'
 import LugatInput from '@/components/form/LugatInput'
-import { useGetCustomersMutation } from '@/services/api/customer-api'
+import { useGetStaffsMutation } from '@/services/api/staff-api'
+import { StaffDataType, StaffTypeData } from '@/types/staff-types'
+import StaffTableActionColumn from '@/pages/staff/components/StaffTableActionColumn'
 
-const ExpensePage: React.FC = () => {
+const StaffPage: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
 	const navigate = useNavigate()
 	const [pageParams, setPageParams] = useState<{
@@ -18,10 +18,10 @@ const ExpensePage: React.FC = () => {
 		page: searchParams.get('page') ?? '1',
 		search: searchParams.get('search') ?? '',
 	})
-	const [getCustomers, { isLoading, error, data: customers }] = useGetCustomersMutation()
-	const fetch = () => getCustomers({ page: pageParams.page, search: pageParams.search })
+	const [getStaffs, { isLoading, error, data: staffs }] = useGetStaffsMutation()
+	const fetch = () => getStaffs({ page: pageParams.page, search: pageParams.search })
 
-	const defaultColumns: ColumnDef<CustomerDataType>[] = [
+	const defaultColumns: ColumnDef<StaffDataType>[] = [
 		{
 			header: 'Full Name',
 			accessorKey: 'full_name',
@@ -36,18 +36,18 @@ const ExpensePage: React.FC = () => {
 		},
 		{
 			header: 'Type',
-			accessorFn: (originalRow) => originalRow.customer_type.name,
+			accessorFn: (originalRow) => StaffTypeData[originalRow.type as keyof typeof StaffTypeData],
 		},
 		{
 			header: 'Actions',
 			cell: ({ cell }) => {
-				return <CustomerTableActionColumn cell={cell} refetch={fetch} />
+				return <StaffTableActionColumn cell={cell} refetch={fetch} />
 			},
 		},
 	]
 
 	const table = useReactTable({
-		data: customers?.data ? customers.data : [],
+		data: staffs?.data ? staffs.data : [],
 		columns: defaultColumns,
 		getCoreRowModel: getCoreRowModel(),
 	})
@@ -87,15 +87,15 @@ const ExpensePage: React.FC = () => {
 					</div>
 				</div>
 				<div className='w-fit'>
-					<LugatButton onClick={() => navigate('/customer/create')}>Create Customer</LugatButton>
+					<LugatButton onClick={() => navigate('/staff/create')}>Create Staff</LugatButton>
 				</div>
 			</div>
 			<div className='p-4 rounded-lg'>
 				<section className='grid grid-cols-1 gap-2 gap-y-2'>
 					<LugatTable
-						label={'Customer'}
+						label={'Staff'}
 						table={table}
-						meta={customers?.meta ?? undefined}
+						meta={staffs?.meta ?? undefined}
 						fetching={isLoading}
 						onPaginate={(page: string) => setPageParams((prev) => ({ ...prev, page }))}
 						currentPage={pageParams.page}
@@ -106,4 +106,4 @@ const ExpensePage: React.FC = () => {
 		</>
 	)
 }
-export default ExpensePage
+export default StaffPage

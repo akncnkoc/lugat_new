@@ -21,7 +21,11 @@ class StaffController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $this->authorize('staffView', Staff::class);
-        return StaffResource::collection(Staff::paginate());
+        $staffQuery = Staff::query();
+        if ($search = request()?->query('search')) {
+            $staffQuery->whereRaw("CONCAT(`name`, `surname`) = ?", [$search]);
+        }
+        return StaffResource::collection($staffQuery->orderBy('name')->paginate());
     }
 
 

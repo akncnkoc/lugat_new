@@ -48,6 +48,7 @@ const VaultPage: React.FC = () => {
 	useEffect(() => {
 		fetch()
 	}, [pageParams.page])
+
 	useEffect(() => {
 		fetch()
 	}, [])
@@ -59,7 +60,7 @@ const VaultPage: React.FC = () => {
 		if (e.code === 'Enter') {
 			setSearchParams({
 				page: pageParams.page,
-				search: pageParams.search
+				search: pageParams.search,
 			})
 			fetch()
 		}

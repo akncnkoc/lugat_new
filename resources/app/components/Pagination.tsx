@@ -34,15 +34,15 @@ export default function Pagination({ paginate, currentPage, meta }: PaginationTy
 					pageRangeDisplayed={isMobile ? 3 : 10}
 					pageCount={nPages}
 					renderOnZeroPageCount={null}
-					previousLabel={<PreviousIcon width={20} height={20} fillColor={'#005CE8'} />}
-					nextLabel={<NextIcon width={20} height={20} fillColor={'#005CE8'} />}
+					previousLabel={<PreviousIcon width={18} height={18} fillColor={'currentColor'} />}
+					nextLabel={<NextIcon width={18} height={18} fillColor={'currentColor'} />}
 					forcePage={currentPage - 1}
 					pageLinkClassName={
 						'bg-transparent w-10 h-10 rounded-full flex items-center justify-center hover:!bg-gray-50 hover:!text-gray-900 transition-all'
 					}
 					containerClassName={'flex pl-0 list-none space-x-1'}
-					previousClassName={'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center'}
-					nextClassName={'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center'}
+					previousClassName={'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center text-blue-500 hover:bg-blue-100 transition-all cursor-pointer'}
+					nextClassName={'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center text-blue-500 hover:bg-blue-100 transition-all cursor-pointer'}
 					activeLinkClassName={'!border-transparent !bg-blue-500 text-white block'}
 					marginPagesDisplayed={0}
 				/>

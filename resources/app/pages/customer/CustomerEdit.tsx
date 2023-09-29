@@ -19,6 +19,7 @@ import {
 } from '@/types/customer-types'
 import { customerType } from '@/services/api/customer-type-api'
 import LugatTextarea from '@/components/form/LugatTextarea'
+import useCustomerType from '@/hooks/useCustomerType'
 
 export const customerLoader = async ({ params }: any) => {
 	const results = storeDispatch(customerApi.endpoints?.getCustomer.initiate(params.id ?? '')).then(
@@ -36,6 +37,8 @@ const CustomerEdit: React.FC = () => {
 		results: TrackedPromise
 	}
 	const [updateCustomer, { isLoading }] = useUpdateCustomerMutation()
+	const { loadCustomerTypes } = useCustomerType()
+
 	const customerUpdateFormik = useFormik<CustomerStoreFormType>({
 		initialValues: {
 			name: '',
@@ -79,7 +82,6 @@ const CustomerEdit: React.FC = () => {
 			updateCustomer({
 				body: {
 					...values,
-					...values,
 					customer_type_id: values.customer_type.id,
 					gender: values.gender.value,
 				},
@@ -99,23 +101,6 @@ const CustomerEdit: React.FC = () => {
 
 	const goBack = () => {
 		navigate(-1)
-	}
-	const loadCustomerTypes = async (search: string, _: any, { page }: any) => {
-		const response = (await storeDispatch(
-			customerType.endpoints?.getCustomerTypes.initiate({ page, search }),
-		).then((res) => res.data)) as CustomerTypeResource
-		const responseJSON = response.data.map((customerType: CustomerTypeDataType) => ({
-			id: customerType.id,
-			name: customerType.name,
-		}))
-
-		return {
-			options: responseJSON,
-			hasMore: response.meta.last_page > response.meta.current_page,
-			additional: {
-				page: page + 1,
-			},
-		}
 	}
 	useEffect(() => {
 		if (data) {
