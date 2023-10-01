@@ -17,14 +17,15 @@ export default function Pagination({ paginate, currentPage, meta }: PaginationTy
 		<div className='py-2 flex justify-between flex-col space-y-4 md:space-y-0 md:flex-row items-center'>
 			<div>
 				<p className='text-sm text-gray-900'>
-					Sayfada
-					<span className='font-semibold'> {meta.total} </span>
-					kayıttan
+					Showing
 					<span className='font-semibold'>
 						&nbsp;
-						{meta.from} - {meta.to}
+						{meta.from} to {meta.to}
+						&nbsp;
 					</span>
-					&nbsp;arasındakiler gösteriliyor
+					of
+					<span className='font-semibold'> {meta.total} </span>
+					entries
 				</p>
 			</div>
 			<nav className='block'>
@@ -41,8 +42,12 @@ export default function Pagination({ paginate, currentPage, meta }: PaginationTy
 						'bg-transparent w-10 h-10 rounded-full flex items-center justify-center hover:!bg-gray-50 hover:!text-gray-900 transition-all'
 					}
 					containerClassName={'flex pl-0 list-none space-x-1'}
-					previousClassName={'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center text-blue-500 hover:bg-blue-100 transition-all cursor-pointer'}
-					nextClassName={'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center text-blue-500 hover:bg-blue-100 transition-all cursor-pointer'}
+					previousClassName={
+						'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center text-blue-500 hover:bg-blue-100 transition-all cursor-pointer'
+					}
+					nextClassName={
+						'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center text-blue-500 hover:bg-blue-100 transition-all cursor-pointer'
+					}
 					activeLinkClassName={'!border-transparent !bg-blue-500 text-white block'}
 					marginPagesDisplayed={0}
 				/>

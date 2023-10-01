@@ -18,7 +18,7 @@ class ExpenseFactory extends Factory
     {
         return [
             'amount'       => $this->faker->numberBetween(1, 50),
-            'vault_id'     => Vault::factory(),
+            'vault_id'     => Vault::inRandomOrder()->first(),
             'comment'      => $this->faker->sentence,
             'receipt_date' => $this->faker->dateTimeBetween('-2 month'),
             'type'         => $this->faker->randomElement(ExpenseType::cases())->value,

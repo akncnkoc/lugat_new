@@ -17,8 +17,9 @@ import {
 } from '@/types/staff-types'
 import useStaffType from '@/hooks/useStaffType'
 import useLoadVault from '@/hooks/useLoadVault'
+import CurrencyInput from 'react-currency-input-field'
+import { motion } from 'framer-motion'
 import { StaffEditValidationSchema } from '@/helpers/schemas'
-import LugatCurrencyInput from '@/components/LugatCurrencyInput'
 
 export const staffLoader = async ({ params }: any) => {
 	const results = storeDispatch(staffApi.endpoints?.getStaff.initiate(params.id ?? '')).then(
@@ -175,19 +176,35 @@ const StaffEdit: React.FC = () => {
 														</div>
 														<div className={'flex-1 flex space-x-2'}>
 															<div className={'flex-1'}>
-																<LugatCurrencyInput
-																	label={'Salary'}
-																	required
-																	error={
+																<label className={'block mb-2 text-sm font-semibold text-gray-900'}>
+																	Salary
+																</label>
+																<CurrencyInput
+																	className={`${
 																		staffUpdateFormik.touched.salary &&
-																		staffUpdateFormik.errors.salary
-																	}
+																		staffUpdateFormik.errors.salary &&
+																		'focus:!ring-red-500 text-red-500 placeholder-red-500 !border-red-500'
+																	} text-sm font-semibold mt-2 rounded-lg block w-full p-2.5 outline-none bg-white border border-gray-100 placeholder-gray-400 text-gray-900`}
 																	value={staffUpdateFormik.values.salary}
+																	decimalsLimit={2}
+																	fixedDecimalLength={2}
 																	onValueChange={(_, __, values) => {
 																		staffUpdateFormik.setFieldTouched('salary', true)
 																		staffUpdateFormik.setFieldValue('salary', values?.value ?? 0)
 																	}}
+																	onChange={() => {}}
 																/>
+																{staffUpdateFormik.touched.salary &&
+																	staffUpdateFormik.errors.salary && (
+																		<motion.p
+																			initial={{ opacity: 0 }}
+																			animate={{ opacity: 1 }}
+																			exit={{ opacity: 0 }}
+																			className='mt-2 text-sm text-red-600 font-semibold'
+																		>
+																			{staffUpdateFormik.errors.salary}
+																		</motion.p>
+																	)}
 															</div>
 															<div className={'flex-1'}>
 																<LugatAsyncSelect

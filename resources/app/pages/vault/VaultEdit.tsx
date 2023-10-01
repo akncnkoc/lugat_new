@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { Await, defer, useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { CurrencyResource, Shape } from '@/helpers/types'
-import { object, string } from 'yup'
 import LugatButton from '@/components/form/LugatButton'
 import toast, { LoaderIcon } from 'react-hot-toast'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
@@ -10,9 +8,10 @@ import { storeDispatch } from '@/store'
 import LoaderComponent from '@/components/LoaderComponent'
 import { TrackedPromise } from '@remix-run/router/utils'
 import { useUpdateVaultMutation, vaultApi } from '@/services/api/vault-api'
-import { currencyApi } from '@/services/api/currency-api'
 import LugatInput from '@/components/form/LugatInput'
-import { VaultStoreFormType } from '@/types/vault-types'
+import { VaultStoreFormType, VaultStoreInitialValues } from '@/types/vault-types'
+import { VaultEditValidationSchema } from '@/helpers/schemas'
+import useCurrencies from '@/hooks/useCurrencies'
 
 export const vaultLoader = async ({ params }: any) => {
 	const results = storeDispatch(vaultApi.endpoints?.getVault.initiate(params.id ?? '')).then(
@@ -29,24 +28,12 @@ const VaultEdit: React.FC = () => {
 	const data = useLoaderData() as {
 		results: TrackedPromise
 	}
+	const { loadCurrencies } = useCurrencies()
 	const [updateVault, { isLoading }] = useUpdateVaultMutation()
 	const vaultUpdateFormik = useFormik<VaultStoreFormType>({
-		initialValues: {
-			name: '',
-			currency: {
-				id: '-1',
-				name: 'Select',
-			},
-		},
+		initialValues: VaultStoreInitialValues,
 		validateOnBlur: false,
-		validationSchema: object().shape<Shape<Partial<VaultStoreFormType>>>({
-			name: string().label('Name').required().max(255),
-			currency: object()
-				.label('Currency')
-				.shape({
-					id: string().required().notOneOf(['-1'], 'Currency must be selected'),
-				}),
-		}),
+		validationSchema: VaultEditValidationSchema,
 		onSubmit: (values) => {
 			updateVault({ body: { ...values, currency_id: values.currency.id }, id: id ?? '' })
 				.unwrap()
@@ -60,24 +47,6 @@ const VaultEdit: React.FC = () => {
 				})
 		},
 	})
-
-	const goBack = () => {
-		navigate(-1)
-	}
-	const loadCurrencies = async (search: string, _: any, { page }: any) => {
-		const response = (await storeDispatch(
-			currencyApi.endpoints?.getCurrencies.initiate({ page, search }),
-		).then((res) => res.data)) as CurrencyResource
-		const responseJSON = response.data.map((currency) => ({ id: currency.id, name: currency.name }))
-
-		return {
-			options: responseJSON,
-			hasMore: response.meta.last_page > response.meta.current_page,
-			additional: {
-				page: page + 1,
-			},
-		}
-	}
 
 	useEffect(() => {
 		if (data) {
@@ -154,15 +123,7 @@ const VaultEdit: React.FC = () => {
 										</div>
 									</div>
 								</div>
-								<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-between'>
-									<LugatButton
-										onClick={goBack}
-										buttonClassNames={
-											'bg-gray-50 !text-gray-900 hover:!bg-gray-100 !w-fit text-base'
-										}
-									>
-										Cancel
-									</LugatButton>
+								<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-end'>
 									<LugatButton buttonClassNames={'!w-fit'} onClick={vaultUpdateFormik.submitForm}>
 										{!isLoading ? 'Save' : <LoaderIcon />}
 									</LugatButton>

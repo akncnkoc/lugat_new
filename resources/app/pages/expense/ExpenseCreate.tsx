@@ -14,42 +14,20 @@ import LugatButton from '@/components/form/LugatButton'
 import { useStoreExpenseMutation } from '@/services/api/expense-api'
 import toast, { LoaderIcon } from 'react-hot-toast'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
-import { ExpenseCreateFormType, ExpenseTypeData } from '@/types/expense-types'
+import { ExpenseStoreFormType, ExpenseStoreInitialValues, ExpenseTypeData } from '@/types/expense-types'
 import useLoadVault from '@/hooks/useLoadVault'
+import { ExpenseCreateValidationSchema } from '@/helpers/schemas'
+import LugatCurrencyInput from '@/components/LugatCurrencyInput'
 
 const ExpenseCreate: React.FC = () => {
 	const navigate = useNavigate()
 	const [storeExpense, { isLoading }] = useStoreExpenseMutation()
 	const { loadVaults } = useLoadVault()
 
-	const expenseCreateFormik = useFormik<ExpenseCreateFormType>({
-		initialValues: {
-			amount: 0,
-			type: '-1',
-			comment: '',
-			receipt_date: new Date(),
-			vault: {
-				id: '-1',
-				name: 'Select',
-			},
-		},
+	const expenseCreateFormik = useFormik<ExpenseStoreFormType>({
+		initialValues: ExpenseStoreInitialValues,
 		validateOnBlur: false,
-		validationSchema: object().shape<Shape<ExpenseCreateFormType>>({
-			amount: number().label('Amount').required().min(1).max(100000),
-			comment: string(),
-			type: string().required().notOneOf(['-1'], 'Expense type must be selected'),
-			vault: object()
-				.label('Vault')
-				.shape({
-					id: string().required().notOneOf(['-1'], 'Vault must be selected'),
-				}),
-			receipt_date: date().transform(function (value, originalValue) {
-				if (this.isType(value)) {
-					return value
-				}
-				return parse(originalValue, 'dd.MM.yyyy', new Date())
-			}),
-		}),
+		validationSchema: ExpenseCreateValidationSchema,
 		onSubmit: (values) => {
 			storeExpense({ ...values, vault_id: values.vault.id })
 				.unwrap()
@@ -64,10 +42,6 @@ const ExpenseCreate: React.FC = () => {
 		},
 	})
 
-	const goBack = () => {
-		navigate(-1)
-	}
-
 	return (
 		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all pb-4'>
 			<div className={'h-16 px-6 border-b border-gray-100 flex items-center justify-between'}>
@@ -80,33 +54,19 @@ const ExpenseCreate: React.FC = () => {
 							<div className='flex flex-col flex-1 space-y-2'>
 								<div className={'flex-1 flex space-x-2'}>
 									<div className={'flex-1'}>
-										<label className={'block mb-2 text-sm font-semibold text-gray-900'}>
-											Amount
-										</label>
-										<CurrencyInput
-											className={`${
+										<LugatCurrencyInput
+											label={'Amount'}
+											required
+											error={
 												expenseCreateFormik.touched.amount &&
-												expenseCreateFormik.errors.amount &&
-												'focus:!ring-red-500 text-red-500 placeholder-red-500 !border-red-500'
-											} text-sm font-semibold mt-2 rounded-lg block w-full p-2.5 outline-none bg-white border border-gray-100 placeholder-gray-400 text-gray-900`}
+												expenseCreateFormik.errors.amount
+											}
 											value={expenseCreateFormik.values.amount}
 											onValueChange={(_, __, values) => {
 												expenseCreateFormik.setFieldTouched('amount', true)
 												expenseCreateFormik.setFieldValue('amount', values?.value ?? 0)
 											}}
-											onChange={() => {}}
-											suffix={' ₺'}
 										/>
-										{expenseCreateFormik.touched.amount && expenseCreateFormik.errors.amount && (
-											<motion.p
-												initial={{ opacity: 0 }}
-												animate={{ opacity: 1 }}
-												exit={{ opacity: 0 }}
-												className='mt-2 text-sm text-red-600 font-semibold'
-											>
-												{expenseCreateFormik.errors.amount}
-											</motion.p>
-										)}
 									</div>
 									<div className={'flex-1'}>
 										<LugatAsyncSelect
@@ -177,13 +137,7 @@ const ExpenseCreate: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-between'>
-				<LugatButton
-					onClick={goBack}
-					buttonClassNames={'bg-gray-50 !text-gray-900 hover:!bg-gray-100 !w-fit text-base'}
-				>
-					Cancel
-				</LugatButton>
+			<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-end'>
 				<LugatButton buttonClassNames={'!w-fit'} onClick={expenseCreateFormik.submitForm}>
 					{!isLoading ? 'Save' : <LoaderIcon />}
 				</LugatButton>

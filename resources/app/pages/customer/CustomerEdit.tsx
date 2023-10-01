@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { Await, defer, useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { Shape } from '@/helpers/types'
-import { object, string } from 'yup'
 import LugatButton from '@/components/form/LugatButton'
 import toast, { LoaderIcon } from 'react-hot-toast'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
@@ -13,13 +11,12 @@ import LugatInput from '@/components/form/LugatInput'
 import { customerApi, useUpdateCustomerMutation } from '@/services/api/customer-api'
 import {
 	CustomerDataType,
+	CustomerStoreFormInitialValues,
 	CustomerStoreFormType,
-	CustomerTypeDataType,
-	CustomerTypeResource,
 } from '@/types/customer-types'
-import { customerType } from '@/services/api/customer-type-api'
 import LugatTextarea from '@/components/form/LugatTextarea'
 import useCustomerType from '@/hooks/useCustomerType'
+import { CustomerEditValidationSchema } from '@/helpers/schemas'
 
 export const customerLoader = async ({ params }: any) => {
 	const results = storeDispatch(customerApi.endpoints?.getCustomer.initiate(params.id ?? '')).then(
@@ -40,44 +37,9 @@ const CustomerEdit: React.FC = () => {
 	const { loadCustomerTypes } = useCustomerType()
 
 	const customerUpdateFormik = useFormik<CustomerStoreFormType>({
-		initialValues: {
-			name: '',
-			surname: '',
-			phone: '',
-			email: '',
-			customer_type: {
-				id: '-1',
-				name: 'Select',
-			},
-			city: '',
-			district: '',
-			address: '',
-			neighborhood: '',
-			gender: {
-				label: '-1',
-				value: 'Select',
-			},
-			post_code: '',
-			comment: '',
-		},
+		initialValues: CustomerStoreFormInitialValues,
 		validateOnBlur: false,
-		validationSchema: object().shape<Shape<Partial<CustomerStoreFormType>>>({
-			name: string().label('Name').required().max(255),
-			surname: string().label('Surname').required().max(255),
-			email: string().label('Email').email().required().max(255),
-			phone: string()
-				.label('Phone')
-				.required()
-				.matches(
-					/^((\+\d{1,3}([- ])?\(?\d\)?([- ])?\d{1,3})|(\(?\d{2,3}\)?))([- ])?(\d{3,4})([- ])?(\d{4})(( x| ext)\d{1,5})?$/,
-					'Phone must be valid',
-				),
-			customer_type: object()
-				.label('Customer Type')
-				.shape({
-					id: string().required().notOneOf(['-1'], 'Customer Type must be selected'),
-				}),
-		}),
+		validationSchema: CustomerEditValidationSchema,
 		onSubmit: (values) => {
 			updateCustomer({
 				body: {
@@ -98,10 +60,6 @@ const CustomerEdit: React.FC = () => {
 				})
 		},
 	})
-
-	const goBack = () => {
-		navigate(-1)
-	}
 	useEffect(() => {
 		if (data) {
 			data.results.then((customer: CustomerDataType) => {
@@ -348,15 +306,7 @@ const CustomerEdit: React.FC = () => {
 										</div>
 									</div>
 								</div>
-								<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-between'>
-									<LugatButton
-										onClick={goBack}
-										buttonClassNames={
-											'bg-gray-50 !text-gray-900 hover:!bg-gray-100 !w-fit text-base'
-										}
-									>
-										Cancel
-									</LugatButton>
+								<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-end'>
 									<LugatButton
 										buttonClassNames={'!w-fit'}
 										onClick={customerUpdateFormik.submitForm}

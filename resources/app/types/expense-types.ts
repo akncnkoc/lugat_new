@@ -18,13 +18,6 @@ export enum ExpenseTypeData {
 	travel = 'Travel',
 }
 
-export type ExpenseStoreFormType = {
-	amount: number
-	receipt_date: Date | null
-	vault_id: string
-	type: keyof typeof ExpenseTypeData | '-1'
-	comment?: string | null
-}
 export type ExpenseStoreType = {
 	amount: number
 	receipt_date: Date | null
@@ -32,6 +25,7 @@ export type ExpenseStoreType = {
 	type: keyof typeof ExpenseTypeData | '-1'
 	comment?: string | null
 }
+
 
 export type ExpenseDataType = {
 	id: string
@@ -42,7 +36,7 @@ export type ExpenseDataType = {
 	type: keyof typeof ExpenseTypeData
 }
 
-export type ExpenseCreateFormType = {
+export type ExpenseStoreFormType = {
 	amount: number
 	vault: {
 		id: string
@@ -53,15 +47,15 @@ export type ExpenseCreateFormType = {
 	receipt_date: Date | null
 }
 
-export type ExpenseEditFormType = {
-	amount: number
+export const ExpenseStoreInitialValues: ExpenseStoreFormType = {
+	amount: 0,
+	type: '-1',
+	comment: '',
+	receipt_date: new Date(),
 	vault: {
-		id: string
-		name: string
-	}
-	type: keyof typeof ExpenseTypeData
-	comment: string | null
-	receipt_date: Date | null
+		id: '-1',
+		name: 'Select',
+	},
 }
 
 export type ExpenseResource = CollectionDataType<ExpenseDataType>

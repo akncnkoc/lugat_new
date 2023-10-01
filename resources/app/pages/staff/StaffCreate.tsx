@@ -1,18 +1,18 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { Shape } from '@/helpers/types'
-import { object, string } from 'yup'
 import LugatButton from '@/components/form/LugatButton'
 import toast, { LoaderIcon } from 'react-hot-toast'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
 import LugatInput from '@/components/form/LugatInput'
-import { StaffStoreFormType } from '@/types/staff-types'
+import { StaffStoreFormType, StaffStoreInitialValues } from '@/types/staff-types'
 import useStaffType from '@/hooks/useStaffType'
 import { useStoreStaffMutation } from '@/services/api/staff-api'
 import CurrencyInput from 'react-currency-input-field'
 import { motion } from 'framer-motion'
 import useLoadVault from '@/hooks/useLoadVault'
+import { StaffCreateValidationSchema } from '@/helpers/schemas'
+import LugatCurrencyInput from '@/components/LugatCurrencyInput'
 
 const StaffCreate: React.FC = () => {
 	const navigate = useNavigate()
@@ -21,39 +21,9 @@ const StaffCreate: React.FC = () => {
 	const { loadVaults } = useLoadVault()
 
 	const staffCreateFormik = useFormik<StaffStoreFormType>({
-		initialValues: {
-			name: '',
-			surname: '',
-			phone: '',
-			email: '',
-			salary: 0,
-			type: {
-				label: 'Select',
-				value: '-1',
-			},
-			salary_vault: {
-				id: '-1',
-				name: 'Select',
-			},
-		},
+		initialValues: StaffStoreInitialValues,
 		validateOnBlur: false,
-		validationSchema: object().shape<Shape<Partial<StaffStoreFormType>>>({
-			name: string().label('Name').required().max(255),
-			surname: string().label('Surname').required().max(255),
-			email: string().label('Email').email().required().max(255),
-			phone: string()
-				.label('Phone')
-				.required()
-				.matches(
-					/^((\+\d{1,3}([- ])?\(?\d\)?([- ])?\d{1,3})|(\(?\d{2,3}\)?))([- ])?(\d{3,4})([- ])?(\d{4})(( x| ext)\d{1,5})?$/,
-					'Phone must be valid',
-				),
-			salary_vault: object()
-				.label('Staff Type')
-				.shape({
-					id: string().required().notOneOf(['-1'], 'Staff Type must be selected'),
-				}),
-		}),
+		validationSchema: StaffCreateValidationSchema,
 		onSubmit: (values) => {
 			storeStaff({
 				...values,
@@ -71,10 +41,6 @@ const StaffCreate: React.FC = () => {
 				})
 		},
 	})
-
-	const goBack = () => {
-		navigate(-1)
-	}
 	return (
 		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all pb-4'>
 			<div className={'h-16 px-6 border-b border-gray-100 flex items-center justify-between'}>
@@ -136,32 +102,19 @@ const StaffCreate: React.FC = () => {
 									</div>
 									<div className={'flex-1 flex space-x-2'}>
 										<div className={'flex-1'}>
-											<label className={'block mb-2 text-sm font-semibold text-gray-900'}>
-												Salary
-											</label>
-											<CurrencyInput
-												className={`${
+											<LugatCurrencyInput
+												label={'Salary'}
+												required
+												error={
 													staffCreateFormik.touched.salary &&
-													staffCreateFormik.errors.salary &&
-													'focus:!ring-red-500 text-red-500 placeholder-red-500 !border-red-500'
-												} text-sm font-semibold mt-2 rounded-lg block w-full p-2.5 outline-none bg-white border border-gray-100 placeholder-gray-400 text-gray-900`}
+													staffCreateFormik.errors.salary
+												}
 												value={staffCreateFormik.values.salary}
 												onValueChange={(_, __, values) => {
 													staffCreateFormik.setFieldTouched('salary', true)
 													staffCreateFormik.setFieldValue('salary', values?.value ?? 0)
 												}}
-												onChange={() => {}}
 											/>
-											{staffCreateFormik.touched.salary && staffCreateFormik.errors.salary && (
-												<motion.p
-													initial={{ opacity: 0 }}
-													animate={{ opacity: 1 }}
-													exit={{ opacity: 0 }}
-													className='mt-2 text-sm text-red-600 font-semibold'
-												>
-													{staffCreateFormik.errors.salary}
-												</motion.p>
-											)}
 										</div>
 										<div className={'flex-1'}>
 											<LugatAsyncSelect
@@ -206,13 +159,7 @@ const StaffCreate: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-between'>
-				<LugatButton
-					onClick={goBack}
-					buttonClassNames={'bg-gray-50 !text-gray-900 hover:!bg-gray-100 !w-fit text-base'}
-				>
-					Cancel
-				</LugatButton>
+			<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-end'>
 				<LugatButton buttonClassNames={'!w-fit'} onClick={staffCreateFormik.submitForm}>
 					{!isLoading ? 'Save' : <LoaderIcon />}
 				</LugatButton>

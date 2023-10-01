@@ -14,9 +14,9 @@ const LugatInput: React.FC<RabbitInputProps> = forwardRef<HTMLInputElement, Rabb
 		const { label, error, inputClassnames, value, required, ...inputProps } = props
 		return (
 			<div>
-				<label htmlFor={props.name} className='block mb-2 text-sm font-semibold text-gray-800'>
+				<label htmlFor={props.name} className='block mb-2 text-sm font-semibold text-gray-900 text-left'>
 					{label}
-					{required && <span className={'text-[12px] text-red-700'}>*</span>}
+					{required && <span className={'text-[12px] text-red-700'}>&nbsp;*</span>}
 				</label>
 				<input
 					value={value ?? ''}

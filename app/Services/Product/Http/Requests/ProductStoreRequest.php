@@ -24,23 +24,25 @@ class ProductStoreRequest extends FormRequest
     {
         if ($this->routeIs('product.update')) {
             return [
-                'name' => 'sometimes|string|max:255',
-                'model_code' => 'sometimes|string|max:255',
-                'buy_price' => 'sometimes|numeric',
-                'sell_price' => 'sometimes|numeric',
-                'buy_price_vault_id' => 'sometimes|uuid|exists:vaults,id',
-                'sell_price_vault_id' => 'sometimes|uuid|exists:vaults,id',
+                'name'                 => 'sometimes|string|max:255',
+                'model_code'           => 'sometimes|string|max:255',
+                'buy_price'            => 'sometimes|numeric',
+                'sell_price'           => 'sometimes|numeric',
+                'buy_price_vault_id'   => 'sometimes|uuid|exists:vaults,id',
+                'sell_price_vault_id'  => 'sometimes|uuid|exists:vaults,id',
                 'critical_stock_alert' => 'sometimes|boolean'
             ];
         }
         return [
-            'name' => 'required|string|max:255',
-            'model_code' => 'sometimes|string|max:255',
-            'buy_price' => 'required|numeric',
-            'sell_price' => 'required|numeric',
-            'buy_price_vault_id' => 'required|uuid|exists:vaults,id',
-            'sell_price_vault_id' => 'required|uuid|exists:vaults,id',
-            'critical_stock_alert' => 'sometimes|boolean'
+            'name'                 => 'required|string|max:255',
+            'model_code'           => 'sometimes|string|max:255',
+            'buy_price'            => 'sometimes|numeric',
+            'sell_price'           => 'required|numeric',
+            'buy_price_vault_id'   => 'sometimes|uuid|exists:vaults,id',
+            'sell_price_vault_id'  => 'required|uuid|exists:vaults,id',
+            'critical_stock_alert' => 'sometimes|boolean',
+            'images'               => 'sometimes|array',
+            'images.*'             => 'image|max:4096'
         ];
     }
 }

@@ -1,24 +1,27 @@
-import { AsyncPaginate } from 'react-select-async-paginate'
+import { AsyncPaginate, withAsyncPaginate, WithAsyncPaginateType } from 'react-select-async-paginate'
 import { clsx } from 'clsx'
 import React from 'react'
 import { motion } from 'framer-motion'
+import Select from 'react-select'
 
 const controlStyles = {
-	base: 'border rounded-lg bg-white hover:cursor-pointer',
+	base: 'border rounded-lg bg-white hover:cursor-pointer text-left',
 	focus: 'border-gray-200 ring-1 ring-gray-200',
 	nonFocus: 'border-gray-100 hover:border-gray-400',
 }
 const optionStyles = {
-	base: 'hover:cursor-pointer px-3 py-2 rounded',
+	base: 'hover:cursor-pointer px-3 py-2 rounded text-left',
 	focus: 'bg-gray-100 active:bg-gray-200',
 	selected: "after:content-['✔'] after:ml-2 after:text-green-500 text-gray-500",
 }
+
+
 
 const LugatAsyncSelect: React.FC<any> = (props) => {
 	return (
 		<>
 			{props.label && (
-				<label className={'block mb-2 text-sm font-semibold text-gray-900'}>
+				<label className={'block mb-2 text-sm font-semibold text-gray-900 text-left'}>
 					{props.label}
 					{props.required && <span className={'text-[12px] text-red-700'}>*</span>}
 				</label>
@@ -52,10 +55,10 @@ const LugatAsyncSelect: React.FC<any> = (props) => {
 							controlStyles.base,
 							props.error && 'focus:!ring-red-500 text-red-500 placeholder-red-500 !border-red-500',
 						),
-					placeholder: () => 'text-gray-500 pl-1 py-0.5',
+					placeholder: () => 'text-gray-500 pl-1 py-0.5 text-left',
 					input: () => 'pl-1 py-0.5',
 					valueContainer: () => 'p-1 gap-1 border-gray-50',
-					singleValue: () => 'leading-7 ml-1',
+					singleValue: () => 'leading-7 ml-1 ',
 					multiValue: () => 'bg-gray-100 rounded items-center py-0.5 pl-2 pr-1 gap-1.5',
 					multiValueLabel: () => 'leading-6 py-0.5',
 					multiValueRemove: () =>

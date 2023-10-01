@@ -15,6 +15,8 @@ import CustomerEdit, { customerLoader } from '@/pages/customer/CustomerEdit'
 import StaffPage from '@/pages/staff/StaffPage'
 import StaffCreate from '@/pages/staff/StaffCreate'
 import StaffEdit, { staffLoader } from '@/pages/staff/StaffEdit'
+import ProductPage from '@/pages/product/ProductPage'
+import ProductCreate from '@/pages/product/ProductCreate'
 
 const Home = React.lazy(() => import('@/pages/Home'))
 
@@ -41,6 +43,11 @@ const router = createBrowserRouter(
 				<Route path={'staff'}>
 					<Route path={'list'} element={<StaffPage />} />
 					<Route path={'create'} element={<StaffCreate />} />
+					<Route path={':id/edit'} element={<StaffEdit />} loader={staffLoader} />
+				</Route>
+				<Route path={'product'}>
+					<Route path={'list'} element={<ProductPage />} />
+					<Route path={'create'} element={<ProductCreate />} />
 					<Route path={':id/edit'} element={<StaffEdit />} loader={staffLoader} />
 				</Route>
 			</Route>

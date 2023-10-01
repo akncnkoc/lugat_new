@@ -9,16 +9,16 @@ use App\Services\Product\Http\Requests\ProductImageStoreRequest;
 use App\Services\Product\Http\Resources\ProductImageResource;
 use App\Services\Product\Models\Product;
 use App\Services\Product\Models\ProductImage;
+use App\Services\Product\Traits\ProductImageUpload;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Intervention\Image\ImageManager;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductImageController extends Controller
 {
-    use ResponseTrait;
+    use ResponseTrait, ProductImageUpload;
 
     public function show(ProductImage $productImage)
     {
@@ -35,25 +35,7 @@ class ProductImageController extends Controller
     {
         $this->authorize('productImageStore', ProductImage::class);
         DB::transaction(static function () use ($request, $product) {
-            foreach ($request->file('images') as $image) {
-                $image->storePubliclyAs("product/$product->id/images", $image->hashName());
-                $manager = new ImageManager;
-                $savedPath = "app/product/$product->id/images/" . $image->hashName();
-                $manager->make(storage_path($savedPath))
-                        ->resize(1024, 768, fn($constraint) => $constraint->aspectRatio())
-                        ->insert(public_path('assets/companylogowatermark.png'), 'bottom-right', 20, 20)
-                        ->save(storage_path($savedPath));
-                ProductImage::create([
-                    'path'       => "app/product/$product->id/images/" . $image->hashName(),
-                    'product_id' => $product->id,
-                    'properties' => json_encode([
-                        'width'     => $image->dimensions()[0],
-                        'height'    => $image->dimensions()[1],
-                        'size'      => $image->getSize(),
-                        'extension' => $image->extension()
-                    ], JSON_THROW_ON_ERROR),
-                ]);
-            }
+            $this->uploadImagesForProduct($product, $request->file('images'));
         });
         return $this->success('product image stored', statusCode: Response::HTTP_CREATED);
     }

@@ -9,6 +9,7 @@ use App\Global\Traits\ResponseTrait;
 use App\Services\Product\Http\Requests\ProductStoreRequest;
 use App\Services\Product\Http\Resources\ProductResource;
 use App\Services\Product\Models\Product;
+use App\Services\Product\Traits\ProductImageUpload;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
-    use ResponseTrait;
+    use ResponseTrait, ProductImageUpload;
 
     public function index(): AnonymousResourceCollection
     {
@@ -38,7 +39,10 @@ class ProductController extends Controller
     {
         $this->authorize('productStore', Product::class);
         DB::transaction(static function () use ($request) {
-            Product::create($request->safe()->all());
+            $product = Product::create($request->safe()->except(['images']));
+            if ($request->hasAny('images')) {
+                $this->uploadImagesForProduct($product, $request->file('images'));
+            }
         });
         return $this->success('product created', statusCode: Response::HTTP_CREATED);
     }

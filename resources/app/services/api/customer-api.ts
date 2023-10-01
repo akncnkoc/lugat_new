@@ -11,9 +11,12 @@ export const customerApi = createApi({
 		getCustomers: builder.mutation<CustomerResource, { page: string; search: string }>({
 			query({ page = '1', search }) {
 				const url = new URL(window.location.toString())
-				url.searchParams.set('search', search.toString())
+				url.searchParams.set('page', page);
+				if (search) {
+					url.searchParams.set('search', search.toString())
+				}
 				return {
-					url: `v1/customer?page=${page}&${decodeURIComponent(url.searchParams.toString())}`,
+					url: `v1/customer?${decodeURIComponent(url.searchParams.toString())}`,
 				}
 			},
 		}),

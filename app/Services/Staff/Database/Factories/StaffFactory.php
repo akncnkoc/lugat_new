@@ -23,7 +23,7 @@ class StaffFactory extends Factory
             'type'            => $this->faker->randomElement(StaffType::values()),
             'email'           => $this->faker->email,
             'salary'          => $this->faker->numberBetween(1000, 10000),
-            'salary_vault_id' => Vault::factory()
+            'salary_vault_id' => Vault::inRandomOrder()->first()
         ];
     }
 }

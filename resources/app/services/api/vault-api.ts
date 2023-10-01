@@ -11,10 +11,13 @@ export const vaultApi = createApi({
 		getVaults: builder.mutation<VaultResource, { page: string; search: string }>({
 			query({ page = '1', search }) {
 				const url = new URL(window.location.toString())
-				url.searchParams.set('search', search.toString())
+				url.searchParams.set('page', page);
+				if (search) {
+					url.searchParams.set('search', search.toString())
+				}
 				return {
 					method: 'GET',
-					url: `v1/vault?page=${page}&${decodeURIComponent(url.searchParams.toString())}`,
+					url: `v1/vault?${decodeURIComponent(url.searchParams.toString())}`,
 				}
 			},
 		}),

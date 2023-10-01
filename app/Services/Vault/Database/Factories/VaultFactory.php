@@ -15,9 +15,6 @@ class VaultFactory extends Factory
 
     public function definition(): array
     {
-        return [
-            'name'        => $this->faker->currencyCode.' Vault',
-            'currency_id' => Currency::where('code', $this->faker->currencyCode)->firstOr(fn() => Currency::inRandomOrder()->first()),
-        ];
+        return [];
     }
 }

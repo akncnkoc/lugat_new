@@ -10,6 +10,7 @@ import { ExpenseDataType } from '@/types/expense-types'
 import { VaultDataType } from '@/types/vault-types'
 import { CustomerDataType } from '@/types/customer-types'
 import { StaffDataType } from '@/types/staff-types'
+import { ProductDataType } from '@/types/product-types'
 
 type LugatTableProps = {
 	table:
@@ -17,6 +18,7 @@ type LugatTableProps = {
 		| Table<VaultDataType>
 		| Table<CustomerDataType>
 		| Table<StaffDataType>
+		| Table<ProductDataType>
 	meta?: CollectionMetaType
 	onPaginate: Function
 	currentPage: number | string

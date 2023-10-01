@@ -15,7 +15,7 @@ const PopoverNavigationItem: React.FC<PopoverNavigationItemType> = (props) => {
 
 	return (
 		<Popover className={'relative'}>
-			{({ open }) => (
+			{({ open, close }) => (
 				<>
 					<Popover.Button ref={refs.setReference} className={'w-full focus:outline-0'}>
 						<NavigationItem
@@ -24,6 +24,7 @@ const PopoverNavigationItem: React.FC<PopoverNavigationItemType> = (props) => {
 							}}
 							isPopover
 							item={props.item}
+							close={close}
 						/>
 					</Popover.Button>
 					<Transition
@@ -42,7 +43,7 @@ const PopoverNavigationItem: React.FC<PopoverNavigationItemType> = (props) => {
 								className='w-64 z-[9999999] max-w-lg bg-white divide-y divide-gray-200 rounded-md shadow-lg focus:outline-none'
 								style={{ position: 'fixed', top: y, left: x }}
 							>
-								{React.cloneElement(props.popover as ReactElement)}
+								{React.cloneElement(props.popover as ReactElement, { close })}
 							</div>
 						</Popover.Panel>
 					</Transition>

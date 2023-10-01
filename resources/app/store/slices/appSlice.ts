@@ -3,10 +3,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 export type IAppState = {
 	isUserRefetching: boolean
 	isGlobalLoading: boolean
+	sidebarClassNames: string
 }
 const initialState: IAppState = {
 	isUserRefetching: false,
 	isGlobalLoading: false,
+	sidebarClassNames: ''
 }
 
 const appSlice = createSlice({
@@ -21,7 +23,11 @@ const appSlice = createSlice({
 			state.isGlobalLoading = action.payload
 			return state
 		},
+		setSidebarClassNames: (state, action: PayloadAction<string>) => {
+			state.sidebarClassNames = action.payload
+			return state
+		},
 	},
 })
-export const { setUserIsFetching, setIsGlobalLoading } = appSlice.actions
+export const { setUserIsFetching, setIsGlobalLoading, setSidebarClassNames } = appSlice.actions
 export default appSlice.reducer

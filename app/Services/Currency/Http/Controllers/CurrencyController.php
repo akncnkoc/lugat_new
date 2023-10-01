@@ -6,6 +6,7 @@ use App\Global\Http\Controllers\Controller;
 use App\Global\Traits\ResponseTrait;
 use App\Services\Currency\Http\Resources\CurrencyResource;
 use App\Services\Currency\Models\Currency;
+use App\Services\Vault\Models\Vault;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
@@ -60,6 +61,7 @@ class CurrencyController extends Controller
         DB::transaction(static function () use ($currencyConverted) {
             Currency::upsert($currencyConverted, 'code');
         });
+
         return $this->success("currencies updated");
     }
 }

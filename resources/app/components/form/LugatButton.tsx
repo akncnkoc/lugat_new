@@ -7,7 +7,7 @@ type RabbitButtonProps = {
 
 const LugatButton: React.FC<RabbitButtonProps> = forwardRef<HTMLButtonElement, RabbitButtonProps>(
 	(props, ref) => {
-		const { buttonClassNames,loading, ...buttonProps } = props
+		const { buttonClassNames, loading, ...buttonProps } = props
 
 		return (
 			<button

@@ -1,38 +1,23 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { CurrencyResource, Shape } from '@/helpers/types'
-import { object, string } from 'yup'
 import LugatButton from '@/components/form/LugatButton'
 import toast, { LoaderIcon } from 'react-hot-toast'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
 import { useStoreVaultMutation } from '@/services/api/vault-api'
-import { storeDispatch } from '@/store'
-import { currencyApi } from '@/services/api/currency-api'
 import LugatInput from '@/components/form/LugatInput'
-import { VaultStoreFormType } from '@/types/vault-types'
+import { VaultStoreFormType, VaultStoreInitialValues } from '@/types/vault-types'
+import { VaultCreateValidationSchema } from '@/helpers/schemas'
+import useCurrencies from '@/hooks/useCurrencies'
 
 const VaultCreate: React.FC = () => {
 	const navigate = useNavigate()
 	const [storeVault, { isLoading }] = useStoreVaultMutation()
-
+	const { loadCurrencies } = useCurrencies()
 	const vaultCreateFormik = useFormik<VaultStoreFormType>({
-		initialValues: {
-			name: '',
-			currency: {
-				id: '-1',
-				name: 'Select',
-			},
-		},
+		initialValues: VaultStoreInitialValues,
 		validateOnBlur: false,
-		validationSchema: object().shape<Shape<VaultStoreFormType>>({
-			name: string().label('Name').required().max(255),
-			currency: object()
-				.label('Currency')
-				.shape({
-					id: string().required().notOneOf(['-1'], 'Currency must be selected'),
-				}),
-		}),
+		validationSchema: VaultCreateValidationSchema,
 		onSubmit: (values) => {
 			storeVault({ ...values, currency_id: values.currency.id })
 				.unwrap()
@@ -47,24 +32,6 @@ const VaultCreate: React.FC = () => {
 		},
 	})
 
-	const goBack = () => {
-		navigate(-1)
-	}
-
-	const loadCurrencies = async (search: string, _: any, { page }: any) => {
-		const response = (await storeDispatch(
-			currencyApi.endpoints?.getCurrencies.initiate({ page, search }),
-		).then((res) => res.data)) as CurrencyResource
-		const responseJSON = response.data.map((currency) => ({ id: currency.id, name: currency.name }))
-
-		return {
-			options: responseJSON,
-			hasMore: response.meta.last_page > response.meta.current_page,
-			additional: {
-				page: page + 1,
-			},
-		}
-	}
 
 	return (
 		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all pb-4'>
@@ -112,13 +79,7 @@ const VaultCreate: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-between'>
-				<LugatButton
-					onClick={goBack}
-					buttonClassNames={'bg-gray-50 !text-gray-900 hover:!bg-gray-100 !w-fit text-base'}
-				>
-					Cancel
-				</LugatButton>
+			<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-end'>
 				<LugatButton buttonClassNames={'!w-fit'} onClick={vaultCreateFormik.submitForm}>
 					{!isLoading ? 'Save' : <LoaderIcon />}
 				</LugatButton>

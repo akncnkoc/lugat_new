@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { Await, defer, useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { Shape } from '@/helpers/types'
-import { date, number, object, string } from 'yup'
 import CurrencyInput from 'react-currency-input-field'
 import { motion } from 'framer-motion'
 import DatePicker, { DateObject } from 'react-multi-date-picker'
@@ -16,8 +14,14 @@ import { storeDispatch } from '@/store'
 import LoaderComponent from '@/components/LoaderComponent'
 import { TrackedPromise } from '@remix-run/router/utils'
 import { parse } from 'date-fns'
-import { ExpenseEditFormType, ExpenseTypeData } from '@/types/expense-types'
+import {
+	ExpenseStoreFormType,
+	ExpenseStoreInitialValues,
+	ExpenseTypeData,
+} from '@/types/expense-types'
 import useLoadVault from '@/hooks/useLoadVault'
+import { ExpenseEditValidationSchema } from '@/helpers/schemas'
+import LugatCurrencyInput from '@/components/LugatCurrencyInput'
 
 export const expenseLoader = async ({ params }: any) => {
 	const results = storeDispatch(expenseApi.endpoints?.getExpense.initiate(params.id ?? '')).then(
@@ -36,33 +40,10 @@ const ExpenseEdit: React.FC = () => {
 	}
 	const [updateExpense, { isLoading }] = useUpdateExpenseMutation()
 	const { loadVaults } = useLoadVault()
-	const expenseUpdateFormik = useFormik<ExpenseEditFormType>({
-		initialValues: {
-			amount: 0,
-			type: 'food',
-			comment: '',
-			receipt_date: new Date(),
-			vault: {
-				id: '-1',
-				name: 'Select',
-			},
-		},
+	const expenseUpdateFormik = useFormik<ExpenseStoreFormType>({
+		initialValues: ExpenseStoreInitialValues,
 		validateOnBlur: false,
-		validationSchema: object().shape<Shape<Partial<ExpenseEditFormType>>>({
-			amount: number().label('Amount').required().min(1).max(100000),
-			type: string().required().notOneOf(['-1'], 'Expense type must be selected'),
-			vault: object()
-				.label('Vault')
-				.shape({
-					id: string().required().notOneOf(['-1'], 'Vault must be selected'),
-				}),
-			receipt_date: date().transform(function (value, originalValue) {
-				if (this.isType(value)) {
-					return value
-				}
-				return parse(originalValue, 'dd.MM.yyyy', new Date())
-			}),
-		}),
+		validationSchema: ExpenseEditValidationSchema,
 		onSubmit: (values) => {
 			updateExpense({ body: { ...values, vault_id: values.vault.id }, id: id ?? '' })
 				.unwrap()
@@ -76,10 +57,6 @@ const ExpenseEdit: React.FC = () => {
 				})
 		},
 	})
-
-	const goBack = () => {
-		navigate(-1)
-	}
 	useEffect(() => {
 		if (data) {
 			data.results.then((expense) => {
@@ -125,31 +102,19 @@ const ExpenseEdit: React.FC = () => {
 															<label className={'block mb-2 text-sm font-semibold text-gray-900'}>
 																Amount
 															</label>
-															<CurrencyInput
-																className={`${
+															<LugatCurrencyInput
+																label={'Amount'}
+																required
+																error={
 																	expenseUpdateFormik.touched.amount &&
-																	expenseUpdateFormik.errors.amount &&
-																	'focus:!ring-red-500 text-red-500 placeholder-red-500 !border-red-500'
-																} text-sm font-semibold mt-2 rounded-lg block w-full p-2.5 outline-none bg-white border border-gray-100 placeholder-gray-400 text-gray-900`}
+																	expenseUpdateFormik.errors.amount
+																}
 																value={expenseUpdateFormik.values.amount}
 																onValueChange={(_, __, values) => {
 																	expenseUpdateFormik.setFieldTouched('amount', true)
 																	expenseUpdateFormik.setFieldValue('amount', values?.value ?? 0)
 																}}
-																onChange={() => {}}
-																suffix={' ₺'}
 															/>
-															{expenseUpdateFormik.touched.amount &&
-																expenseUpdateFormik.errors.amount && (
-																	<motion.p
-																		initial={{ opacity: 0 }}
-																		animate={{ opacity: 1 }}
-																		exit={{ opacity: 0 }}
-																		className='mt-2 text-sm text-red-600 font-semibold'
-																	>
-																		{expenseUpdateFormik.errors.amount}
-																	</motion.p>
-																)}
 														</div>
 														<div className={'flex-1'}>
 															<LugatAsyncSelect
@@ -177,7 +142,10 @@ const ExpenseEdit: React.FC = () => {
 														<LugatAsyncSelect
 															label={'Expense Type'}
 															value={{
-																label: ExpenseTypeData[expenseUpdateFormik.values.type],
+																label:
+																	ExpenseTypeData[
+																		expenseUpdateFormik.values.type as keyof typeof ExpenseTypeData
+																	],
 																value: expenseUpdateFormik.values.type,
 															}}
 															error={
@@ -227,15 +195,7 @@ const ExpenseEdit: React.FC = () => {
 										</div>
 									</div>
 								</div>
-								<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-between'>
-									<LugatButton
-										onClick={goBack}
-										buttonClassNames={
-											'bg-gray-50 !text-gray-900 hover:!bg-gray-100 !w-fit text-base'
-										}
-									>
-										Cancel
-									</LugatButton>
+								<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-end'>
 									<LugatButton buttonClassNames={'!w-fit'} onClick={expenseUpdateFormik.submitForm}>
 										{!isLoading ? 'Save' : <LoaderIcon />}
 									</LugatButton>

@@ -17,7 +17,7 @@ const ProductMenuPopover: React.FC = () => {
 	const navigationItems: NavigationItemType[] = [
 		{
 			text: 'Product List',
-			route: '/list',
+			route: '/product/list',
 			icon: (
 				<>
 					<ProductsIcon fillColor={'currentColor'} />
@@ -26,7 +26,7 @@ const ProductMenuPopover: React.FC = () => {
 		},
 		{
 			text: 'Create',
-			route: '/create',
+			route: '/product/create',
 			icon: (
 				<>
 					<PlusCircleIcon fillColor={'currentColor'} />

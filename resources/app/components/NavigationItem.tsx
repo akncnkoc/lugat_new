@@ -1,19 +1,19 @@
 import React from 'react'
 import { NavigationItemProps } from '@/helpers/types'
+import { storeDispatch } from '@/store'
+import { setSidebarClassNames } from '@/store/slices/appSlice'
+import { Popover } from '@headlessui/react'
 
-const NavigationItem: React.FC<NavigationItemProps> = ({
-	handleNavigate,
-	item,
-	isPopover,
-}) => {
+const NavigationItem: React.FC<NavigationItemProps> = ({ handleNavigate, item, isPopover, close }) => {
 	return (
 		<li>
 			<div
 				onClick={() => {
 					if (!isPopover) {
 						handleNavigate(item.route, item.state)
+						storeDispatch(setSidebarClassNames('-translate-x-full absolute z-5000 h-full'))
+						close && close();
 					}
-					close && close()
 				}}
 				className='flex items-center text-sm rounded-lg p-2 text-gray-500 hover:bg-blue-200 hover:text-white group cursor-pointer transition-all'
 			>

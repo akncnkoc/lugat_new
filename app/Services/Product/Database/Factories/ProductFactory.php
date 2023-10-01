@@ -15,13 +15,16 @@ class ProductFactory extends Factory
 
     public function definition(): array
     {
+        $vault = Vault::inRandomOrder()->first();
+        $buyPrice = $this->faker->numberBetween(100, 200);
+        $sellPrice = $buyPrice + ($buyPrice * 0.3);
         return [
-            'name' => $this->faker->name,
-            'model_code' => $this->faker->postcode,
-            'buy_price' => $this->faker->numberBetween(100, 200),
-            'buy_price_vault_id' => Vault::factory(),
-            'sell_price' => $this->faker->numberBetween(100, 200),
-            'sell_price_vault_id' => Vault::factory(),
+            'name'                => $this->faker->name,
+            'model_code'          => $this->faker->postcode,
+            'buy_price'           => $buyPrice,
+            'buy_price_vault_id'  => $vault,
+            'sell_price'          => $sellPrice,
+            'sell_price_vault_id' => $vault,
         ];
     }
 }

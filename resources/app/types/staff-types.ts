@@ -35,6 +35,21 @@ export type StaffStoreFormType = {
 		value: keyof typeof StaffTypeData | '-1'
 	}
 }
+export const StaffStoreInitialValues: StaffStoreFormType  ={
+	name: '',
+	surname: '',
+	phone: '',
+	email: '',
+	salary: 0,
+	type: {
+		label: 'Select',
+		value: '-1',
+	},
+	salary_vault: {
+		id: '-1',
+		name: 'Select',
+	},
+}
 
 export type StaffStoreType = {
 	name: string

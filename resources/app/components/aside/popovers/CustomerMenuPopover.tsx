@@ -7,7 +7,7 @@ import { NavigateOptions } from 'react-router/dist/lib/context'
 import PlusCircleIcon from '@/components/icons/PlusCircleIcon'
 import CustomersIcon from '@/components/icons/CustomersIcon'
 
-const CustomerMenuPopover: React.FC = () => {
+const CustomerMenuPopover: React.FC = ({ close }: any) => {
 	const navigate = useNavigate()
 
 	const handleNavigate = (route: string, state?: NavigateOptions['state']) => {
@@ -48,7 +48,7 @@ const CustomerMenuPopover: React.FC = () => {
 						item={item}
 					/>
 				) : (
-					<NavigationItem key={item.route} handleNavigate={handleNavigate} item={item} />
+					<NavigationItem key={item.route} handleNavigate={handleNavigate} item={item} close={close} />
 				)
 			})}
 		</div>

@@ -1,18 +1,15 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { Shape } from '@/helpers/types'
-import { object, string } from 'yup'
 import LugatButton from '@/components/form/LugatButton'
 import toast, { LoaderIcon } from 'react-hot-toast'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
-import { storeDispatch } from '@/store'
 import LugatInput from '@/components/form/LugatInput'
 import { useStoreCustomerMutation } from '@/services/api/customer-api'
-import { CustomerStoreFormType, CustomerTypeDataType, CustomerTypeResource } from '@/types/customer-types'
-import { customerType } from '@/services/api/customer-type-api'
+import { CustomerStoreFormInitialValues, CustomerStoreFormType } from '@/types/customer-types'
 import LugatTextarea from '@/components/form/LugatTextarea'
 import useCustomerType from '@/hooks/useCustomerType'
+import { CustomerCreateValidationSchema } from '@/helpers/schemas'
 
 const CustomerCreate: React.FC = () => {
 	const navigate = useNavigate()
@@ -20,44 +17,9 @@ const CustomerCreate: React.FC = () => {
 	const { loadCustomerTypes } = useCustomerType()
 
 	const customerCreateFormik = useFormik<CustomerStoreFormType>({
-		initialValues: {
-			name: '',
-			surname: '',
-			phone: '',
-			email: '',
-			customer_type: {
-				id: '-1',
-				name: 'Select',
-			},
-			city: '',
-			district: '',
-			address: '',
-			neighborhood: '',
-			gender: {
-				label: '-1',
-				value: 'Select',
-			},
-			post_code: '',
-			comment: '',
-		},
+		initialValues: CustomerStoreFormInitialValues,
 		validateOnBlur: false,
-		validationSchema: object().shape<Shape<Partial<CustomerStoreFormType>>>({
-			name: string().label('Name').required().max(255),
-			surname: string().label('Surname').required().max(255),
-			email: string().label('Email').email().required().max(255),
-			phone: string()
-				.label('Phone')
-				.required()
-				.matches(
-					/^((\+\d{1,3}([- ])?\(?\d\)?([- ])?\d{1,3})|(\(?\d{2,3}\)?))([- ])?(\d{3,4})([- ])?(\d{4})(( x| ext)\d{1,5})?$/,
-					'Phone must be valid',
-				),
-			customer_type: object()
-				.label('Customer Type')
-				.shape({
-					id: string().required().notOneOf(['-1'], 'Customer Type must be selected'),
-				}),
-		}),
+		validationSchema: CustomerCreateValidationSchema,
 		onSubmit: (values) => {
 			storeCustomer({
 				...values,
@@ -75,10 +37,6 @@ const CustomerCreate: React.FC = () => {
 				})
 		},
 	})
-
-	const goBack = () => {
-		navigate(-1)
-	}
 	return (
 		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all pb-4'>
 			<div className={'h-16 px-6 border-b border-gray-100 flex items-center justify-between'}>
@@ -276,13 +234,7 @@ const CustomerCreate: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-between'>
-				<LugatButton
-					onClick={goBack}
-					buttonClassNames={'bg-gray-50 !text-gray-900 hover:!bg-gray-100 !w-fit text-base'}
-				>
-					Cancel
-				</LugatButton>
+			<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-end'>
 				<LugatButton buttonClassNames={'!w-fit'} onClick={customerCreateFormik.submitForm}>
 					{!isLoading ? 'Save' : <LoaderIcon />}
 				</LugatButton>

@@ -20,4 +20,4 @@ export const authApi = createApi({
 	}),
 })
 
-export const { useLazyAuthenticateQuery } = authApi
+export const {} = authApi

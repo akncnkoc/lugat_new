@@ -23,8 +23,8 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'model_code' => $this->model_code,
-            'buy_price' => $this->buy_price,
-            'sell_price' => $this->sell_price,
+            'buy_price' => round($this->buy_price, 2),
+            'sell_price' => round($this->sell_price, 2),
             'buy_price_vault' => VaultResource::make($this->buyPriceVault),
             'sell_price_vault' => VaultResource::make($this->sellPriceVault),
             'critical_stock_alert' => $this->critical_stock_alert

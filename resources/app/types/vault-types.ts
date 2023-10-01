@@ -18,6 +18,14 @@ export type VaultStoreFormType = {
 	}
 }
 
+export const VaultStoreInitialValues: VaultStoreFormType = {
+	name: '',
+	currency: {
+		id: '-1',
+		name: 'Select',
+	},
+}
+
 export type VaultStoreType = {
 	name: string
 	currency_id: string

@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('model_code')->nullable();
             $table->decimal('buy_price', 15, 5)->default(1);
-            $table->foreignUuid('buy_price_vault_id')->constrained('vaults')->restrictOnDelete();
+            $table->foreignUuid('buy_price_vault_id')->nullable()->constrained('vaults')->restrictOnDelete();
             $table->decimal('sell_price', 15, 5)->default(1);
             $table->foreignUuid('sell_price_vault_id')->constrained('vaults')->restrictOnDelete();
             $table->boolean('critical_stock_alert')->default(false);

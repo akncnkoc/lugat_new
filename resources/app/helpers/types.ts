@@ -82,6 +82,7 @@ export type NavigationItemProps = {
 	handleNavigate: Function
 	item: NavigationItemType
 	isPopover?: boolean
+	close?: Function
 }
 export type ConditionalSchema<T> = T extends string
 	? yup.StringSchema

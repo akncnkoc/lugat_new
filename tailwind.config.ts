@@ -1,8 +1,14 @@
 import type { Config } from 'tailwindcss'
 
+/** @type {import('tailwindcss').Config} */
 export default {
 	content: ['./resources/views/app.blade.php', './resources/app/**/*.{js,ts,jsx,tsx}'],
 	theme: {
+		screens: {
+			'tablet': '640px',
+			'laptop': '1024px',
+			'desktop': '1280px',
+		},
 		extend: {
 			zIndex: {
 				1000: '1000',

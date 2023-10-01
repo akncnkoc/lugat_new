@@ -1,5 +1,4 @@
 import React from 'react'
-import { object, string } from 'yup'
 import { useFormik } from 'formik'
 import LugatInput from '@/components/form/LugatInput'
 import LugatButton from '@/components/form/LugatButton'
@@ -11,19 +10,17 @@ import { LoginFormType } from '@/types/auth-types'
 import { storeDispatch } from '@/store'
 import { authApi } from '@/services/api/auth-api'
 import { setToken } from '@/store/slices/userSlice'
+import { LoginFormValidationSchema } from '@/helpers/schemas'
 
 const Login: React.FC = () => {
 	const navigate = useNavigate()
-	const loginFormValidationSchema = object<LoginFormType>({
-		email: string().required('E-Posta alanı gereklidir').email('E-Posta geçersiz'),
-		password: string().required('Şifre alanı gereklidir'),
-	})
+
 	const loginForm = useFormik<LoginFormType>({
 		initialValues: {
 			email: 'test@test.com',
 			password: 'password',
 		},
-		validationSchema: loginFormValidationSchema,
+		validationSchema: LoginFormValidationSchema,
 		onSubmit: async (values) => {
 			toast.dismiss()
 			toast.loading('Loading')

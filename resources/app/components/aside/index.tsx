@@ -15,6 +15,7 @@ import ExpenseMenuPopover from '@/components/aside/popovers/ExpenseMenuPopover'
 import VaultMenuPopover from '@/components/aside/popovers/VaultMenuPopover'
 import CustomerMenuPopover from '@/components/aside/popovers/CustomerMenuPopover'
 import StaffMenuPopover from '@/components/aside/popovers/StaffMenuPopover'
+import { useAppSelector } from '@/store/hooks'
 
 const Aside: React.FC = () => {
 	const navigate = useNavigate()
@@ -23,6 +24,7 @@ const Aside: React.FC = () => {
 			replace: true,
 		})
 	}
+	const appSlice = useAppSelector((state) => state.appSlice)
 	const navigationItems: NavigationItemType[] = [
 		{
 			text: 'Dashboard',
@@ -74,8 +76,7 @@ const Aside: React.FC = () => {
 	return (
 		<aside
 			id='logo-sidebar'
-			className={`z-40 max-w-[260px] min-w-[260px] flex-1 transition-transform border-r border-gray-200 bg-white`}
-			aria-label='Sidebar'
+			className={`z-40 max-w-[260px] min-w-[260px] flex-1 transition-transform border-r border-gray-200 bg-white transform ${appSlice.sidebarClassNames}`}
 		>
 			<div className='h-full flex flex-col'>
 				<ul className='space-y-2 flex flex-col font-semibold p-2'>
@@ -93,6 +94,11 @@ const Aside: React.FC = () => {
 					})}
 				</ul>
 				<div className={'flex-1'}></div>
+				<div className={'flex items-center justify-center p-2 font-semibold text-base'}>
+					<Link to='/' className='flex justify-center ml-2'>
+						<img src='/assets/logo.svg' className='h-24 mr-3' alt='Lügat Logo' />
+					</Link>
+				</div>
 				<div className={'flex items-center justify-center p-2 font-semibold text-base'}>
 					Made by&nbsp;
 					<Link

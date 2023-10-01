@@ -39,6 +39,7 @@
         -moz-osx-font-smoothing: grayscale;
         -webkit-text-size-adjust: 100%;
         font-size: 14px;
+        overflow: hidden;
         font-family: 'Averta Std', sans-serif;
         @apply text-gray-900 bg-black/5 w-full h-full text-sm overflow-auto;
     }
