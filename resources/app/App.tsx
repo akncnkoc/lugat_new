@@ -18,9 +18,7 @@ function App() {
 	useEffect(() => {
 		if (isMenuEnabled) {
 			console.log(isMenuEnabled)
-			storeDispatch(
-				setSidebarClassNames('-translate-x-full absolute z-5000 h-full'),
-			)
+			storeDispatch(setSidebarClassNames('-translate-x-full absolute z-5000 h-full'))
 		} else {
 			storeDispatch(setSidebarClassNames(''))
 		}

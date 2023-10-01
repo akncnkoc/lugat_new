@@ -22,7 +22,12 @@ class ProductController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $this->authorize('productView', Product::class);
-        return ProductResource::collection(Product::paginate());
+        $productQuery = Product::query();
+        if ($search = request()?->query('search')) {
+            $productQuery->where('name', 'ILIKE', "%$search%")
+                       ->orWhere('model_code','ILIKE', "%$search%");
+        }
+        return ProductResource::collection($productQuery->orderBy('name')->paginate());
     }
 
 

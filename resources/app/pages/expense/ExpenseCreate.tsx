@@ -1,20 +1,19 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getIn, useFormik } from 'formik'
-import { Shape } from '@/helpers/types'
-import { date, number, object, string } from 'yup'
-import CurrencyInput from 'react-currency-input-field'
-import { motion } from 'framer-motion'
 import { turkeyLocaleConfig } from '@/config/datepicker-config'
 import DatePicker, { DateObject } from 'react-multi-date-picker'
 import TimePicker from 'react-multi-date-picker/plugins/time_picker'
-import parse from 'date-fns/parse'
 import LugatTextarea from '@/components/form/LugatTextarea'
 import LugatButton from '@/components/form/LugatButton'
 import { useStoreExpenseMutation } from '@/services/api/expense-api'
 import toast, { LoaderIcon } from 'react-hot-toast'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
-import { ExpenseStoreFormType, ExpenseStoreInitialValues, ExpenseTypeData } from '@/types/expense-types'
+import {
+	ExpenseStoreFormType,
+	ExpenseStoreInitialValues,
+	ExpenseTypeData,
+} from '@/types/expense-types'
 import useLoadVault from '@/hooks/useLoadVault'
 import { ExpenseCreateValidationSchema } from '@/helpers/schemas'
 import LugatCurrencyInput from '@/components/LugatCurrencyInput'
@@ -43,7 +42,7 @@ const ExpenseCreate: React.FC = () => {
 	})
 
 	return (
-		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all pb-4'>
+		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all overflow-hidden tablet:max-w-7xl tablet:mx-auto'>
 			<div className={'h-16 px-6 border-b border-gray-100 flex items-center justify-between'}>
 				<h3 className={'text-lg font-semibold'}>Create New Expense</h3>
 			</div>
@@ -58,8 +57,7 @@ const ExpenseCreate: React.FC = () => {
 											label={'Amount'}
 											required
 											error={
-												expenseCreateFormik.touched.amount &&
-												expenseCreateFormik.errors.amount
+												expenseCreateFormik.touched.amount && expenseCreateFormik.errors.amount
 											}
 											value={expenseCreateFormik.values.amount}
 											onValueChange={(_, __, values) => {
@@ -137,8 +135,8 @@ const ExpenseCreate: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-end'>
-				<LugatButton buttonClassNames={'!w-fit'} onClick={expenseCreateFormik.submitForm}>
+			<div className='bg-white p-4 flex justify-end border-t border-gray-100'>
+				<LugatButton onClick={expenseCreateFormik.submitForm}>
 					{!isLoading ? 'Save' : <LoaderIcon />}
 				</LugatButton>
 			</div>

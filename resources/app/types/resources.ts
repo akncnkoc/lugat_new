@@ -1,5 +1,5 @@
-import translations from '@/locales/en/translations.json';
+import translations from '@/locales/en/translations.json'
 
-const resources = { translations } as const;
+const resources = { translations } as const
 
-export default resources;
+export default resources

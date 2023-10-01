@@ -43,7 +43,7 @@ export const ProductStoreInitialValues: ProductStoreFormType = {
 		name: 'Select',
 	},
 	critical_stock_alert: false,
-	images: []
+	images: [],
 }
 
 export type ProductStoreType = {

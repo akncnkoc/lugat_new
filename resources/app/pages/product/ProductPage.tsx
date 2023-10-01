@@ -61,9 +61,10 @@ const ProductPage: React.FC = () => {
 		getCoreRowModel: getCoreRowModel(),
 	})
 
-	useEffect(() => {
+	const handleOnPaginate = (page: string) => {
+		setPageParams((prev) => ({ ...prev, page }))
 		fetch()
-	}, [pageParams.page])
+	}
 
 	useEffect(() => {
 		fetch()
@@ -106,7 +107,7 @@ const ProductPage: React.FC = () => {
 						table={table}
 						meta={products?.meta ?? undefined}
 						fetching={isLoading}
-						onPaginate={(page: string) => setPageParams((prev) => ({ ...prev, page }))}
+						onPaginate={(page: string) => handleOnPaginate(page)}
 						currentPage={pageParams.page}
 						error={error}
 					/>

@@ -63,7 +63,6 @@ export type DefaultResponseCollectionType<T> = {
 	message: string
 }
 
-
 export type SvgProps = {
 	width?: number | string
 	height?: number | string
@@ -77,12 +76,14 @@ export type NavigationItemType = {
 	popover?: React.ReactElement | ReactNode
 	isPopover?: boolean
 	state?: NavigateOptions['state']
+	isMenuEnabled?: boolean | 0 | null
 }
 export type NavigationItemProps = {
 	handleNavigate: Function
 	item: NavigationItemType
 	isPopover?: boolean
 	close?: Function
+	isMenuEnabled?: boolean | 0 | null
 }
 export type ConditionalSchema<T> = T extends string
 	? yup.StringSchema

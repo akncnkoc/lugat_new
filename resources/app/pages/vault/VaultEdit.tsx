@@ -63,7 +63,7 @@ const VaultEdit: React.FC = () => {
 	}, [data])
 
 	return (
-		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all pb-4'>
+		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all overflow-hidden tablet:max-w-7xl tablet:mx-auto'>
 			<React.Suspense
 				fallback={
 					<div className={'h-96 w-full flex items-center justify-center'}>
@@ -123,8 +123,8 @@ const VaultEdit: React.FC = () => {
 										</div>
 									</div>
 								</div>
-								<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-end'>
-									<LugatButton buttonClassNames={'!w-fit'} onClick={vaultUpdateFormik.submitForm}>
+								<div className='bg-white p-4 flex justify-end border-t border-gray-100'>
+									<LugatButton onClick={vaultUpdateFormik.submitForm}>
 										{!isLoading ? 'Save' : <LoaderIcon />}
 									</LugatButton>
 								</div>

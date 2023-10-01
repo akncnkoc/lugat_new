@@ -26,7 +26,6 @@ export type ExpenseStoreType = {
 	comment?: string | null
 }
 
-
 export type ExpenseDataType = {
 	id: string
 	amount: number

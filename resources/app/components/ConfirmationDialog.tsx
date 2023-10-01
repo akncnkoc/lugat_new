@@ -23,7 +23,7 @@ const ConfirmationDialog: FC<Props> = ({ onResolve }) => {
 	return (
 		<AnimatePresence>
 			<motion.div
-				className='relative p-4 w-full max-w-lg h-full md:h-52'
+				className='relative p-4 w-full max-w-lg h-52 md:h-52'
 				initial={{
 					opacity: 0,
 					scale: 0.75,
@@ -87,7 +87,10 @@ const ConfirmationDialog: FC<Props> = ({ onResolve }) => {
 						>
 							No, cancel
 						</LugatButton>
-						<LugatButton onClick={handleYes} buttonClassNames={'!w-fit bg-red-500 hover:bg-red-600'}>
+						<LugatButton
+							onClick={handleYes}
+							buttonClassNames={'!w-fit bg-red-500 hover:bg-red-600'}
+						>
 							Yes, I'm sure
 						</LugatButton>
 					</div>

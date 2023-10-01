@@ -35,7 +35,7 @@ export type StaffStoreFormType = {
 		value: keyof typeof StaffTypeData | '-1'
 	}
 }
-export const StaffStoreInitialValues: StaffStoreFormType  ={
+export const StaffStoreInitialValues: StaffStoreFormType = {
 	name: '',
 	surname: '',
 	phone: '',

@@ -5,10 +5,10 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { Cell } from '@tanstack/react-table'
 import { useModal } from '@/components/modal/useModal'
-import { useDeleteStaffMutation } from '@/services/api/staff-api'
 import { ProductDataType } from '@/types/product-types'
+import { useDeleteProductMutation } from '@/services/api/product-api'
 
-const StaffTableActionColumn: React.FC<{
+const ProductTableActionColumn: React.FC<{
 	cell: Cell<ProductDataType, unknown>
 	refetch: Function
 }> = ({ cell, refetch }) => {
@@ -19,14 +19,14 @@ const StaffTableActionColumn: React.FC<{
 		closeOnOverlayClick: true,
 		defaultResolved: Response.NO,
 	})
-	const [deleteStaff, { isLoading: deleteIsLoading }] = useDeleteStaffMutation()
+	const [deleteProduct, { isLoading: deleteIsLoading }] = useDeleteProductMutation()
 
 	return (
 		<>
 			<div className={'text-right space-x-1'}>
 				<LugatButton
 					buttonClassNames={'!w-fit'}
-					onClick={() => navigate(`/staff/${cell.row.original.id}/edit`)}
+					onClick={() => navigate(`/product/${cell.row.original.id}/edit`)}
 				>
 					Edit
 				</LugatButton>
@@ -38,12 +38,12 @@ const StaffTableActionColumn: React.FC<{
 							return
 						}
 						if (!deleteIsLoading) {
-							await toast.promise(deleteStaff(cell.row.original.id), {
-								loading: 'Staff deleting...',
-								error: 'Staff cannot deleted',
+							await toast.promise(deleteProduct(cell.row.original.id), {
+								loading: 'Product deleting...',
+								error: 'Product cannot deleted',
 								success: () => {
 									refetch()
-									return 'Staff Deleted'
+									return 'Product Deleted'
 								},
 							})
 						} else {
@@ -61,4 +61,4 @@ const StaffTableActionColumn: React.FC<{
 	)
 }
 
-export default StaffTableActionColumn
+export default ProductTableActionColumn

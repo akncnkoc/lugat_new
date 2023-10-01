@@ -13,7 +13,7 @@ const LugatButton: React.FC<RabbitButtonProps> = forwardRef<HTMLButtonElement, R
 			<button
 				ref={ref}
 				type='submit'
-				className={`px-8 h-10 text-sm font-semibold text-center text-white rounded-3xl w-full bg-blue-500 hover:bg-blue-600 transition-all ${buttonClassNames}`}
+				className={`px-8 h-10 text-sm font-semibold text-center text-white rounded-md w-full bg-blue-500 hover:bg-blue-600 transition-all ${buttonClassNames}`}
 				{...buttonProps}
 			>
 				{buttonProps.children}

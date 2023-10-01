@@ -25,6 +25,7 @@ class ProductFactory extends Factory
             'buy_price_vault_id'  => $vault,
             'sell_price'          => $sellPrice,
             'sell_price_vault_id' => $vault,
+            'critical_stock_alert' => $this->faker->boolean
         ];
     }
 }

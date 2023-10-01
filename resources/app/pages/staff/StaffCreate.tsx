@@ -8,8 +8,6 @@ import LugatInput from '@/components/form/LugatInput'
 import { StaffStoreFormType, StaffStoreInitialValues } from '@/types/staff-types'
 import useStaffType from '@/hooks/useStaffType'
 import { useStoreStaffMutation } from '@/services/api/staff-api'
-import CurrencyInput from 'react-currency-input-field'
-import { motion } from 'framer-motion'
 import useLoadVault from '@/hooks/useLoadVault'
 import { StaffCreateValidationSchema } from '@/helpers/schemas'
 import LugatCurrencyInput from '@/components/LugatCurrencyInput'
@@ -42,7 +40,7 @@ const StaffCreate: React.FC = () => {
 		},
 	})
 	return (
-		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all pb-4'>
+		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all overflow-hidden tablet:max-w-7xl tablet:mx-auto'>
 			<div className={'h-16 px-6 border-b border-gray-100 flex items-center justify-between'}>
 				<h3 className={'text-lg font-semibold'}>
 					Create New Staff{' '}
@@ -105,10 +103,7 @@ const StaffCreate: React.FC = () => {
 											<LugatCurrencyInput
 												label={'Salary'}
 												required
-												error={
-													staffCreateFormik.touched.salary &&
-													staffCreateFormik.errors.salary
-												}
+												error={staffCreateFormik.touched.salary && staffCreateFormik.errors.salary}
 												value={staffCreateFormik.values.salary}
 												onValueChange={(_, __, values) => {
 													staffCreateFormik.setFieldTouched('salary', true)
@@ -159,8 +154,8 @@ const StaffCreate: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-end'>
-				<LugatButton buttonClassNames={'!w-fit'} onClick={staffCreateFormik.submitForm}>
+			<div className='bg-white p-4 flex justify-end border-t border-gray-100'>
+				<LugatButton onClick={staffCreateFormik.submitForm}>
 					{!isLoading ? 'Save' : <LoaderIcon />}
 				</LugatButton>
 			</div>

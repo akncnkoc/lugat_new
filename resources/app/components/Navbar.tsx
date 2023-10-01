@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import LugatButton from '@/components/form/LugatButton'
 import { storeDispatch } from '@/store'
 import { setToken } from '@/store/slices/userSlice'
-import { useAppSelector } from '@/store/hooks'
 import { setSidebarClassNames } from '@/store/slices/appSlice'
 import { useToggle, useWindowSize } from '@uidotdev/usehooks'
 import { RxHamburgerMenu } from 'react-icons/rx'
@@ -13,12 +12,13 @@ const Navbar: React.FC = () => {
 	const windowSize = useWindowSize()
 	const [toggled, toggle] = useToggle(false)
 
-	const isMenuEnabled = useMemo(() => windowSize.width && windowSize.width < 1024, [windowSize.width])
+	const isMenuEnabled = useMemo(
+		() => windowSize.width && windowSize.width < 1024,
+		[windowSize.width],
+	)
 	useEffect(() => {
 		if (isMenuEnabled) {
-			storeDispatch(
-				setSidebarClassNames('-translate-x-full absolute z-5000 h-full'),
-			)
+			storeDispatch(setSidebarClassNames('-translate-x-full absolute z-5000 h-full'))
 			toggle(false)
 		} else {
 			storeDispatch(setSidebarClassNames(''))
@@ -28,9 +28,7 @@ const Navbar: React.FC = () => {
 
 	const handleAsideVisibility = () => {
 		if (toggled) {
-			storeDispatch(
-				setSidebarClassNames('-translate-x-full absolute z-5000 h-full'),
-			)
+			storeDispatch(setSidebarClassNames('-translate-x-full absolute z-5000 h-full'))
 			toggle(false)
 		} else {
 			storeDispatch(setSidebarClassNames('absolute left-0 flex-1 h-[-webkit-fill-available]'))

@@ -54,11 +54,12 @@ const StaffPage: React.FC = () => {
 
 	useEffect(() => {
 		fetch()
-	}, [pageParams.page])
-
-	useEffect(() => {
-		fetch()
 	}, [])
+
+	const handleOnPaginate = (page: string) => {
+		setPageParams((prev) => ({ ...prev, page }))
+		fetch()
+	}
 
 	const handleInputChange = (text: string) => {
 		setPageParams((prev) => ({ ...prev, search: text }))
@@ -97,7 +98,7 @@ const StaffPage: React.FC = () => {
 						table={table}
 						meta={staffs?.meta ?? undefined}
 						fetching={isLoading}
-						onPaginate={(page: string) => setPageParams((prev) => ({ ...prev, page }))}
+						onPaginate={(page: string) => handleOnPaginate(page)}
 						currentPage={pageParams.page}
 						error={error}
 					/>

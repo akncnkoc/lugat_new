@@ -7,7 +7,7 @@ import { NavigateOptions } from 'react-router/dist/lib/context'
 import PlusCircleIcon from '@/components/icons/PlusCircleIcon'
 import CustomersIcon from '@/components/icons/CustomersIcon'
 
-const CustomerMenuPopover: React.FC = ({ close }: any) => {
+const CustomerMenuPopover: React.FC = ({ close, isMenuEnabled }: any) => {
 	const navigate = useNavigate()
 
 	const handleNavigate = (route: string, state?: NavigateOptions['state']) => {
@@ -29,7 +29,7 @@ const CustomerMenuPopover: React.FC = ({ close }: any) => {
 		},
 		{
 			text: 'Create',
-			route: '/vault/create',
+			route: '/customer/create',
 			icon: (
 				<>
 					<PlusCircleIcon width={18} height={18} fillColor={'currentColor'} />
@@ -46,9 +46,16 @@ const CustomerMenuPopover: React.FC = ({ close }: any) => {
 						key={item.route}
 						handleNavigate={handleNavigate}
 						item={item}
+						isMenuEnabled={isMenuEnabled}
 					/>
 				) : (
-					<NavigationItem key={item.route} handleNavigate={handleNavigate} item={item} close={close} />
+					<NavigationItem
+						key={item.route}
+						handleNavigate={handleNavigate}
+						item={item}
+						close={close}
+						isMenuEnabled={isMenuEnabled}
+					/>
 				)
 			})}
 		</div>

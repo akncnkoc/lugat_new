@@ -4,7 +4,13 @@ import { SvgProps } from '@/helpers/types'
 const PlusCircleIcon: React.FC<SvgProps> = (props) => {
 	const { width = 24, height = 24, fillColor = '#000' } = props
 	return (
-		<svg viewBox='0 0 24 24' width={width} height={height} fill='none' xmlns='http://www.w3.org/2000/svg'>
+		<svg
+			viewBox='0 0 24 24'
+			width={width}
+			height={height}
+			fill='none'
+			xmlns='http://www.w3.org/2000/svg'
+		>
 			<g>
 				<path
 					id='Vector'

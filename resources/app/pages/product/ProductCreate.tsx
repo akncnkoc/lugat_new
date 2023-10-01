@@ -5,8 +5,6 @@ import LugatButton from '@/components/form/LugatButton'
 import toast, { LoaderIcon } from 'react-hot-toast'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
 import LugatInput from '@/components/form/LugatInput'
-import CurrencyInput from 'react-currency-input-field'
-import { motion } from 'framer-motion'
 import useLoadVault from '@/hooks/useLoadVault'
 import { ProductCreateValidationSchema } from '@/helpers/schemas'
 import { useStoreProductMutation } from '@/services/api/product-api'
@@ -40,7 +38,7 @@ const ProductCreate: React.FC = () => {
 		},
 	})
 	return (
-		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all pb-4 sm:max-w-7xl sm:mx-auto'>
+		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all overflow-hidden tablet:max-w-7xl tablet:mx-auto'>
 			<div className={'h-16 px-6 border-b border-gray-100 flex items-center justify-between'}>
 				<h3 className={'text-lg font-semibold'}>
 					Create New Product{' '}
@@ -56,7 +54,11 @@ const ProductCreate: React.FC = () => {
 						<div className='flex flex-1 grow'>
 							<div className='flex flex-col flex-1 space-y-2'>
 								<div className={'flex-1 flex flex-col space-y-4'}>
-									<div className={'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'}>
+									<div
+										className={
+											'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'
+										}
+									>
 										<div className={'flex-1'}>
 											<LugatInput
 												required
@@ -81,7 +83,11 @@ const ProductCreate: React.FC = () => {
 											/>
 										</div>
 									</div>
-									<div className={'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'}>
+									<div
+										className={
+											'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'
+										}
+									>
 										<div className={'flex-1'}>
 											<LugatCurrencyInput
 												label={'Buy Price'}
@@ -119,7 +125,11 @@ const ProductCreate: React.FC = () => {
 											/>
 										</div>
 									</div>
-									<div className={'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'}>
+									<div
+										className={
+											'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'
+										}
+									>
 										<div className={'flex-1'}>
 											<LugatCurrencyInput
 												label={'Sell Price'}
@@ -164,8 +174,8 @@ const ProductCreate: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-end'>
-				<LugatButton buttonClassNames={'!w-fit'} onClick={productCreateFormik.submitForm}>
+			<div className='bg-white p-4 flex justify-end border-t border-gray-100'>
+				<LugatButton onClick={productCreateFormik.submitForm}>
 					{!isLoading ? 'Save' : <LoaderIcon />}
 				</LugatButton>
 			</div>

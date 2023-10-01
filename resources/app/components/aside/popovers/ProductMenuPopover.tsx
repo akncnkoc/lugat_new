@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import ProductsIcon from '@/components/icons/ProductsIcon'
 import PlusCircleIcon from '@/components/icons/PlusCircleIcon'
 
-const ProductMenuPopover: React.FC = () => {
+const ProductMenuPopover: React.FC = ({ close, isMenuEnabled }: any) => {
 	const navigate = useNavigate()
 
 	const handleNavigate = (route: string) => {
@@ -43,9 +43,16 @@ const ProductMenuPopover: React.FC = () => {
 						key={item.route}
 						handleNavigate={handleNavigate}
 						item={item}
+						isMenuEnabled={isMenuEnabled}
 					/>
 				) : (
-					<NavigationItem key={item.route} handleNavigate={handleNavigate} item={item} />
+					<NavigationItem
+						key={item.route}
+						handleNavigate={handleNavigate}
+						item={item}
+						close={close}
+						isMenuEnabled={isMenuEnabled}
+					/>
 				)
 			})}
 		</div>

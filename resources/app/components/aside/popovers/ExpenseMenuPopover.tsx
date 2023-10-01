@@ -7,7 +7,7 @@ import { NavigateOptions } from 'react-router/dist/lib/context'
 import ExpensesIcon from '@/components/icons/ExpensesIcon'
 import PlusCircleIcon from '@/components/icons/PlusCircleIcon'
 
-const ExpenseMenuPopover: React.FC = ({close}: any) => {
+const ExpenseMenuPopover: React.FC = ({ close, isMenuEnabled }: any) => {
 	const navigate = useNavigate()
 
 	const handleNavigate = (route: string, state?: NavigateOptions['state']) => {
@@ -48,7 +48,13 @@ const ExpenseMenuPopover: React.FC = ({close}: any) => {
 						item={item}
 					/>
 				) : (
-					<NavigationItem key={item.route} handleNavigate={handleNavigate} item={item} close={close} />
+					<NavigationItem
+						key={item.route}
+						handleNavigate={handleNavigate}
+						item={item}
+						close={close}
+						isMenuEnabled={isMenuEnabled}
+					/>
 				)
 			})}
 		</div>

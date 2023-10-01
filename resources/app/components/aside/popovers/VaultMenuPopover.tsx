@@ -7,7 +7,7 @@ import { NavigateOptions } from 'react-router/dist/lib/context'
 import PlusCircleIcon from '@/components/icons/PlusCircleIcon'
 import VaultIcon from '@/components/icons/VaultIcon'
 
-const VaultMenuPopover: React.FC = () => {
+const VaultMenuPopover: React.FC = ({ close, isMenuEnabled }: any) => {
 	const navigate = useNavigate()
 
 	const handleNavigate = (route: string, state?: NavigateOptions['state']) => {
@@ -48,7 +48,13 @@ const VaultMenuPopover: React.FC = () => {
 						item={item}
 					/>
 				) : (
-					<NavigationItem key={item.route} handleNavigate={handleNavigate} item={item} />
+					<NavigationItem
+						key={item.route}
+						handleNavigate={handleNavigate}
+						item={item}
+						close={close}
+						isMenuEnabled={isMenuEnabled}
+					/>
 				)
 			})}
 		</div>

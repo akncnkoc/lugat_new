@@ -7,7 +7,7 @@ import { NavigateOptions } from 'react-router/dist/lib/context'
 import PlusCircleIcon from '@/components/icons/PlusCircleIcon'
 import StaffsIcon from '@/components/icons/StaffsIcon'
 
-const StaffMenuPopover: React.FC = () => {
+const StaffMenuPopover: React.FC = ({ close, isMenuEnabled }: any) => {
 	const navigate = useNavigate()
 
 	const handleNavigate = (route: string, state?: NavigateOptions['state']) => {
@@ -48,7 +48,13 @@ const StaffMenuPopover: React.FC = () => {
 						item={item}
 					/>
 				) : (
-					<NavigationItem key={item.route} handleNavigate={handleNavigate} item={item} />
+					<NavigationItem
+						key={item.route}
+						handleNavigate={handleNavigate}
+						close={close}
+						item={item}
+						isMenuEnabled={isMenuEnabled}
+					/>
 				)
 			})}
 		</div>

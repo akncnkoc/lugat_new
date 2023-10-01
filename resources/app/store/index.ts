@@ -32,7 +32,7 @@ export const store = configureStore({
 			.concat(customerApi.middleware)
 			.concat(customerType.middleware)
 			.concat(staffApi.middleware)
-			.concat(productApi.middleware)
+			.concat(productApi.middleware),
 })
 
 setupListeners(store.dispatch)

@@ -32,9 +32,8 @@ const VaultCreate: React.FC = () => {
 		},
 	})
 
-
 	return (
-		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all pb-4'>
+		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all overflow-hidden tablet:max-w-7xl tablet:mx-auto'>
 			<div className={'h-16 px-6 border-b border-gray-100 flex items-center justify-between'}>
 				<h3 className={'text-lg font-semibold'}>Create New Vault</h3>
 			</div>
@@ -79,8 +78,8 @@ const VaultCreate: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			<div className='bg-white px-4 py-3 sm:flex sm:px-6 justify-end'>
-				<LugatButton buttonClassNames={'!w-fit'} onClick={vaultCreateFormik.submitForm}>
+			<div className='bg-white p-4 flex justify-end border-t border-gray-100'>
+				<LugatButton onClick={vaultCreateFormik.submitForm}>
 					{!isLoading ? 'Save' : <LoaderIcon />}
 				</LugatButton>
 			</div>

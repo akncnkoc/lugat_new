@@ -1,8 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { DefaultResponseType } from '@/helpers/types'
 import baseQueryConfigWithAuth from '@/store/config/baseQueryConfigWithAuth'
-import { StaffResource, StaffSingleResource, StaffStoreType } from '@/types/staff-types'
-import { ProductResource, ProductStoreType } from '@/types/product-types'
+import { ProductResource, ProductSingleResource, ProductStoreType } from '@/types/product-types'
 
 export const productApi = createApi({
 	reducerPath: 'productApi',
@@ -22,8 +21,8 @@ export const productApi = createApi({
 				}
 			},
 		}),
-		getStaff: builder.query<StaffSingleResource, string>({
-			query: (id: string) => `v1/staff/${id}`,
+		getProduct: builder.query<ProductSingleResource, string>({
+			query: (id: string) => `v1/product/${id}`,
 			providesTags: ['Product'],
 		}),
 		storeProduct: builder.mutation<DefaultResponseType, ProductStoreType>({
@@ -36,20 +35,20 @@ export const productApi = createApi({
 			},
 			invalidatesTags: ['Product'],
 		}),
-		updateStaff: builder.mutation<DefaultResponseType, { body: StaffStoreType; id: string }>({
+		updateProduct: builder.mutation<DefaultResponseType, { body: ProductStoreType; id: string }>({
 			query({ id, body }) {
 				return {
-					url: `v1/staff/${id}`,
+					url: `v1/product/${id}`,
 					method: 'PUT',
 					body,
 				}
 			},
 			invalidatesTags: ['Product'],
 		}),
-		deleteStaff: builder.mutation<DefaultResponseType, string>({
+		deleteProduct: builder.mutation<DefaultResponseType, string>({
 			query(id) {
 				return {
-					url: `v1/staff/${id}`,
+					url: `v1/product/${id}`,
 					method: 'DELETE',
 				}
 			},
@@ -60,8 +59,8 @@ export const productApi = createApi({
 
 export const {
 	useGetProductsMutation,
-	useGetStaffQuery,
+	useGetProductQuery,
 	useStoreProductMutation,
-	useUpdateStaffMutation,
-	useDeleteStaffMutation,
+	useUpdateProductMutation,
+	useDeleteProductMutation,
 } = productApi

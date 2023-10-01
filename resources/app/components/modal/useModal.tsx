@@ -9,8 +9,10 @@ import {
 import { useAddPortal } from '@/components/modal/events/addPortal'
 import { useRemovePortal } from '@/components/modal/events/removePortal'
 import {
-	addClassesToModalContainer, cssPropertiesToString,
-	getModalContainerById, getRandomPostfix,
+	addClassesToModalContainer,
+	cssPropertiesToString,
+	getModalContainerById,
+	getRandomPostfix,
 	removeClassesFromModalContainer,
 } from '@/components/modal/helpers/common'
 
@@ -59,13 +61,6 @@ export function useModal<ResultType>({
 
 	const addEscListener = (containerIdPostfix: string, onResolve: (x: ResultType) => void) => {
 		const container = getModalContainerById(containerIdPostfix)
-
-		// TODO: Find method to not shown error while ResultType is void
-		// if (!defaultResolved) {
-		//   console.warn(
-		//     "use-async-modal: when options `closeOnEsc` is true, `defaultResolved` must be set!",
-		//   );
-		// }
 
 		if (!container) {
 			return

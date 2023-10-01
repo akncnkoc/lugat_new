@@ -6,6 +6,7 @@ import { useFloating } from '@floating-ui/react-dom'
 
 type PopoverNavigationItemType = {
 	popover: React.ReactElement | React.ReactNode
+	isMenuEnabled?: boolean | 0 | null
 } & NavigationItemProps
 const PopoverNavigationItem: React.FC<PopoverNavigationItemType> = (props) => {
 	const { x, y, refs } = useFloating({
@@ -43,7 +44,10 @@ const PopoverNavigationItem: React.FC<PopoverNavigationItemType> = (props) => {
 								className='w-64 z-[9999999] max-w-lg bg-white divide-y divide-gray-200 rounded-md shadow-lg focus:outline-none'
 								style={{ position: 'fixed', top: y, left: x }}
 							>
-								{React.cloneElement(props.popover as ReactElement, { close })}
+								{React.cloneElement(props.popover as ReactElement, {
+									close,
+									isMenuEnabled: props.isMenuEnabled,
+								})}
 							</div>
 						</Popover.Panel>
 					</Transition>

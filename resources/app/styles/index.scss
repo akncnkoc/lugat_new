@@ -39,7 +39,6 @@
         -moz-osx-font-smoothing: grayscale;
         -webkit-text-size-adjust: 100%;
         font-size: 14px;
-        overflow: hidden;
         font-family: 'Averta Std', sans-serif;
         @apply text-gray-900 bg-black/5 w-full h-full text-sm overflow-auto;
     }
@@ -55,6 +54,7 @@
     margin: auto;
     position: relative;
 }
+
 .loader-component:before {
     content: '';
     width: 48px;
@@ -67,6 +67,7 @@
     border-radius: 50%;
     animation: shadow 0.5s linear infinite;
 }
+
 .loader-component:after {
     content: '';
     width: 100%;
@@ -78,6 +79,7 @@
     left: 0;
     border-radius: 4px;
 }
+
 @keyframes bxSpin {
     17% {
         border-bottom-right-radius: 3px;

@@ -8,7 +8,7 @@ export type IAppState = {
 const initialState: IAppState = {
 	isUserRefetching: false,
 	isGlobalLoading: false,
-	sidebarClassNames: ''
+	sidebarClassNames: '',
 }
 
 const appSlice = createSlice({

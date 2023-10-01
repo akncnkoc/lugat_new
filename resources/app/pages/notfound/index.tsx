@@ -8,20 +8,22 @@ const Notfound: React.FC = () => {
 			style={{
 				backgroundImage: "url('/assets/404-bg.jpg')",
 				backgroundRepeat: 'repeat',
-				backgroundSize: "contain"
+				backgroundSize: 'contain',
 			}}
 		>
 			<div className='bg-white rounded-lg shadow-2xl flex flex-col items-center justify-center mx-auto p-8'>
 				<div className='max-w-sm text-center flex flex-col space-y-4'>
-					<p className='text-4xl font-semibold text-gray-700'>Üzgünüz, aradığın sayfayı bulamadık</p>
+					<p className='text-4xl font-semibold text-gray-700'>
+						Üzgünüz, aradığın sayfayı bulamadık
+					</p>
 					<p className='text-gray-400 text-xs'>
 						Eğer bu sayfanın var olduğuna eminsen, lütfen bir yetkiliye danışın.
 					</p>
 					<Link
 						rel='noopener noreferrer'
 						to='/'
-						role={"button"}
-						type={"button"}
+						role={'button'}
+						type={'button'}
 						className='px-8 block py-1.5 font-semibold rounded bg-violet-400 text-white'
 					>
 						Anasayfa&apos;ya Dön

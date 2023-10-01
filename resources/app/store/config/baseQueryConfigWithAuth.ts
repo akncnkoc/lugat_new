@@ -13,7 +13,7 @@ const API_URL = '/api/'
 const baseQueryConfig = fetchBaseQuery({
 	baseUrl: API_URL,
 	mode: 'cors',
-	prepareHeaders: (headers, {getState}) => {
+	prepareHeaders: (headers, { getState }) => {
 		const token = (getState() as RootState).userSlice.token
 		if (token !== '') {
 			headers.set('Authorization', `Bearer ${token}`)

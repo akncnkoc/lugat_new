@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import NavigationItem from '@/components/NavigationItem'
 import { Link, useNavigate } from 'react-router-dom'
 import DashboardIcon from '@/components/icons/DashboardIcon'
@@ -16,6 +16,7 @@ import VaultMenuPopover from '@/components/aside/popovers/VaultMenuPopover'
 import CustomerMenuPopover from '@/components/aside/popovers/CustomerMenuPopover'
 import StaffMenuPopover from '@/components/aside/popovers/StaffMenuPopover'
 import { useAppSelector } from '@/store/hooks'
+import { useWindowSize } from '@uidotdev/usehooks'
 
 const Aside: React.FC = () => {
 	const navigate = useNavigate()
@@ -25,11 +26,19 @@ const Aside: React.FC = () => {
 		})
 	}
 	const appSlice = useAppSelector((state) => state.appSlice)
+
+	const windowSize = useWindowSize()
+	const isMenuEnabled = useMemo(
+		() => windowSize.width && windowSize.width < 1024,
+		[windowSize.width],
+	)
+
 	const navigationItems: NavigationItemType[] = [
 		{
 			text: 'Dashboard',
 			route: '/',
 			icon: <DashboardIcon fillColor={'currentColor'} />,
+			isMenuEnabled,
 		},
 		{
 			text: 'Product',
@@ -37,6 +46,7 @@ const Aside: React.FC = () => {
 			icon: <ProductsIcon fillColor={'currentColor'} />,
 			isPopover: true,
 			popover: <ProductMenuPopover />,
+			isMenuEnabled,
 		},
 		{
 			text: 'Vault',
@@ -44,6 +54,7 @@ const Aside: React.FC = () => {
 			icon: <VaultIcon fillColor={'currentColor'} />,
 			isPopover: true,
 			popover: <VaultMenuPopover />,
+			isMenuEnabled,
 		},
 		{
 			text: 'Invoice',
@@ -56,6 +67,7 @@ const Aside: React.FC = () => {
 			icon: <CustomersIcon fillColor={'currentColor'} />,
 			isPopover: true,
 			popover: <CustomerMenuPopover />,
+			isMenuEnabled,
 		},
 		{
 			text: 'Staff',
@@ -63,6 +75,7 @@ const Aside: React.FC = () => {
 			icon: <StaffsIcon fillColor={'currentColor'} />,
 			isPopover: true,
 			popover: <StaffMenuPopover />,
+			isMenuEnabled,
 		},
 		{
 			text: 'Expense',
@@ -70,6 +83,7 @@ const Aside: React.FC = () => {
 			icon: <ExpensesIcon fillColor={'currentColor'} />,
 			isPopover: true,
 			popover: <ExpenseMenuPopover />,
+			isMenuEnabled,
 		},
 	]
 
@@ -87,9 +101,15 @@ const Aside: React.FC = () => {
 								key={item.route}
 								handleNavigate={handleNavigate}
 								item={item}
+								isMenuEnabled={isMenuEnabled}
 							/>
 						) : (
-							<NavigationItem key={item.route} handleNavigate={handleNavigate} item={item} />
+							<NavigationItem
+								key={item.route}
+								handleNavigate={handleNavigate}
+								item={item}
+								isMenuEnabled={isMenuEnabled}
+							/>
 						)
 					})}
 				</ul>

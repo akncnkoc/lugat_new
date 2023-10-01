@@ -13,7 +13,7 @@ const LugatTextarea: React.FC<RabbitTextareaProps> = forwardRef<
 	HTMLTextAreaElement,
 	RabbitTextareaProps
 >((props, ref) => {
-	const { label, error, textareaClassnames,value, textarea = false, ...inputProps } = props
+	const { label, error, textareaClassnames, value, textarea = false, ...inputProps } = props
 	return (
 		<div>
 			<label htmlFor={props.name} className='block mb-2 text-sm font-semibold text-gray-900'>

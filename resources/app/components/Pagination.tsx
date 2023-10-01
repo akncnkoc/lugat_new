@@ -48,6 +48,9 @@ export default function Pagination({ paginate, currentPage, meta }: PaginationTy
 					nextClassName={
 						'bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center text-blue-500 hover:bg-blue-100 transition-all cursor-pointer'
 					}
+					breakLinkClassName={
+						'bg-white w-10 h-10 rounded-full flex items-center justify-center text-blue-700 hover:bg-blue-100 transition-all cursor-pointer'
+					}
 					activeLinkClassName={'!border-transparent !bg-blue-500 text-white block'}
 					marginPagesDisplayed={0}
 				/>

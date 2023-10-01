@@ -1,8 +1,7 @@
-import { AsyncPaginate, withAsyncPaginate, WithAsyncPaginateType } from 'react-select-async-paginate'
+import { AsyncPaginate } from 'react-select-async-paginate'
 import { clsx } from 'clsx'
 import React from 'react'
 import { motion } from 'framer-motion'
-import Select from 'react-select'
 
 const controlStyles = {
 	base: 'border rounded-lg bg-white hover:cursor-pointer text-left',
@@ -14,8 +13,6 @@ const optionStyles = {
 	focus: 'bg-gray-100 active:bg-gray-200',
 	selected: "after:content-['✔'] after:ml-2 after:text-green-500 text-gray-500",
 }
-
-
 
 const LugatAsyncSelect: React.FC<any> = (props) => {
 	return (
