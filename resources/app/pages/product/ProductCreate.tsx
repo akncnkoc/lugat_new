@@ -10,6 +10,7 @@ import { ProductCreateValidationSchema } from '@/helpers/schemas'
 import { useStoreProductMutation } from '@/services/api/product-api'
 import { ProductStoreFormType, ProductStoreInitialValues } from '@/types/product-types'
 import LugatCurrencyInput from '@/components/LugatCurrencyInput'
+import Card from '@/components/card'
 
 const ProductCreate: React.FC = () => {
 	const navigate = useNavigate()
@@ -38,148 +39,143 @@ const ProductCreate: React.FC = () => {
 		},
 	})
 	return (
-		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all overflow-hidden tablet:max-w-7xl tablet:mx-auto'>
-			<div className={'h-16 px-6 border-b border-gray-100 flex items-center justify-between'}>
-				<h3 className={'text-lg font-semibold'}>
-					Create New Product{' '}
-					<span className={'text-xs'}>
-						(<span className={'text-red-700'}> *</span>
-						required fields to be filled )
-					</span>
-				</h3>
-			</div>
-			<div className='bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
-				<div className='sm:flex sm:items-start'>
-					<div className='mt-3 text-center sm:mt-0 sm:text-left w-full'>
-						<div className='flex flex-1 grow'>
-							<div className='flex flex-col flex-1 space-y-2'>
-								<div className={'flex-1 flex flex-col space-y-4'}>
-									<div
-										className={
-											'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'
+		<>
+			<Card>
+				<Card.Header>
+					<h3 className={'text-lg font-semibold'}>
+						Create New Product{' '}
+						<span className={'text-xs'}>
+							(<span className={'text-red-700'}> *</span>
+							required fields to be filled )
+						</span>
+					</h3>
+				</Card.Header>
+				<Card.Body>
+					<div className='flex flex-col flex-1 space-y-2'>
+						<div className={'flex-1 flex flex-col space-y-4'}>
+							<div
+								className={
+									'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'
+								}
+							>
+								<div className={'flex-1'}>
+									<LugatInput
+										required
+										label={'Name'}
+										value={productCreateFormik.values.name}
+										onChange={(e) => productCreateFormik.setFieldValue('name', e.target.value)}
+										error={productCreateFormik.touched.name && productCreateFormik.errors.name}
+									/>
+								</div>
+								<div className={'flex-1'}>
+									<LugatInput
+										required
+										label={'Model Code'}
+										value={productCreateFormik.values.model_code}
+										onChange={(e) =>
+											productCreateFormik.setFieldValue('model_code', e.target.value)
 										}
-									>
-										<div className={'flex-1'}>
-											<LugatInput
-												required
-												label={'Name'}
-												value={productCreateFormik.values.name}
-												onChange={(e) => productCreateFormik.setFieldValue('name', e.target.value)}
-												error={productCreateFormik.touched.name && productCreateFormik.errors.name}
-											/>
-										</div>
-										<div className={'flex-1'}>
-											<LugatInput
-												required
-												label={'Model Code'}
-												value={productCreateFormik.values.model_code}
-												onChange={(e) =>
-													productCreateFormik.setFieldValue('model_code', e.target.value)
-												}
-												error={
-													productCreateFormik.touched.model_code &&
-													productCreateFormik.errors.model_code
-												}
-											/>
-										</div>
-									</div>
-									<div
-										className={
-											'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'
+										error={
+											productCreateFormik.touched.model_code &&
+											productCreateFormik.errors.model_code
 										}
-									>
-										<div className={'flex-1'}>
-											<LugatCurrencyInput
-												label={'Buy Price'}
-												required
-												error={
-													productCreateFormik.touched.buy_price &&
-													productCreateFormik.errors.buy_price
-												}
-												value={productCreateFormik.values.buy_price}
-												onValueChange={(_, __, values) => {
-													productCreateFormik.setFieldTouched('buy_price', true)
-													productCreateFormik.setFieldValue('buy_price', values?.value ?? 0)
-												}}
-											/>
-										</div>
-										<div className={'flex-1'}>
-											<LugatAsyncSelect
-												error={
-													getIn(productCreateFormik.touched, 'buy_price_vault.id') &&
-													getIn(productCreateFormik.errors, 'buy_price_vault.id')
-												}
-												value={productCreateFormik.values.buy_price_vault}
-												getOptionLabel={(e: any) => e.name}
-												getOptionValue={(e: any) => e.id}
-												label={'Buy Price Vault'}
-												additional={{
-													page: 1,
-												}}
-												placeholder={'Select'}
-												defaultOptions
-												loadOptions={loadVaults}
-												onChange={(value: any) => {
-													productCreateFormik.setFieldValue('buy_price_vault', value)
-												}}
-											/>
-										</div>
-									</div>
-									<div
-										className={
-											'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'
+									/>
+								</div>
+							</div>
+							<div
+								className={
+									'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'
+								}
+							>
+								<div className={'flex-1'}>
+									<LugatCurrencyInput
+										label={'Buy Price'}
+										required
+										error={
+											productCreateFormik.touched.buy_price && productCreateFormik.errors.buy_price
 										}
-									>
-										<div className={'flex-1'}>
-											<LugatCurrencyInput
-												label={'Sell Price'}
-												required
-												error={
-													productCreateFormik.touched.sell_price &&
-													productCreateFormik.errors.sell_price
-												}
-												value={productCreateFormik.values.sell_price}
-												onValueChange={(_, __, values) => {
-													productCreateFormik.setFieldTouched('sell_price', true)
-													productCreateFormik.setFieldValue('sell_price', values?.value ?? 0)
-												}}
-											/>
-										</div>
-										<div className={'flex-1'}>
-											<LugatAsyncSelect
-												required
-												error={
-													getIn(productCreateFormik.touched, 'sell_price_vault.id') &&
-													getIn(productCreateFormik.errors, 'sell_price_vault.id')
-												}
-												value={productCreateFormik.values.sell_price_vault}
-												getOptionLabel={(e: any) => e.name}
-												getOptionValue={(e: any) => e.id}
-												label={'Sell Price Vault '}
-												additional={{
-													page: 1,
-												}}
-												placeholder={'Select'}
-												defaultOptions
-												loadOptions={loadVaults}
-												onChange={(value: any) => {
-													productCreateFormik.setFieldValue('sell_price_vault', value)
-												}}
-											/>
-										</div>
-									</div>
+										value={productCreateFormik.values.buy_price}
+										onValueChange={(_, __, values) => {
+											productCreateFormik.setFieldTouched('buy_price', true)
+											productCreateFormik.setFieldValue('buy_price', values?.value ?? 0)
+										}}
+									/>
+								</div>
+								<div className={'flex-1'}>
+									<LugatAsyncSelect
+										error={
+											getIn(productCreateFormik.touched, 'buy_price_vault.id') &&
+											getIn(productCreateFormik.errors, 'buy_price_vault.id')
+										}
+										value={productCreateFormik.values.buy_price_vault}
+										getOptionLabel={(e: any) => e.name}
+										getOptionValue={(e: any) => e.id}
+										label={'Buy Price Vault'}
+										additional={{
+											page: 1,
+										}}
+										placeholder={'Select'}
+										defaultOptions
+										loadOptions={loadVaults}
+										onChange={(value: any) => {
+											productCreateFormik.setFieldValue('buy_price_vault', value)
+										}}
+									/>
+								</div>
+							</div>
+							<div
+								className={
+									'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'
+								}
+							>
+								<div className={'flex-1'}>
+									<LugatCurrencyInput
+										label={'Sell Price'}
+										required
+										error={
+											productCreateFormik.touched.sell_price &&
+											productCreateFormik.errors.sell_price
+										}
+										value={productCreateFormik.values.sell_price}
+										onValueChange={(_, __, values) => {
+											productCreateFormik.setFieldTouched('sell_price', true)
+											productCreateFormik.setFieldValue('sell_price', values?.value ?? 0)
+										}}
+									/>
+								</div>
+								<div className={'flex-1'}>
+									<LugatAsyncSelect
+										required
+										error={
+											getIn(productCreateFormik.touched, 'sell_price_vault.id') &&
+											getIn(productCreateFormik.errors, 'sell_price_vault.id')
+										}
+										value={productCreateFormik.values.sell_price_vault}
+										getOptionLabel={(e: any) => e.name}
+										getOptionValue={(e: any) => e.id}
+										label={'Sell Price Vault '}
+										additional={{
+											page: 1,
+										}}
+										placeholder={'Select'}
+										defaultOptions
+										loadOptions={loadVaults}
+										onChange={(value: any) => {
+											productCreateFormik.setFieldValue('sell_price_vault', value)
+										}}
+									/>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div className='bg-white p-4 flex justify-end border-t border-gray-100'>
-				<LugatButton onClick={productCreateFormik.submitForm}>
-					{!isLoading ? 'Save' : <LoaderIcon />}
-				</LugatButton>
-			</div>
-		</div>
+				</Card.Body>
+				<Card.Footer>
+					<LugatButton onClick={productCreateFormik.submitForm}>
+						{!isLoading ? 'Save' : <LoaderIcon />}
+					</LugatButton>
+				</Card.Footer>
+			</Card>
+		</>
 	)
 }
 

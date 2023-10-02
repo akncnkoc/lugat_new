@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import LugatButton from '@/components/form/LugatButton'
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import {
+	ColumnDef,
+	getCoreRowModel,
+	getSortedRowModel,
+	SortingState,
+	useReactTable,
+} from '@tanstack/react-table'
 import LugatTable from '@/components/table/LugatTable'
 import LugatInput from '@/components/form/LugatInput'
 import { useGetProductsMutation } from '@/services/api/product-api'
@@ -15,12 +21,30 @@ const ProductPage: React.FC = () => {
 	const [pageParams, setPageParams] = useState<{
 		page: string
 		search: string
+		sorting: SortingState
 	}>({
 		page: searchParams.get('page') ?? '1',
 		search: searchParams.get('search') ?? '',
+		sorting: [],
 	})
 	const [getProducts, { isLoading, error, data: products }] = useGetProductsMutation()
-	const fetch = (page = pageParams.page, search = pageParams.search) => getProducts({ page, search })
+	const fetch = (
+		page = pageParams.page,
+		search = pageParams.search,
+		sorting: SortingState = [
+			{
+				id: 'name',
+				desc: true,
+			},
+		],
+	) => {
+		return getProducts({
+			page,
+			search,
+			orderByColumn: sorting[0].id,
+			orderByColumnDirection: sorting[0].desc ? 'desc' : 'asc',
+		})
+	}
 
 	const defaultColumns: ColumnDef<ProductDataType>[] = [
 		{
@@ -58,7 +82,19 @@ const ProductPage: React.FC = () => {
 	const table = useReactTable({
 		data: products?.data ? products.data : [],
 		columns: defaultColumns,
+		state: {
+			sorting: pageParams.sorting,
+		},
+		onSortingChange: (sorting: any) => {
+			setPageParams((prevState) => ({
+				...prevState,
+				sorting: sorting(),
+			}))
+			fetch(pageParams.page, pageParams.search, sorting())
+		},
 		getCoreRowModel: getCoreRowModel(),
+		getSortedRowModel: getSortedRowModel(),
+		enableFilters: true,
 	})
 
 	const handleOnPaginate = (page: string) => {
@@ -79,7 +115,7 @@ const ProductPage: React.FC = () => {
 				page: pageParams.page,
 				search: pageParams.search,
 			})
-			fetch("1", pageParams.search)
+			fetch('1', pageParams.search)
 		}
 	}
 	return (

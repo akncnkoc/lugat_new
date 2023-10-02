@@ -23,10 +23,10 @@ class SearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'expression' => 'required|string|max:255',
-            'bindings' => 'required|array',
+            'expression' => 'sometimes|string|max:255',
+            'bindings' => 'required_if:expression,1|array',
             'orderByColumn' => 'sometimes',
-            'orderByColumnDirection' => 'sometimes|in:ASC,DESC'
+            'orderByColumnDirection' => 'sometimes|in:asc,desc'
         ];
     }
 }

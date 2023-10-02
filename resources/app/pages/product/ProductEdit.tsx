@@ -84,7 +84,7 @@ const ProductEdit: React.FC = () => {
 	}, [data])
 
 	return (
-		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all overflow-hidden tablet:max-w-7xl tablet:mx-auto'>
+		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all tablet:max-w-7xl tablet:mx-auto'>
 			<React.Suspense
 				fallback={
 					<div className={'h-96 w-full flex items-center justify-center'}>
@@ -244,7 +244,7 @@ const ProductEdit: React.FC = () => {
 										</div>
 									</div>
 								</div>
-								<div className='bg-white p-4 flex justify-end border-t border-gray-100'>
+								<div className='bg-white p-4 flex justify-end border-t border-gray-50 rounded-bl-2xl rounded-br-2xl'>
 									<LugatButton onClick={updateProductFormik.submitForm}>
 										{!isLoading ? 'Save' : <LoaderIcon />}
 									</LugatButton>

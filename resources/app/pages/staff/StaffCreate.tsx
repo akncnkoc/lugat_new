@@ -40,7 +40,7 @@ const StaffCreate: React.FC = () => {
 		},
 	})
 	return (
-		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all overflow-hidden tablet:max-w-7xl tablet:mx-auto'>
+		<div className='relative transform rounded-lg bg-white text-left shadow-2xl shadow-gray-100 transition-all tablet:max-w-7xl tablet:mx-auto'>
 			<div className={'h-16 px-6 border-b border-gray-100 flex items-center justify-between'}>
 				<h3 className={'text-lg font-semibold'}>
 					Create New Staff{' '}
@@ -154,7 +154,7 @@ const StaffCreate: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			<div className='bg-white p-4 flex justify-end border-t border-gray-100'>
+			<div className='bg-white p-4 flex justify-end border-t border-gray-50 rounded-bl-2xl rounded-br-2xl'>
 				<LugatButton onClick={staffCreateFormik.submitForm}>
 					{!isLoading ? 'Save' : <LoaderIcon />}
 				</LugatButton>

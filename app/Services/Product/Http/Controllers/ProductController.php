@@ -19,15 +19,23 @@ class ProductController extends Controller
 {
     use ResponseTrait, ProductImageUpload;
 
-    public function index(): AnonymousResourceCollection
+    public function index(SearchRequest $request): AnonymousResourceCollection
     {
         $this->authorize('productView', Product::class);
         $productQuery = Product::query();
         if ($search = request()?->query('search')) {
             $productQuery->where('name', 'ILIKE', "%$search%")
-                       ->orWhere('model_code','ILIKE', "%$search%");
+                         ->orWhere('model_code', 'ILIKE', "%$search%");
         }
-        return ProductResource::collection($productQuery->orderBy('name')->paginate());
+        if ($request->has('expression')) {
+            $productQuery->whereRaw($request->get('expression'), $request->get('bindings'));
+        }
+        if ($request->has('orderByColumn') && $request->has('orderByColumnDirection')){
+            $orderByColumn = $request->get('orderByColumn');
+            $orderByColumnDirection = $request->get('orderByColumnDirection');
+            $productQuery->orderBy($orderByColumn, $orderByColumnDirection);
+        }
+        return ProductResource::collection($productQuery->paginate());
     }
 
 
@@ -43,9 +51,9 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $request): ?JsonResponse
     {
         $this->authorize('productStore', Product::class);
-        DB::transaction(static function () use ($request) {
+        DB::transaction(function () use ($request) {
             $product = Product::create($request->safe()->except(['images']));
-            if ($request->hasAny('images')) {
+            if ($request->hasFile('images')) {
                 $this->uploadImagesForProduct($product, $request->file('images'));
             }
         });

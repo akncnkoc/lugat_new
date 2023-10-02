@@ -8,12 +8,24 @@ export const productApi = createApi({
 	baseQuery: baseQueryConfigWithAuth,
 	tagTypes: ['Product'],
 	endpoints: (builder) => ({
-		getProducts: builder.mutation<ProductResource, { page: string; search: string }>({
-			query({ page = '1', search }) {
+		getProducts: builder.mutation<
+			ProductResource,
+			{
+				page: string
+				search: string
+				orderByColumn: string
+				orderByColumnDirection: 'asc' | 'desc'
+			}
+		>({
+			query({ page = '1', search, orderByColumn = 'name', orderByColumnDirection = 'desc' }) {
 				const url = new URL(window.location.toString())
 				url.searchParams.set('page', page)
 				if (search) {
 					url.searchParams.set('search', search.toString())
+				}
+				if (orderByColumn) {
+					url.searchParams.set('orderByColumn', orderByColumn)
+					url.searchParams.set('orderByColumnDirection', orderByColumnDirection)
 				}
 				return {
 					method: 'GET',
