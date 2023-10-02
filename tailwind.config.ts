@@ -4,12 +4,12 @@ import type { Config } from 'tailwindcss'
 export default {
 	content: ['./resources/views/app.blade.php', './resources/app/**/*.{js,ts,jsx,tsx}'],
 	theme: {
-		screens: {
-			'tablet': '640px',
-			'laptop': '1024px',
-			'desktop': '1280px',
-		},
 		extend: {
+			screens: {
+				tablet: '640px',
+				laptop: '1024px',
+				desktop: '1280px',
+			},
 			zIndex: {
 				1000: '1000',
 				2000: '2000',
@@ -33,14 +33,14 @@ export default {
 					50: '#F5F6F7',
 					100: '#E5E7E8',
 					200: '#CACFD1',
-					300:'#B0B7BA',
-					400:'#959FA3',
-					500:'#7B878C',
-					600:'#626C70',
-					700:'#4A5154',
-					800:'#313638',
-					900:'#191B1C',
-				}
+					300: '#B0B7BA',
+					400: '#959FA3',
+					500: '#7B878C',
+					600: '#626C70',
+					700: '#4A5154',
+					800: '#313638',
+					900: '#191B1C',
+				},
 			},
 		},
 	},

@@ -19,7 +19,8 @@ const ExpensePage: React.FC = () => {
 		search: searchParams.get('search') ?? '',
 	})
 	const [getCustomers, { isLoading, error, data: customers }] = useGetCustomersMutation()
-	const fetch = () => getCustomers({ page: pageParams.page, search: pageParams.search })
+	const fetch = (page = pageParams.page, search = pageParams.search) =>
+		getCustomers({ page, search })
 
 	const defaultColumns: ColumnDef<CustomerDataType>[] = [
 		{
@@ -54,7 +55,7 @@ const ExpensePage: React.FC = () => {
 
 	const handleOnPaginate = (page: string) => {
 		setPageParams((prev) => ({ ...prev, page }))
-		fetch()
+		fetch(page, pageParams.search)
 	}
 
 	useEffect(() => {
@@ -70,7 +71,7 @@ const ExpensePage: React.FC = () => {
 				page: pageParams.page,
 				search: pageParams.search,
 			})
-			fetch()
+			fetch('1', pageParams.search)
 		}
 	}
 	return (

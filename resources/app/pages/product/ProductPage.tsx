@@ -20,7 +20,7 @@ const ProductPage: React.FC = () => {
 		search: searchParams.get('search') ?? '',
 	})
 	const [getProducts, { isLoading, error, data: products }] = useGetProductsMutation()
-	const fetch = () => getProducts({ page: pageParams.page, search: pageParams.search })
+	const fetch = (page = pageParams.page, search = pageParams.search) => getProducts({ page, search })
 
 	const defaultColumns: ColumnDef<ProductDataType>[] = [
 		{
@@ -63,7 +63,7 @@ const ProductPage: React.FC = () => {
 
 	const handleOnPaginate = (page: string) => {
 		setPageParams((prev) => ({ ...prev, page }))
-		fetch()
+		fetch(page, pageParams.search)
 	}
 
 	useEffect(() => {
@@ -79,7 +79,7 @@ const ProductPage: React.FC = () => {
 				page: pageParams.page,
 				search: pageParams.search,
 			})
-			fetch()
+			fetch("1", pageParams.search)
 		}
 	}
 	return (

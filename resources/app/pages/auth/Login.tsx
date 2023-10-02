@@ -9,7 +9,7 @@ import LugatLink from '@/components/LugatLink'
 import { LoginFormType } from '@/types/auth-types'
 import { storeDispatch } from '@/store'
 import { authApi } from '@/services/api/auth-api'
-import { setToken } from '@/store/slices/userSlice'
+import { setRefreshToken, setToken } from '@/store/slices/userSlice'
 import { LoginFormValidationSchema } from '@/helpers/schemas'
 
 const Login: React.FC = () => {
@@ -27,6 +27,7 @@ const Login: React.FC = () => {
 			storeDispatch(authApi.endpoints?.authenticate.initiate(values))
 				.then(({ data }) => {
 					storeDispatch(setToken(data?.data.token ?? null))
+					storeDispatch(setRefreshToken(data?.data.refresh_token ?? null))
 					toast.dismiss()
 					toast.success('Logged In')
 					navigate('/')

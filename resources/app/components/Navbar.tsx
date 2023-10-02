@@ -1,14 +1,12 @@
 import React, { useEffect, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import LugatButton from '@/components/form/LugatButton'
 import { storeDispatch } from '@/store'
-import { setToken } from '@/store/slices/userSlice'
 import { setSidebarClassNames } from '@/store/slices/appSlice'
 import { useToggle, useWindowSize } from '@uidotdev/usehooks'
 import { RxHamburgerMenu } from 'react-icons/rx'
+import NavbarMenu from '@/components/NavbarMenu'
 
 const Navbar: React.FC = () => {
-	const navigate = useNavigate()
 	const windowSize = useWindowSize()
 	const [toggled, toggle] = useToggle(false)
 
@@ -37,30 +35,25 @@ const Navbar: React.FC = () => {
 	}
 	return (
 		<nav className='z-50 w-full bg-white h-16 border border-b-gray-200'>
-			<div className='px-3 py-3 lg:px-5 lg:pl-3 w-full'>
-				<div className='flex items-center justify-between'>
+			<div className='w-full h-16'>
+				<div className='flex items-center justify-between h-16'>
 					<div className='flex items-center justify-between flex-1'>
 						{isMenuEnabled && (
 							<div onClick={handleAsideVisibility}>
 								<RxHamburgerMenu size={24} />
 							</div>
 						)}
-						<div className={`${isMenuEnabled && 'flex-1 flex justify-center transition-all'}`}>
+						<div
+							className={`${isMenuEnabled ? 'flex-1 flex justify-center transition-all' : 'w-72'}`}
+						>
 							<Link to='/' className='flex justify-center'>
-								<img src='/assets/logo.svg' className='h-8' alt='Lügat Logo' />
+								<img src='/assets/logo.svg' className='h-12' alt='Lügat Logo' />
 							</Link>
 						</div>
 					</div>
-					<div className='flex items-center'>
+					<div className='flex items-center pr-2'>
 						<div className='flex items-center'>
-							<LugatButton
-								onClick={() => {
-									storeDispatch(setToken(null))
-									navigate('/login')
-								}}
-							>
-								Çıkış Yap
-							</LugatButton>
+							<NavbarMenu />
 						</div>
 					</div>
 				</div>

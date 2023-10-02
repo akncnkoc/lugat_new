@@ -13,7 +13,7 @@ const ExpensePage: React.FC = () => {
 	const navigate = useNavigate()
 	const [currentPage, setCurrentPage] = useState(searchParams.get('page') ?? '1')
 	const [getExpenses, { isLoading, error, data: expenses }] = useGetExpensesMutation()
-	const fetch = () => getExpenses({ page: currentPage })
+	const fetch = (page = currentPage) => getExpenses({ page: currentPage })
 
 	const defaultColumns: ColumnDef<ExpenseDataType>[] = [
 		{
@@ -44,7 +44,7 @@ const ExpensePage: React.FC = () => {
 	})
 
 	useEffect(() => {
-		fetch()
+		fetch(currentPage)
 		setSearchParams({
 			page: currentPage,
 		})

@@ -19,7 +19,7 @@ const StaffPage: React.FC = () => {
 		search: searchParams.get('search') ?? '',
 	})
 	const [getStaffs, { isLoading, error, data: staffs }] = useGetStaffsMutation()
-	const fetch = () => getStaffs({ page: pageParams.page, search: pageParams.search })
+	const fetch = (page = pageParams.page, search = pageParams.search)  => getStaffs({ page: pageParams.page, search: pageParams.search })
 
 	const defaultColumns: ColumnDef<StaffDataType>[] = [
 		{
@@ -58,7 +58,7 @@ const StaffPage: React.FC = () => {
 
 	const handleOnPaginate = (page: string) => {
 		setPageParams((prev) => ({ ...prev, page }))
-		fetch()
+		fetch(page, pageParams.search)
 	}
 
 	const handleInputChange = (text: string) => {
@@ -70,7 +70,7 @@ const StaffPage: React.FC = () => {
 				page: pageParams.page,
 				search: pageParams.search,
 			})
-			fetch()
+			fetch("1", pageParams.search)
 		}
 	}
 	return (

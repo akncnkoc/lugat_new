@@ -6,6 +6,7 @@ export type LoginFormType = {
 }
 type LoginResponseDataType = {
 	token: string
+	refresh_token: string
 }
 
 export type LoginResponseType = DefaultResponseCollectionType<LoginResponseDataType>

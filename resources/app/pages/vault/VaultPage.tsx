@@ -20,7 +20,7 @@ const VaultPage: React.FC = () => {
 	})
 	const navigate = useNavigate()
 	const [getVaults, { isLoading, error, data: vaults }] = useGetVaultsMutation()
-	const fetch = () => getVaults({ page: pageParams.page, search: pageParams.search })
+	const fetch = (page = pageParams.page, search = pageParams.search) => getVaults({ page, search })
 	const defaultColumns: ColumnDef<VaultDataType>[] = [
 		{
 			header: 'Name',
@@ -47,7 +47,7 @@ const VaultPage: React.FC = () => {
 
 	const handleOnPaginate = (page: string) => {
 		setPageParams((prev) => ({ ...prev, page }))
-		fetch()
+		fetch(page, pageParams.search)
 	}
 
 	useEffect(() => {
@@ -57,13 +57,14 @@ const VaultPage: React.FC = () => {
 	const handleInputChange = (text: string) => {
 		setPageParams((prev) => ({ ...prev, search: text }))
 	}
+
 	const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.code === 'Enter') {
 			setSearchParams({
 				page: pageParams.page,
 				search: pageParams.search,
 			})
-			fetch()
+			fetch("1", pageParams.search)
 		}
 	}
 

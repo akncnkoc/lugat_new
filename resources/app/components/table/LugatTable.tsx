@@ -37,7 +37,7 @@ const LugatTable: React.FC<LugatTableProps> = ({
 	label,
 }) => {
 	return (
-		<div className='overflow-x-auto  sm:rounded-lg bg-white'>
+		<div className='overflow-x-auto sm:rounded-lg bg-white'>
 			<div className='overflow-hidden'>
 				<div className={'bg-white w-full px-6 py-4 font-semibold'}>{label}</div>
 				<table className='min-w-full divide-y table-fixed divide-gray-100 border-b border-b-gray-100'>
