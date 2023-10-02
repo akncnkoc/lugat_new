@@ -1,9 +1,11 @@
 import React, { forwardRef } from 'react'
 import CurrencyInput, { CurrencyInputProps } from 'react-currency-input-field'
 import { motion } from 'framer-motion'
+import LugatInputLabel from '@/components/form/LugatInputLabel'
+import { clsx } from 'clsx'
 
 type LugatCurrencyInputProps = {
-	label?: string
+	label?: React.ReactNode[] | string
 	required?: boolean
 	error?: string | false | undefined
 	value?: any
@@ -11,16 +13,32 @@ type LugatCurrencyInputProps = {
 
 const LugatCurrencyInput = forwardRef<typeof CurrencyInput, LugatCurrencyInputProps>(
 	(props, ref) => (
-		<>
-			{props.label && (
-				<label className={'block mb-2 text-sm font-semibold text-gray-900 text-left'}>
-					{props.label} {props.required && <span className={'text-[12px] text-red-700'}>*</span>}
-				</label>
-			)}
+		<div className={'flex-1'}>
+			{props.label && <LugatInputLabel label={props.label} required={props.required} />}
 			<CurrencyInput
-				className={`${
-					props.error && 'focus:!ring-red-500 text-red-500 placeholder-red-500 !border-red-500'
-				} text-sm font-semibold mt-2 rounded-lg block w-full p-2.5 outline-none bg-white border border-gray-100 placeholder-gray-400 text-gray-900`}
+				className={clsx(
+					'text-sm',
+					'font-semibold',
+					'mt-2',
+					'rounded-lg',
+					'block',
+					'w-full',
+					'p-2.5',
+					'outline-none',
+					'bg-white',
+					'border',
+					'border-gray-100',
+					'placeholder-gray-400',
+					'text-gray-900',
+					[
+						props.error && [
+							'focus:!ring-red-500',
+							'text-red-500',
+							'placeholder-red-500',
+							'!border-red-500',
+						],
+					],
+				)}
 				{...props}
 				onChange={() => {}}
 			/>
@@ -34,7 +52,7 @@ const LugatCurrencyInput = forwardRef<typeof CurrencyInput, LugatCurrencyInputPr
 					{props.error}
 				</motion.p>
 			)}
-		</>
+		</div>
 	),
 )
 

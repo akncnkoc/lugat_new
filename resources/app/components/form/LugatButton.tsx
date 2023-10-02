@@ -1,4 +1,5 @@
 import React, { ComponentPropsWithRef, forwardRef } from 'react'
+import { clsx } from 'clsx'
 
 type RabbitButtonProps = {
 	buttonClassNames?: string
@@ -13,7 +14,20 @@ const LugatButton: React.FC<RabbitButtonProps> = forwardRef<HTMLButtonElement, R
 			<button
 				ref={ref}
 				type='submit'
-				className={`px-8 h-10 text-sm font-semibold text-center text-white rounded-md w-full bg-blue-500 hover:bg-blue-600 transition-all ${buttonClassNames}`}
+				className={clsx(
+					'px-8',
+					'h-10',
+					'text-sm',
+					'font-semibold',
+					'text-center',
+					'text-white',
+					'rounded-md',
+					'w-full',
+					'bg-blue-500',
+					'hover:bg-blue-600',
+					'transition-all',
+					buttonClassNames,
+				)}
 				{...buttonProps}
 			>
 				{buttonProps.children}
@@ -21,5 +35,4 @@ const LugatButton: React.FC<RabbitButtonProps> = forwardRef<HTMLButtonElement, R
 		)
 	},
 )
-LugatButton.displayName = 'LugatButton'
 export default LugatButton

@@ -3,18 +3,26 @@ import { Menu, Transition } from '@headlessui/react'
 import { useNavigate } from 'react-router-dom'
 import { storeDispatch } from '@/store'
 import { setToken } from '@/store/slices/userSlice'
+import { clsx } from 'clsx'
 
 const NavbarMenu: React.FC = () => {
 	const navigate = useNavigate()
 
 	return (
-		<Menu as={'div'} className={'relative inline-block text-left pr-4'}>
+		<Menu as={'div'} className={clsx('relative', 'inline-block', 'text-left', 'pr-4')}>
 			<div>
 				<Menu.Button
-					className={'inline-flex w-full justify-center rounded-full ring-4 ring-blue-500'}
+					className={clsx(
+						'inline-flex',
+						'w-full',
+						'justify-center',
+						'rounded-full',
+						'ring-4',
+						'ring-blue-500',
+					)}
 				>
 					<img
-						className='inline-block h-10 w-10 rounded-full'
+						className={clsx('inline-block', 'h-10', 'w-10', 'rounded-full')}
 						src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
 						alt=''
 					/>
@@ -28,51 +36,41 @@ const NavbarMenu: React.FC = () => {
 					leaveFrom='transform opacity-100 scale-100'
 					leaveTo='transform opacity-0 scale-95'
 				>
-					<Menu.Items className='absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+					<Menu.Items
+						className={clsx(
+							'absolute',
+							'right-0',
+							'mt-2',
+							'w-56',
+							'origin-top-right',
+							'divide-y',
+							'divide-gray-100',
+							'rounded-md',
+							'bg-white',
+							'shadow-lg',
+							'ring-1',
+							'ring-black',
+							'ring-opacity-5',
+							'focus:outline-none',
+						)}
+					>
 						<div className='px-1 py-1 '>
 							<Menu.Item>
 								{({ active }) => (
 									<button
-										className={`${
-											active ? 'bg-blue-500 text-white' : 'text-gray-900'
-										} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+										className={clsx(
+											'group',
+											'flex',
+											'w-full',
+											'items-center',
+											'rounded-md',
+											'px-2',
+											'py-2',
+											'text-sm',
+											active ? ['bg-blue-500', 'text-white'] : 'text-gray-900',
+										)}
 									>
 										Profile
-									</button>
-								)}
-							</Menu.Item>
-							<Menu.Item>
-								{({ active }) => (
-									<button
-										className={`${
-											active ? 'bg-blue-500 text-white' : 'text-gray-900'
-										} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-									>
-										Duplicate
-									</button>
-								)}
-							</Menu.Item>
-						</div>
-						<div className='px-1 py-1'>
-							<Menu.Item>
-								{({ active }) => (
-									<button
-										className={`${
-											active ? 'bg-blue-500 text-white' : 'text-gray-900'
-										} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-									>
-										Archive
-									</button>
-								)}
-							</Menu.Item>
-							<Menu.Item>
-								{({ active }) => (
-									<button
-										className={`${
-											active ? 'bg-blue-500 text-white' : 'text-gray-900'
-										} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-									>
-										Move
 									</button>
 								)}
 							</Menu.Item>
@@ -85,9 +83,17 @@ const NavbarMenu: React.FC = () => {
 											storeDispatch(setToken(null))
 											navigate('/login')
 										}}
-										className={`${
-											active ? 'bg-red-500 text-white' : 'text-gray-900'
-										} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+										className={clsx(
+											'group',
+											'flex',
+											'w-full',
+											'items-center',
+											'rounded-md',
+											'px-2',
+											'py-2',
+											'text-sm',
+											active ? ['bg-red-500', 'text-white'] : 'text-gray-900',
+										)}
 									>
 										Sign Out
 									</button>

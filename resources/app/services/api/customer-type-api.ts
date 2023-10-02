@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import baseQueryConfigWithAuth from '@/store/config/baseQueryConfigWithAuth'
 import { CustomerTypeResource } from '@/types/customer-types'
 
-export const customerType = createApi({
+export const customerTypeApi = createApi({
 	reducerPath: 'customerType',
 	baseQuery: baseQueryConfigWithAuth,
 	tagTypes: ['CustomerType'],
@@ -20,4 +20,4 @@ export const customerType = createApi({
 	}),
 })
 
-export const { useGetCustomerTypesQuery } = customerType
+export const { useGetCustomerTypesQuery } = customerTypeApi

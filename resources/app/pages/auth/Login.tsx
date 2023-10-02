@@ -11,6 +11,7 @@ import { storeDispatch } from '@/store'
 import { authApi } from '@/services/api/auth-api'
 import { setRefreshToken, setToken } from '@/store/slices/userSlice'
 import { LoginFormValidationSchema } from '@/helpers/schemas'
+import { clsx } from 'clsx'
 
 const Login: React.FC = () => {
 	const navigate = useNavigate()
@@ -37,12 +38,51 @@ const Login: React.FC = () => {
 		},
 	})
 	return (
-		<div className='flex flex-col items-center justify-center px-6 pt-8 mx-auto h-screen pt:mt-0 bg-gray-200 w-full'>
-			<a className='flex items-center justify-center mb-8 text-2xl font-semibold lg:mb-10 text-gray-700'>
+		<div
+			className={clsx(
+				'flex',
+				'flex-col',
+				'items-center',
+				'justify-center',
+				'px-6',
+				'pt-8',
+				'mx-auto',
+				'h-screen',
+				'pt:mt-0',
+				'bg-gray-200',
+				'w-full',
+			)}
+		>
+			<a
+				className={clsx(
+					'flex',
+					'items-center',
+					'justify-center',
+					'mb-8',
+					'text-2xl',
+					'font-semibold',
+					'lg:mb-10',
+					'text-gray-700',
+				)}
+			>
 				<span>Lügat</span>
 			</a>
-			<div className='w-full max-w-xl p-6 space-y-8 sm:p-8 rounded-lg shadow shadow-gray-100 bg-gray-100'>
-				<h2 className='text-2xl font-bold text-gray-800 text-center'>Login to your account</h2>
+			<div
+				className={clsx(
+					'w-full',
+					'max-w-xl',
+					'p-6',
+					'space-y-8',
+					'sm:p-8',
+					'rounded-lg',
+					'shadow',
+					'shadow-gray-100',
+					'bg-gray-100',
+				)}
+			>
+				<h2 className={clsx('text-2xl', 'font-bold', 'text-gray-800', 'text-center')}>
+					Login to your account
+				</h2>
 				<form className='mt-8 space-y-6' onSubmit={loginForm.handleSubmit}>
 					<LugatInput
 						name={'email'}
@@ -67,7 +107,10 @@ const Login: React.FC = () => {
 						}
 					/>
 					<div className='flex items-start'>
-						<LugatLink className='ml-auto text-xs hover:underline' to={'/forgot-password'}>
+						<LugatLink
+							className={clsx('ml-auto', 'text-xs', 'hover:underline')}
+							to={'/forgot-password'}
+						>
 							Forgot Password ?
 						</LugatLink>
 					</div>

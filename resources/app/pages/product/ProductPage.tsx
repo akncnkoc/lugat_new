@@ -14,6 +14,7 @@ import { useGetProductsMutation } from '@/services/api/product-api'
 import { ProductDataType } from '@/types/product-types'
 import { CurrencyCodeToSign } from '@/helpers/types'
 import ProductTableActionColumn from '@/pages/product/components/ProductTableActionColumn'
+import { clsx } from 'clsx'
 
 const ProductPage: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
@@ -120,7 +121,7 @@ const ProductPage: React.FC = () => {
 	}
 	return (
 		<>
-			<div className={'flex space-x-4 justify-between px-4 items-center'}>
+			<div className={clsx('flex', 'space-x-4', 'justify-between', 'px-4', 'items-center')}>
 				<div>
 					<div className='w-fit'>
 						<LugatInput
@@ -137,17 +138,15 @@ const ProductPage: React.FC = () => {
 				</div>
 			</div>
 			<div className='p-4 rounded-lg'>
-				<section className='grid grid-cols-1 gap-2 gap-y-2'>
-					<LugatTable
-						label={'Product'}
-						table={table}
-						meta={products?.meta ?? undefined}
-						fetching={isLoading}
-						onPaginate={(page: string) => handleOnPaginate(page)}
-						currentPage={pageParams.page}
-						error={error}
-					/>
-				</section>
+				<LugatTable
+					label={'Product'}
+					table={table}
+					meta={products?.meta ?? undefined}
+					fetching={isLoading}
+					onPaginate={(page: string) => handleOnPaginate(page)}
+					currentPage={pageParams.page}
+					error={error}
+				/>
 			</div>
 		</>
 	)

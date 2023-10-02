@@ -1,4 +1,9 @@
-import { BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/dist/query/react'
+import {
+	BaseQueryFn,
+	FetchArgs,
+	fetchBaseQuery,
+	FetchBaseQueryError,
+} from '@reduxjs/toolkit/dist/query/react'
 import { RootState, storeDispatch } from '@/store'
 import toast from 'react-hot-toast'
 import { setRefreshToken, setToken } from '@/store/slices/userSlice'
@@ -28,21 +33,21 @@ const baseQueryConfigWithReAuth: BaseQueryFn<
 	storeDispatch(setIsGlobalLoading(true))
 	let result = await baseQueryConfig(args, api, extraOptions)
 	if (result.error && result.error.status === 401) {
-		// toast.error('Oturum sonlandırıldı. Lütfen tekrar giriş yapın.')
-		// storeDispatch(setToken(null))
-		// storeDispatch(setIsGlobalLoading(false))
-		// window.location.pathname = '/login'
 
-		const refreshResult = ((await axios.post(API_URL + 'v1/auth/refreshToken', null, {
-			headers: {
-				'Authorization': 'Bearer ' + localStorage.getItem('refresh_token'),
-			},
-		})).data) as LoginResponseType
-		if (refreshResult.data) {
-			storeDispatch(setToken(refreshResult?.data?.token))
-			storeDispatch(setRefreshToken(refreshResult?.data?.refresh_token))
-			result = await baseQueryConfig(args, api, extraOptions)
-		} else {
+		try {
+			const refreshResult = (
+				await axios.post(API_URL + 'v1/auth/refreshToken', null, {
+					headers: {
+						Authorization: 'Bearer ' + localStorage.getItem('refresh_token'),
+					},
+				})
+			).data as LoginResponseType
+			if (refreshResult.data) {
+				storeDispatch(setToken(refreshResult?.data?.token))
+				storeDispatch(setRefreshToken(refreshResult?.data?.refresh_token))
+				result = await baseQueryConfig(args, api, extraOptions)
+			}
+		}catch (err){
 			toast.promise(
 				new Promise((resolve) => {
 					setTimeout(() => {
@@ -52,8 +57,11 @@ const baseQueryConfigWithReAuth: BaseQueryFn<
 				{
 					loading: 'Oturum sonlandırıldı. Lütfen tekrar giriş yapın.',
 					success: () => {
+						window.location.pathname = '/login'
+						storeDispatch(setToken(null))
+						storeDispatch(setRefreshToken(null))
+						storeDispatch(setIsGlobalLoading(false));
 						return ''
-						// (window.location.pathname = '/login')
 					},
 					error: '',
 				},

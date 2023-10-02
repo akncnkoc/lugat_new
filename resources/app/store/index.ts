@@ -1,42 +1,52 @@
 import { configureStore } from '@reduxjs/toolkit'
-import appSlice from '@/store/slices/appSlice'
-import userSlice from '@/store/slices/userSlice'
 import { expenseApi } from '@/services/api/expense-api'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { vaultApi } from '@/services/api/vault-api'
-import { currencyApi } from '@/services/api/currency-api'
 import { customerApi } from '@/services/api/customer-api'
-import { customerType } from '@/services/api/customer-type-api'
+import { customerTypeApi } from '@/services/api/customer-type-api'
 import { authApi } from '@/services/api/auth-api'
 import { staffApi } from '@/services/api/staff-api'
 import { productApi } from '@/services/api/product-api'
+import storage from 'redux-persist/lib/storage'
+import {
+	FLUSH,
+	PAUSE,
+	PERSIST,
+	persistReducer,
+	persistStore,
+	PURGE,
+	REGISTER,
+	REHYDRATE,
+} from 'redux-persist'
+import { rootReducer } from '@/store/rootReducer'
 
-export const store = configureStore({
-	reducer: {
-		userSlice,
-		appSlice,
-		[authApi.reducerPath]: authApi.reducer,
-		[expenseApi.reducerPath]: expenseApi.reducer,
-		[vaultApi.reducerPath]: vaultApi.reducer,
-		[currencyApi.reducerPath]: currencyApi.reducer,
-		[customerApi.reducerPath]: customerApi.reducer,
-		[customerType.reducerPath]: customerType.reducer,
-		[staffApi.reducerPath]: staffApi.reducer,
-		[productApi.reducerPath]: productApi.reducer,
-	},
+const persistConfig = {
+	key: 'root',
+	storage: storage,
+	blacklist: ['vaultApi', 'productApi', 'expenseApi', 'customerApi', 'authApi', 'staffApi', 'customerTypeApi'],
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+const store = configureStore({
+	reducer: persistedReducer,
 	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware()
+		getDefaultMiddleware({
+			serializableCheck: {
+				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+			},
+		})
 			.concat(authApi.middleware)
 			.concat(expenseApi.middleware)
 			.concat(vaultApi.middleware)
 			.concat(customerApi.middleware)
-			.concat(customerType.middleware)
+			.concat(customerTypeApi.middleware)
 			.concat(staffApi.middleware)
 			.concat(productApi.middleware),
 })
 
+const persistor = persistStore(store)
 setupListeners(store.dispatch)
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
+export { store, persistor }
 export const { dispatch: storeDispatch } = store
-export default store

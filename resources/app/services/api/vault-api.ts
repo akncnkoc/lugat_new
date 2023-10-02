@@ -2,13 +2,23 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import { DefaultResponseType } from '@/helpers/types'
 import baseQueryConfigWithAuth from '@/store/config/baseQueryConfigWithAuth'
 import { VaultResource, VaultSingleResource, VaultStoreType } from '@/types/vault-types'
+import { REHYDRATE } from 'redux-persist'
 
 export const vaultApi = createApi({
 	reducerPath: 'vaultApi',
 	baseQuery: baseQueryConfigWithAuth,
 	tagTypes: ['Vault'],
+	// extractRehydrationInfo(action, { reducerPath }) {
+	// 	console.log(action, REHYDRATE)
+	// 	if (action.type === REHYDRATE) {
+	// 		return action.payload[reducerPath]
+	// 	}
+	// 	if (action.type === REHYDRATE && action.key === 'root') {
+	// 		return action.payload
+	// 	}
+	// },
 	endpoints: (builder) => ({
-		getVaults: builder.mutation<VaultResource, { page: string; search: string }>({
+		getVaults: builder.query<VaultResource, { page: string; search: string }>({
 			query({ page = '1', search }) {
 				const url = new URL(window.location.toString())
 				url.searchParams.set('page', page)
@@ -16,10 +26,10 @@ export const vaultApi = createApi({
 					url.searchParams.set('search', search.toString())
 				}
 				return {
-					method: 'GET',
 					url: `v1/vault?${decodeURIComponent(url.searchParams.toString())}`,
 				}
 			},
+			providesTags: ['Vault'],
 		}),
 		getVault: builder.query<VaultSingleResource, string>({
 			query: (id: string) => `v1/vault/${id}`,
@@ -58,7 +68,7 @@ export const vaultApi = createApi({
 })
 
 export const {
-	useGetVaultsMutation,
+	useLazyGetVaultsQuery,
 	useStoreVaultMutation,
 	useDeleteVaultMutation,
 	useUpdateVaultMutation,

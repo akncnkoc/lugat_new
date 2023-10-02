@@ -5,7 +5,7 @@ import LugatButton from '@/components/form/LugatButton'
 import toast, { LoaderIcon } from 'react-hot-toast'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
 import { storeDispatch } from '@/store'
-import LoaderComponent from '@/components/LoaderComponent'
+import LoaderComponent from '@/components/anims/LoaderComponent'
 import { TrackedPromise } from '@remix-run/router/utils'
 import LugatInput from '@/components/form/LugatInput'
 import { staffApi, useUpdateStaffMutation } from '@/services/api/staff-api'
@@ -18,7 +18,7 @@ import {
 import useStaffType from '@/hooks/useStaffType'
 import useLoadVault from '@/hooks/useLoadVault'
 import { StaffEditValidationSchema } from '@/helpers/schemas'
-import LugatCurrencyInput from '@/components/LugatCurrencyInput'
+import LugatCurrencyInput from '@/components/form/LugatCurrencyInput'
 
 export const staffLoader = async ({ params }: any) => {
 	const results = storeDispatch(staffApi.endpoints?.getStaff.initiate(params.id ?? '')).then(

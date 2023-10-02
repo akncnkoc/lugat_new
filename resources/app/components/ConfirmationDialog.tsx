@@ -1,23 +1,19 @@
 import { FC } from 'react'
 import LugatButton from '@/components/form/LugatButton'
 import { AnimatePresence, motion } from 'framer-motion'
-
-export enum Response {
-	YES = 'YES',
-	NO = 'NO',
-}
+import { ConfirmationDialogResponse } from '@/helpers/types'
 
 interface Props {
-	onResolve: (r: Response) => void
+	onResolve: (r: ConfirmationDialogResponse) => void
 }
 
 const ConfirmationDialog: FC<Props> = ({ onResolve }) => {
 	const handleYes = () => {
-		onResolve(Response.YES)
+		onResolve(ConfirmationDialogResponse.YES)
 	}
 
 	const handleNo = () => {
-		onResolve(Response.NO)
+		onResolve(ConfirmationDialogResponse.NO)
 	}
 
 	return (

@@ -16,7 +16,7 @@ import {
 } from '@/types/expense-types'
 import useLoadVault from '@/hooks/useLoadVault'
 import { ExpenseCreateValidationSchema } from '@/helpers/schemas'
-import LugatCurrencyInput from '@/components/LugatCurrencyInput'
+import LugatCurrencyInput from '@/components/form/LugatCurrencyInput'
 
 const ExpenseCreate: React.FC = () => {
 	const navigate = useNavigate()
@@ -28,7 +28,7 @@ const ExpenseCreate: React.FC = () => {
 		validateOnBlur: false,
 		validationSchema: ExpenseCreateValidationSchema,
 		onSubmit: (values) => {
-			storeExpense({ ...values, vault_id: values.vault.id })
+			storeExpense({ ...values, vault_id: values.vault.value })
 				.unwrap()
 				.then((_) => {
 					toast.success('Expense stored')
@@ -73,8 +73,6 @@ const ExpenseCreate: React.FC = () => {
 												getIn(expenseCreateFormik.errors, 'vault.id')
 											}
 											value={expenseCreateFormik.values.vault}
-											getOptionLabel={(e: any) => e.name}
-											getOptionValue={(e: any) => e.id}
 											label={'Vault'}
 											additional={{
 												page: 1,

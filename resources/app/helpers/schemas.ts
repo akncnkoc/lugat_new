@@ -58,7 +58,7 @@ export const ExpenseCreateValidationSchema = object().shape<Shape<ExpenseStoreFo
 	vault: object()
 		.label('Vault')
 		.shape({
-			id: string().required().notOneOf(['-1'], 'Vault must be selected'),
+			value: string().required().notOneOf(['-1'], 'Vault must be selected'),
 		}),
 	receipt_date: date().transform(function (value, originalValue) {
 		if (this.isType(value)) {

@@ -10,7 +10,7 @@ import useStaffType from '@/hooks/useStaffType'
 import { useStoreStaffMutation } from '@/services/api/staff-api'
 import useLoadVault from '@/hooks/useLoadVault'
 import { StaffCreateValidationSchema } from '@/helpers/schemas'
-import LugatCurrencyInput from '@/components/LugatCurrencyInput'
+import LugatCurrencyInput from '@/components/form/LugatCurrencyInput'
 
 const StaffCreate: React.FC = () => {
 	const navigate = useNavigate()

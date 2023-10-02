@@ -1,12 +1,13 @@
 import React from 'react'
 import LugatButton from '@/components/form/LugatButton'
-import ConfirmationDialog, { Response } from '@/components/ConfirmationDialog'
+import ConfirmationDialog from '@/components/ConfirmationDialog'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { Cell } from '@tanstack/react-table'
 import { useModal } from '@/components/modal/useModal'
 import { useDeleteExpenseMutation } from '@/services/api/expense-api'
 import { ExpenseDataType } from '@/types/expense-types'
+import { ConfirmationDialogResponse } from '@/helpers/types'
 
 const ExpenseTableActionColumn: React.FC<{
 	cell: Cell<ExpenseDataType, unknown>
@@ -17,7 +18,7 @@ const ExpenseTableActionColumn: React.FC<{
 		Component: ConfirmationDialog,
 		closeOnEsc: true,
 		closeOnOverlayClick: true,
-		defaultResolved: Response.NO,
+		defaultResolved: ConfirmationDialogResponse.NO,
 	})
 	const [deleteExpense, { isLoading: deleteIsLoading }] = useDeleteExpenseMutation()
 
@@ -34,7 +35,7 @@ const ExpenseTableActionColumn: React.FC<{
 					buttonClassNames={'!w-fit bg-red-500 hover:bg-red-600'}
 					onClick={async () => {
 						const confirmResponse = await showConfirmDialog()
-						if (confirmResponse === Response.NO) {
+						if (confirmResponse === ConfirmationDialogResponse.NO) {
 							return
 						}
 						if (!deleteIsLoading) {

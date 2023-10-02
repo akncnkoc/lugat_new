@@ -1,5 +1,7 @@
 import React, { ComponentPropsWithRef, forwardRef } from 'react'
 import { motion } from 'framer-motion'
+import { clsx } from 'clsx'
+import LugatInputLabel from '@/components/form/LugatInputLabel'
 
 type RabbitTextareaProps = {
 	error?: string | null | boolean
@@ -13,12 +15,10 @@ const LugatTextarea: React.FC<RabbitTextareaProps> = forwardRef<
 	HTMLTextAreaElement,
 	RabbitTextareaProps
 >((props, ref) => {
-	const { label, error, textareaClassnames, value, textarea = false, ...inputProps } = props
+	const { label, error, textareaClassnames, value, textarea = false, ...textareProps } = props
 	return (
 		<div>
-			<label htmlFor={props.name} className='block mb-2 text-sm font-semibold text-gray-900'>
-				{label}
-			</label>
+			{props.label && <LugatInputLabel label={props.label} required={props.required} />}
 			<textarea
 				ref={ref}
 				id={props.name}
@@ -26,16 +26,31 @@ const LugatTextarea: React.FC<RabbitTextareaProps> = forwardRef<
 				autoComplete={'off'}
 				rows={5}
 				cols={5}
-				className={`font-semibold rounded-lg block w-full p-2.5 outline-none border transition-all border-gray-50 ${
-					!error
-						? `${
-								inputProps.disabled && 'cursor-not-allowed'
-						  } placeholder-gray-400 focus:ring-2 text-gray-900 ring-gray-200 border-blue-500`
-						: `focus:!ring-red-500 bg-gray-700 text-red-500 placeholder-red-500 !border-red-500`
-				}
-					 ${textareaClassnames}
-					`}
-				{...inputProps}
+				className={clsx(
+					'text-sm',
+					'font-semibold',
+					'mt-2',
+					'rounded-lg',
+					'block',
+					'w-full',
+					'p-2.5',
+					'outline-none',
+					'bg-white',
+					'border',
+					'border-gray-100',
+					'placeholder-gray-400',
+					'text-gray-900',
+					[
+						props.error && [
+							'focus:!ring-red-500',
+							'text-red-500',
+							'placeholder-red-500',
+							'!border-red-500',
+						],
+					],
+					textareaClassnames,
+				)}
+				{...textareProps}
 			/>
 			{error && (
 				<motion.p

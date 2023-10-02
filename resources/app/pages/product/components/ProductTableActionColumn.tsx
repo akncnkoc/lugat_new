@@ -1,12 +1,13 @@
 import React from 'react'
 import LugatButton from '@/components/form/LugatButton'
-import ConfirmationDialog, { Response } from '@/components/ConfirmationDialog'
+import ConfirmationDialog from '@/components/ConfirmationDialog'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { Cell } from '@tanstack/react-table'
 import { useModal } from '@/components/modal/useModal'
 import { ProductDataType } from '@/types/product-types'
 import { useDeleteProductMutation } from '@/services/api/product-api'
+import { ConfirmationDialogResponse } from '@/helpers/types'
 
 const ProductTableActionColumn: React.FC<{
 	cell: Cell<ProductDataType, unknown>
@@ -17,7 +18,7 @@ const ProductTableActionColumn: React.FC<{
 		Component: ConfirmationDialog,
 		closeOnEsc: true,
 		closeOnOverlayClick: true,
-		defaultResolved: Response.NO,
+		defaultResolved: ConfirmationDialogResponse.NO,
 	})
 	const [deleteProduct, { isLoading: deleteIsLoading }] = useDeleteProductMutation()
 
@@ -34,7 +35,7 @@ const ProductTableActionColumn: React.FC<{
 					buttonClassNames={'!w-fit bg-red-500 hover:bg-red-600'}
 					onClick={async () => {
 						const confirmResponse = await showConfirmDialog()
-						if (confirmResponse === Response.NO) {
+						if (confirmResponse === ConfirmationDialogResponse.NO) {
 							return
 						}
 						if (!deleteIsLoading) {

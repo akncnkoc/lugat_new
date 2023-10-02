@@ -6,7 +6,7 @@ import { vaultLoader } from '@/pages/vault/VaultEdit'
 import { customerLoader } from '@/pages/customer/CustomerEdit'
 import { staffLoader } from '@/pages/staff/StaffEdit'
 import { productLoader } from '@/pages/product/ProductEdit'
-import LoaderComponent from '@/components/LoaderComponent'
+import LoaderComponent from '@/components/anims/LoaderComponent'
 
 const Home = React.lazy(() => import('@/pages/Home'))
 

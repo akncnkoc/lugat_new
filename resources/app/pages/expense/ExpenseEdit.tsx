@@ -9,7 +9,7 @@ import { expenseApi, useUpdateExpenseMutation } from '@/services/api/expense-api
 import toast, { LoaderIcon } from 'react-hot-toast'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
 import { storeDispatch } from '@/store'
-import LoaderComponent from '@/components/LoaderComponent'
+import LoaderComponent from '@/components/anims/LoaderComponent'
 import { TrackedPromise } from '@remix-run/router/utils'
 import { parse } from 'date-fns'
 import {
@@ -19,7 +19,7 @@ import {
 } from '@/types/expense-types'
 import useLoadVault from '@/hooks/useLoadVault'
 import { ExpenseEditValidationSchema } from '@/helpers/schemas'
-import LugatCurrencyInput from '@/components/LugatCurrencyInput'
+import LugatCurrencyInput from '@/components/form/LugatCurrencyInput'
 
 export const expenseLoader = async ({ params }: any) => {
 	const results = storeDispatch(expenseApi.endpoints?.getExpense.initiate(params.id ?? '')).then(

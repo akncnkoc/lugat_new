@@ -1,12 +1,13 @@
 import React from 'react'
 import LugatButton from '@/components/form/LugatButton'
-import ConfirmationDialog, { Response } from '@/components/ConfirmationDialog'
+import ConfirmationDialog from '@/components/ConfirmationDialog'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { Cell } from '@tanstack/react-table'
 import { useModal } from '@/components/modal/useModal'
 import { StaffDataType } from '@/types/staff-types'
 import { useDeleteStaffMutation } from '@/services/api/staff-api'
+import { ConfirmationDialogResponse } from '@/helpers/types'
 
 const StaffTableActionColumn: React.FC<{
 	cell: Cell<StaffDataType, unknown>
@@ -17,7 +18,7 @@ const StaffTableActionColumn: React.FC<{
 		Component: ConfirmationDialog,
 		closeOnEsc: true,
 		closeOnOverlayClick: true,
-		defaultResolved: Response.NO,
+		defaultResolved: ConfirmationDialogResponse.NO,
 	})
 	const [deleteStaff, { isLoading: deleteIsLoading }] = useDeleteStaffMutation()
 
@@ -34,7 +35,7 @@ const StaffTableActionColumn: React.FC<{
 					buttonClassNames={'!w-fit bg-red-500 hover:bg-red-600'}
 					onClick={async () => {
 						const confirmResponse = await showConfirmDialog()
-						if (confirmResponse === Response.NO) {
+						if (confirmResponse === ConfirmationDialogResponse.NO) {
 							return
 						}
 						if (!deleteIsLoading) {

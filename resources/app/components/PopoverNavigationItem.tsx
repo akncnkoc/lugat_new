@@ -3,6 +3,7 @@ import { Popover, Transition } from '@headlessui/react'
 import NavigationItem from '@/components/NavigationItem'
 import { NavigationItemProps } from '@/helpers/types'
 import { useFloating } from '@floating-ui/react-dom'
+import { clsx } from 'clsx'
 
 type PopoverNavigationItemType = {
 	popover: React.ReactElement | React.ReactNode
@@ -41,7 +42,17 @@ const PopoverNavigationItem: React.FC<PopoverNavigationItemType> = (props) => {
 						<Popover.Panel>
 							<div
 								ref={refs.setFloating}
-								className='w-64 z-[9999999] max-w-lg bg-white divide-y divide-gray-200 rounded-md shadow-lg focus:outline-none'
+								className={clsx(
+									'w-64',
+									'z-[9999999]',
+									'max-w-lg',
+									'bg-white',
+									'divide-y',
+									'divide-gray-200',
+									'rounded-md',
+									'shadow-lg',
+									'focus:outline-none',
+								)}
 								style={{ position: 'fixed', top: y, left: x }}
 							>
 								{React.cloneElement(props.popover as ReactElement, {

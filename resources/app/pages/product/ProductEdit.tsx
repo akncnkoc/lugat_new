@@ -5,7 +5,7 @@ import LugatButton from '@/components/form/LugatButton'
 import toast, { LoaderIcon } from 'react-hot-toast'
 import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
 import { storeDispatch } from '@/store'
-import LoaderComponent from '@/components/LoaderComponent'
+import LoaderComponent from '@/components/anims/LoaderComponent'
 import { TrackedPromise } from '@remix-run/router/utils'
 import LugatInput from '@/components/form/LugatInput'
 import useStaffType from '@/hooks/useStaffType'
@@ -17,7 +17,7 @@ import {
 	ProductStoreFormType,
 	ProductStoreInitialValues,
 } from '@/types/product-types'
-import LugatCurrencyInput from '@/components/LugatCurrencyInput'
+import LugatCurrencyInput from '@/components/form/LugatCurrencyInput'
 
 export const productLoader = async ({ params }: any) => {
 	const results = storeDispatch(productApi.endpoints?.getProduct.initiate(params.id ?? '')).then(

@@ -104,3 +104,9 @@ export type Shape<Fields> = {
 }
 
 export type CurrencyResource = CollectionDataType<CurrencyDataType>
+
+
+export enum ConfirmationDialogResponse {
+	YES = 'YES',
+	NO = 'NO',
+}

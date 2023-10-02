@@ -2,6 +2,7 @@ import { AsyncPaginate } from 'react-select-async-paginate'
 import { clsx } from 'clsx'
 import React from 'react'
 import { motion } from 'framer-motion'
+import LugatInputLabel from '@/components/form/LugatInputLabel'
 
 const controlStyles = {
 	base: 'border rounded-lg bg-white hover:cursor-pointer text-left',
@@ -16,12 +17,9 @@ const optionStyles = {
 
 const LugatAsyncSelect: React.FC<any> = (props) => {
 	return (
-		<>
+		<div className={'flex-1'}>
 			{props.label && (
-				<label className={'block mb-2 text-sm font-semibold text-gray-900 text-left'}>
-					{props.label}
-					{props.required && <span className={'text-[12px] text-red-700'}>*</span>}
-				</label>
+				<LugatInputLabel label={props.label} required={props.required} />
 			)}
 			<AsyncPaginate
 				hideSelectedOptions={false}
@@ -88,7 +86,7 @@ const LugatAsyncSelect: React.FC<any> = (props) => {
 					{props.error}
 				</motion.p>
 			)}
-		</>
+		</div>
 	)
 }
 

@@ -9,8 +9,10 @@ import useLoadVault from '@/hooks/useLoadVault'
 import { ProductCreateValidationSchema } from '@/helpers/schemas'
 import { useStoreProductMutation } from '@/services/api/product-api'
 import { ProductStoreFormType, ProductStoreInitialValues } from '@/types/product-types'
-import LugatCurrencyInput from '@/components/LugatCurrencyInput'
+import LugatCurrencyInput from '@/components/form/LugatCurrencyInput'
 import Card from '@/components/card'
+import SeperatedRow from '@/components/form/SeperatedRow'
+import SeperatedColumn from '@/components/SeperatedColumn'
 
 const ProductCreate: React.FC = () => {
 	const navigate = useNavigate()
@@ -24,16 +26,16 @@ const ProductCreate: React.FC = () => {
 		onSubmit: (values) => {
 			storeProduct({
 				...values,
-				buy_price_vault_id: values.buy_price_vault.id,
-				sell_price_vault_id: values.sell_price_vault.id,
+				buy_price_vault_id: values.buy_price_vault.value,
+				sell_price_vault_id: values.sell_price_vault.value,
 			})
 				.unwrap()
-				.then((_) => {
+				.then(() => {
 					toast.success('Product stored')
 					productCreateFormik.resetForm()
 					navigate(-1)
 				})
-				.catch((_) => {
+				.catch(() => {
 					toast.error('Product cant stored')
 				})
 		},
@@ -51,123 +53,87 @@ const ProductCreate: React.FC = () => {
 					</h3>
 				</Card.Header>
 				<Card.Body>
-					<div className='flex flex-col flex-1 space-y-2'>
-						<div className={'flex-1 flex flex-col space-y-4'}>
-							<div
-								className={
-									'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'
+					<SeperatedColumn>
+						<SeperatedRow>
+							<LugatInput
+								required
+								label={'Name'}
+								value={productCreateFormik.values.name}
+								onChange={(e) => productCreateFormik.setFieldValue('name', e.target.value)}
+								error={productCreateFormik.touched.name && productCreateFormik.errors.name}
+							/>
+							<LugatInput
+								required
+								label={'Model Code'}
+								value={productCreateFormik.values.model_code}
+								onChange={(e) => productCreateFormik.setFieldValue('model_code', e.target.value)}
+								error={
+									productCreateFormik.touched.model_code && productCreateFormik.errors.model_code
 								}
-							>
-								<div className={'flex-1'}>
-									<LugatInput
-										required
-										label={'Name'}
-										value={productCreateFormik.values.name}
-										onChange={(e) => productCreateFormik.setFieldValue('name', e.target.value)}
-										error={productCreateFormik.touched.name && productCreateFormik.errors.name}
-									/>
-								</div>
-								<div className={'flex-1'}>
-									<LugatInput
-										required
-										label={'Model Code'}
-										value={productCreateFormik.values.model_code}
-										onChange={(e) =>
-											productCreateFormik.setFieldValue('model_code', e.target.value)
-										}
-										error={
-											productCreateFormik.touched.model_code &&
-											productCreateFormik.errors.model_code
-										}
-									/>
-								</div>
-							</div>
-							<div
-								className={
-									'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'
+							/>
+						</SeperatedRow>
+						<SeperatedRow>
+							<LugatCurrencyInput
+								label={'Buy Price'}
+								required
+								error={
+									productCreateFormik.touched.buy_price && productCreateFormik.errors.buy_price
 								}
-							>
-								<div className={'flex-1'}>
-									<LugatCurrencyInput
-										label={'Buy Price'}
-										required
-										error={
-											productCreateFormik.touched.buy_price && productCreateFormik.errors.buy_price
-										}
-										value={productCreateFormik.values.buy_price}
-										onValueChange={(_, __, values) => {
-											productCreateFormik.setFieldTouched('buy_price', true)
-											productCreateFormik.setFieldValue('buy_price', values?.value ?? 0)
-										}}
-									/>
-								</div>
-								<div className={'flex-1'}>
-									<LugatAsyncSelect
-										error={
-											getIn(productCreateFormik.touched, 'buy_price_vault.id') &&
-											getIn(productCreateFormik.errors, 'buy_price_vault.id')
-										}
-										value={productCreateFormik.values.buy_price_vault}
-										getOptionLabel={(e: any) => e.name}
-										getOptionValue={(e: any) => e.id}
-										label={'Buy Price Vault'}
-										additional={{
-											page: 1,
-										}}
-										placeholder={'Select'}
-										defaultOptions
-										loadOptions={loadVaults}
-										onChange={(value: any) => {
-											productCreateFormik.setFieldValue('buy_price_vault', value)
-										}}
-									/>
-								</div>
-							</div>
-							<div
-								className={
-									'flex-1 flex flex-col space-y-2 laptop:flex-row laptop:space-x-2 laptop:space-y-0'
+								value={productCreateFormik.values.buy_price}
+								onValueChange={(_, __, values) => {
+									productCreateFormik.setFieldTouched('buy_price', true)
+									productCreateFormik.setFieldValue('buy_price', values?.value ?? 0)
+								}}
+							/>
+							<LugatAsyncSelect
+								error={
+									getIn(productCreateFormik.touched, 'buy_price_vault.value') &&
+									getIn(productCreateFormik.errors, 'buy_price_vault.value')
 								}
-							>
-								<div className={'flex-1'}>
-									<LugatCurrencyInput
-										label={'Sell Price'}
-										required
-										error={
-											productCreateFormik.touched.sell_price &&
-											productCreateFormik.errors.sell_price
-										}
-										value={productCreateFormik.values.sell_price}
-										onValueChange={(_, __, values) => {
-											productCreateFormik.setFieldTouched('sell_price', true)
-											productCreateFormik.setFieldValue('sell_price', values?.value ?? 0)
-										}}
-									/>
-								</div>
-								<div className={'flex-1'}>
-									<LugatAsyncSelect
-										required
-										error={
-											getIn(productCreateFormik.touched, 'sell_price_vault.id') &&
-											getIn(productCreateFormik.errors, 'sell_price_vault.id')
-										}
-										value={productCreateFormik.values.sell_price_vault}
-										getOptionLabel={(e: any) => e.name}
-										getOptionValue={(e: any) => e.id}
-										label={'Sell Price Vault '}
-										additional={{
-											page: 1,
-										}}
-										placeholder={'Select'}
-										defaultOptions
-										loadOptions={loadVaults}
-										onChange={(value: any) => {
-											productCreateFormik.setFieldValue('sell_price_vault', value)
-										}}
-									/>
-								</div>
-							</div>
-						</div>
-					</div>
+								value={productCreateFormik.values.buy_price_vault}
+								label={'Buy Price Vault'}
+								additional={{
+									page: 1,
+								}}
+								placeholder={'Select'}
+								loadOptions={loadVaults}
+								onChange={(value: any) => {
+									productCreateFormik.setFieldValue('buy_price_vault', value)
+								}}
+							/>
+						</SeperatedRow>
+						<SeperatedRow>
+							<LugatCurrencyInput
+								label={'Sell Price'}
+								required
+								error={
+									productCreateFormik.touched.sell_price && productCreateFormik.errors.sell_price
+								}
+								value={productCreateFormik.values.sell_price}
+								onValueChange={(_, __, values) => {
+									productCreateFormik.setFieldTouched('sell_price', true)
+									productCreateFormik.setFieldValue('sell_price', values?.value ?? 0)
+								}}
+							/>
+							<LugatAsyncSelect
+								required
+								error={
+									getIn(productCreateFormik.touched, 'sell_price_vault.value') &&
+									getIn(productCreateFormik.errors, 'sell_price_vault.value')
+								}
+								value={productCreateFormik.values.sell_price_vault}
+								label={'Sell Price Vault '}
+								additional={{
+									page: 1,
+								}}
+								placeholder={'Select'}
+								loadOptions={loadVaults}
+								onChange={(value: any) => {
+									productCreateFormik.setFieldValue('sell_price_vault', value)
+								}}
+							/>
+						</SeperatedRow>
+					</SeperatedColumn>
 				</Card.Body>
 				<Card.Footer>
 					<LugatButton onClick={productCreateFormik.submitForm}>

@@ -1,15 +1,19 @@
-import { storeDispatch } from '@/store'
+import { store, storeDispatch } from '@/store'
 import { vaultApi } from '@/services/api/vault-api'
 import { VaultDataType, VaultResource } from '@/types/vault-types'
+import { setVaults } from '@/store/slices/vaultSlice'
 
 const useLoadVault = () => {
 	const loadVaults = async (search: string, _: any, { page }: any) => {
-		const response = (await storeDispatch(
-			vaultApi.endpoints?.getVaults.initiate({ page, search }),
-		).then((res) => res.data)) as VaultResource
+		const response = await storeDispatch(vaultApi.endpoints?.getVaults.initiate({ page, search }))
+			.unwrap()
+			.then((res) => {
+				return res
+			})
+
 		const responseJSON = response.data.map((vault: VaultDataType) => ({
-			id: vault.id,
-			name: vault.name,
+			label: vault.name,
+			value: vault.id,
 		}))
 
 		return {

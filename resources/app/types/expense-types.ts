@@ -38,8 +38,8 @@ export type ExpenseDataType = {
 export type ExpenseStoreFormType = {
 	amount: number
 	vault: {
-		id: string
-		name: string
+		value: string
+		label: string
 	}
 	type: keyof typeof ExpenseTypeData | '-1'
 	comment: string | null
@@ -52,8 +52,8 @@ export const ExpenseStoreInitialValues: ExpenseStoreFormType = {
 	comment: '',
 	receipt_date: new Date(),
 	vault: {
-		id: '-1',
-		name: 'Select',
+		value: '-1',
+		label: 'Select',
 	},
 }
 

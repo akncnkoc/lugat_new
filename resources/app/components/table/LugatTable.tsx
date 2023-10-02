@@ -2,7 +2,7 @@ import { flexRender, Table } from '@tanstack/react-table'
 import React from 'react'
 import { CollectionMetaType } from '@/helpers/types'
 import Pagination from '@/components/Pagination'
-import LoaderComponent from '@/components/LoaderComponent'
+import LoaderComponent from '@/components/anims/LoaderComponent'
 import LugatAlert from '@/components/LugatAlert'
 import { SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query/react'
@@ -11,6 +11,7 @@ import { VaultDataType } from '@/types/vault-types'
 import { CustomerDataType } from '@/types/customer-types'
 import { StaffDataType } from '@/types/staff-types'
 import { ProductDataType } from '@/types/product-types'
+import { clsx } from 'clsx'
 
 type LugatTableProps = {
 	table:
@@ -37,34 +38,45 @@ const LugatTable: React.FC<LugatTableProps> = ({
 	label,
 }) => {
 	return (
-		<div className='overflow-x-auto sm:rounded-lg bg-white'>
+		<div className={clsx('overflow-x-auto', 'sm:rounded-lg', 'bg-white')}>
 			<div className='overflow-hidden'>
-				<div className={'bg-white w-full px-6 py-4 font-semibold'}>{label}</div>
-				<table className='min-w-full divide-y table-fixed divide-gray-100 border-b border-b-gray-100'>
+				<div className={clsx('bg-white', 'w-full', 'px-6', 'py-4', 'font-semibold')}>{label}</div>
+				<table
+					className={clsx(
+						'min-w-full',
+						'divide-y',
+						'table-fixed',
+						'divide-gray-100',
+						'border-b',
+						'border-b-gray-100',
+					)}
+				>
 					<thead className={'bg-gray-50'}>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<tr key={headerGroup.id} className={'h-9 flex-1'}>
 								{headerGroup.headers.map((header) => (
 									<th
-										className={`py-3 px-6 text-xs font-semibold tracking-wider text-gray-700 uppercase ${
-											header.column.columnDef.header === 'Actions' ? 'text-right' : 'text-left'
-										}`}
+										className={clsx(
+											'py-3',
+											'px-6',
+											'text-xs',
+											'font-semibold',
+											'tracking-wider',
+											'text-gray-700',
+											'uppercase',
+											header.column.columnDef.header === 'Actions' ? 'text-right' : 'text-left',
+										)}
 										key={header.id}
 										colSpan={header.colSpan}
 									>
 										{header.isPlaceholder ? null : (
 											<div
 												{...{
-													className: header.column.getCanSort()
-														? 'cursor-pointer select-none'
-														: '',
+													className: header.column.getCanSort() ? 'cursor-pointer select-none' : '',
 													onClick: header.column.getToggleSortingHandler(),
 												}}
 											>
-												{flexRender(
-													header.column.columnDef.header as any,
-													header.getContext()
-												)}
+												{flexRender(header.column.columnDef.header as any, header.getContext())}
 												{{
 													asc: ' 🔼',
 													desc: ' 🔽',
@@ -76,11 +88,13 @@ const LugatTable: React.FC<LugatTableProps> = ({
 							</tr>
 						))}
 					</thead>
-					<tbody className={'divide-y bg-white divide-gray-100'}>
+					<tbody className={clsx('divide-y', 'bg-white', 'divide-gray-100')}>
 						{error && (
 							<tr>
 								<td className={'w-full h-96'} colSpan={200}>
-									<LugatAlert alertClassNames={'bg-red-200 text-red-900 !w-fit mx-auto'}>
+									<LugatAlert
+										alertClassNames={clsx('bg-red-200', 'text-red-900', '!w-fit', 'mx-auto')}
+									>
 										Someting went wrong cant get {label.toLocaleLowerCase()}.
 									</LugatAlert>
 								</td>
@@ -88,9 +102,14 @@ const LugatTable: React.FC<LugatTableProps> = ({
 						)}
 						{!fetching && !error && table.getRowModel().rows.length === 0 && (
 							<tr>
-								<td className={'w-full h-96 align-middle'} colSpan={200}>
+								<td className={clsx('w-full', 'h-96', 'align-middle')} colSpan={200}>
 									<LugatAlert
-										alertClassNames={'!bg-gray-100 !text-gray-900 mx-auto !w-fit space-y-2'}
+										alertClassNames={clsx(
+											'!bg-gray-100',
+											'!text-gray-900',
+											'mx-auto',
+											'!w-fit space-y-2',
+										)}
 									>
 										No {label.toLocaleLowerCase()} found.
 									</LugatAlert>
@@ -105,9 +124,12 @@ const LugatTable: React.FC<LugatTableProps> = ({
 							</tr>
 						) : (
 							table.getRowModel().rows.map((row) => (
-								<tr key={row.id} className={'text-left text-gray-700 text-sm align-middle'}>
+								<tr
+									key={row.id}
+									className={clsx('text-left', 'text-gray-700', 'text-sm', 'align-middle')}
+								>
 									{row.getVisibleCells().map((cell) => (
-										<td className={'py-3 px-6 min-h-[52px] h-[52px]'} key={cell.id}>
+										<td className={clsx('py-3', 'px-6', 'min-h-[52px]', 'h-[52px]')} key={cell.id}>
 											{flexRender(cell.column.columnDef.cell as any, cell.getContext())}
 										</td>
 									))}

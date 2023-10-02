@@ -19,12 +19,12 @@ export type ProductStoreFormType = {
 	buy_price: number
 	sell_price: number
 	buy_price_vault: {
-		id: string
-		name: string
+		value: string
+		label: string
 	}
 	sell_price_vault: {
-		id: string
-		name: string
+		value: string
+		label: string
 	}
 	critical_stock_alert: boolean
 	images?: Array<File>
@@ -35,12 +35,12 @@ export const ProductStoreInitialValues: ProductStoreFormType = {
 	buy_price: 0,
 	sell_price: 0,
 	buy_price_vault: {
-		id: '-1',
-		name: 'Select',
+		value: '-1',
+		label: 'Select',
 	},
 	sell_price_vault: {
-		id: '-1',
-		name: 'Select',
+		value: '-1',
+		label: 'Select',
 	},
 	critical_stock_alert: false,
 	images: [],
