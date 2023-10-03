@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import LugatInputLabel from '@/components/form/LugatInputLabel'
 
 const controlStyles = {
-	base: 'border rounded-lg bg-white hover:cursor-pointer text-left',
+	base: 'border rounded-lg bg-white hover:cursor-pointer text-left font-semibold',
 	focus: 'border-gray-200 ring-1 ring-gray-200',
 	nonFocus: 'border-gray-100 hover:border-gray-400',
 }

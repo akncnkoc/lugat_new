@@ -4,7 +4,7 @@ import LugatButton from '@/components/form/LugatButton'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import LugatTable from '@/components/table/LugatTable'
 import LugatInput from '@/components/form/LugatInput'
-import { useGetStaffsMutation } from '@/services/api/staff-api'
+import { useLazyGetStaffsQuery } from '@/services/api/staff-api'
 import { StaffDataType, StaffTypeData } from '@/types/staff-types'
 import StaffTableActionColumn from '@/pages/staff/components/StaffTableActionColumn'
 
@@ -18,8 +18,9 @@ const StaffPage: React.FC = () => {
 		page: searchParams.get('page') ?? '1',
 		search: searchParams.get('search') ?? '',
 	})
-	const [getStaffs, { isLoading, error, data: staffs }] = useGetStaffsMutation()
-	const fetch = (page = pageParams.page, search = pageParams.search)  => getStaffs({ page: pageParams.page, search: pageParams.search })
+	const [getStaffs, { isFetching, error, data: staffs }] = useLazyGetStaffsQuery()
+	const fetch = (page = pageParams.page, search = pageParams.search) =>
+		getStaffs({ page: page, search: search })
 
 	const defaultColumns: ColumnDef<StaffDataType>[] = [
 		{
@@ -70,7 +71,7 @@ const StaffPage: React.FC = () => {
 				page: pageParams.page,
 				search: pageParams.search,
 			})
-			fetch("1", pageParams.search)
+			fetch('1', pageParams.search)
 		}
 	}
 	return (
@@ -97,7 +98,7 @@ const StaffPage: React.FC = () => {
 						label={'Staff'}
 						table={table}
 						meta={staffs?.meta ?? undefined}
-						fetching={isLoading}
+						fetching={isFetching}
 						onPaginate={(page: string) => handleOnPaginate(page)}
 						currentPage={pageParams.page}
 						error={error}

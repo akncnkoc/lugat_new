@@ -2,21 +2,11 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import { DefaultResponseType } from '@/helpers/types'
 import baseQueryConfigWithAuth from '@/store/config/baseQueryConfigWithAuth'
 import { VaultResource, VaultSingleResource, VaultStoreType } from '@/types/vault-types'
-import { REHYDRATE } from 'redux-persist'
 
 export const vaultApi = createApi({
 	reducerPath: 'vaultApi',
 	baseQuery: baseQueryConfigWithAuth,
 	tagTypes: ['Vault'],
-	// extractRehydrationInfo(action, { reducerPath }) {
-	// 	console.log(action, REHYDRATE)
-	// 	if (action.type === REHYDRATE) {
-	// 		return action.payload[reducerPath]
-	// 	}
-	// 	if (action.type === REHYDRATE && action.key === 'root') {
-	// 		return action.payload
-	// 	}
-	// },
 	endpoints: (builder) => ({
 		getVaults: builder.query<VaultResource, { page: string; search: string }>({
 			query({ page = '1', search }) {

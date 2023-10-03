@@ -26,7 +26,10 @@ export type CustomerStoreFormType = {
 		label: string
 		value: string
 	}
-	customer_type: CustomerTypeDataType
+	customer_type: {
+		label: string
+		value: string
+	}
 	city: string
 	district: string
 	neighborhood: string
@@ -40,16 +43,16 @@ export const CustomerStoreFormInitialValues: CustomerStoreFormType = {
 	phone: '',
 	email: '',
 	customer_type: {
-		id: '-1',
-		name: 'Select',
+		value: '-1',
+		label: 'Select',
 	},
 	city: '',
 	district: '',
 	address: '',
 	neighborhood: '',
 	gender: {
-		label: '-1',
-		value: 'Select',
+		label: 'Select',
+		value: '-1',
 	},
 	post_code: '',
 	comment: '',

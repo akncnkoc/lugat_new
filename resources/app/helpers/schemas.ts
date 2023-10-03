@@ -54,7 +54,11 @@ export const CustomerEditValidationSchema = object().shape<Shape<Partial<Custome
 export const ExpenseCreateValidationSchema = object().shape<Shape<ExpenseStoreFormType>>({
 	amount: number().label('Amount').required().min(1).max(100000),
 	comment: string(),
-	type: string().required().notOneOf(['-1'], 'Expense type must be selected'),
+	type: object()
+		.label('Expense Type')
+		.shape({
+			value: string().required().notOneOf(['-1'], 'Expense Type must be selected'),
+		}),
 	vault: object()
 		.label('Vault')
 		.shape({
@@ -70,11 +74,15 @@ export const ExpenseCreateValidationSchema = object().shape<Shape<ExpenseStoreFo
 
 export const ExpenseEditValidationSchema = object().shape<Shape<Partial<ExpenseStoreFormType>>>({
 	amount: number().label('Amount').required().min(1).max(100000),
-	type: string().required().notOneOf(['-1'], 'Expense type must be selected'),
+	type: object()
+		.label('Expense Type')
+		.shape({
+			value: string().required().notOneOf(['-1'], 'Expense Type must be selected'),
+		}),
 	vault: object()
 		.label('Vault')
 		.shape({
-			id: string().required().notOneOf(['-1'], 'Vault must be selected'),
+			value: string().required().notOneOf(['-1'], 'Vault must be selected'),
 		}),
 	receipt_date: date().transform(function (value, originalValue) {
 		if (this.isType(value)) {
@@ -116,7 +124,7 @@ export const StaffEditValidationSchema = object().shape<Shape<Partial<StaffStore
 	salary_vault: object()
 		.label('Staff Type')
 		.shape({
-			id: string().required().notOneOf(['-1'], 'Staff Type must be selected'),
+			value: string().required().notOneOf(['-1'], 'Staff Type must be selected'),
 		}),
 })
 

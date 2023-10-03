@@ -8,15 +8,13 @@ export const expenseApi = createApi({
 	baseQuery: baseQueryConfigWithAuth,
 	tagTypes: ['Expense'],
 	endpoints: (builder) => ({
-		getExpenses: builder.mutation<ExpenseResource, { page: string; search?: string }>({
+		getExpenses: builder.query<ExpenseResource, { page: string; search?: string }>({
 			query({ page = '1' }) {
-				// const url = new URL(window.location.toString())
-				// url.searchParams.set('search', search.toString())
 				return {
-					// url: `v1/expense?page=${page}&${decodeURIComponent(url.searchParams.toString())}`,
 					url: `v1/expense?page=${page}`,
 				}
 			},
+			providesTags: ['Expense']
 		}),
 		getExpense: builder.query<ExpenseSingleResource, string>({
 			query: (id: string) => `v1/expense/${id}`,
@@ -55,7 +53,7 @@ export const expenseApi = createApi({
 })
 
 export const {
-	useGetExpensesMutation,
+	useLazyGetExpensesQuery,
 	useStoreExpenseMutation,
 	useDeleteExpenseMutation,
 	useUpdateExpenseMutation,

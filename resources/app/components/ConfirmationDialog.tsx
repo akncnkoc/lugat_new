@@ -2,6 +2,7 @@ import { FC } from 'react'
 import LugatButton from '@/components/form/LugatButton'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ConfirmationDialogResponse } from '@/helpers/types'
+import { clsx } from 'clsx'
 
 interface Props {
 	onResolve: (r: ConfirmationDialogResponse) => void
@@ -19,7 +20,7 @@ const ConfirmationDialog: FC<Props> = ({ onResolve }) => {
 	return (
 		<AnimatePresence>
 			<motion.div
-				className='relative p-4 w-full max-w-lg h-52 md:h-52'
+				className={clsx('relative', 'p-4', 'w-full', 'max-w-lg', 'h-52', 'md:h-52')}
 				initial={{
 					opacity: 0,
 					scale: 0.75,
@@ -41,11 +42,37 @@ const ConfirmationDialog: FC<Props> = ({ onResolve }) => {
 					},
 				}}
 			>
-				<div className='relative p-4 text-center bg-white rounded-lg shadow sm:p-5 w-full h-full'>
+				<div
+					className={clsx(
+						'relative',
+						'p-4',
+						'text-center',
+						'bg-white',
+						'rounded-lg',
+						'shadow',
+						'sm:p-5',
+						'w-full',
+						'h-full',
+					)}
+				>
 					<button
 						type='button'
 						onClick={handleNo}
-						className='text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center'
+						className={clsx(
+							'text-gray-400',
+							'absolute',
+							'top-2.5',
+							'right-2.5',
+							'bg-transparent',
+							'hover:bg-gray-200',
+							'hover:text-gray-900',
+							'rounded-lg',
+							'text-sm',
+							'p-1.5',
+							'ml-auto',
+							'inline-flex',
+							'items-center',
+						)}
 					>
 						<svg
 							aria-hidden='true'
@@ -63,7 +90,7 @@ const ConfirmationDialog: FC<Props> = ({ onResolve }) => {
 						<span className='sr-only'>Close modal</span>
 					</button>
 					<svg
-						className='text-gray-400 w-11 h-11 mb-3.5 mx-auto'
+						className={clsx('text-gray-400', 'w-11', 'h-11', 'mb-3.5', 'mx-auto')}
 						aria-hidden='true'
 						fill='currentColor'
 						viewBox='0 0 20 20'
@@ -75,17 +102,17 @@ const ConfirmationDialog: FC<Props> = ({ onResolve }) => {
 							clipRule='evenodd'
 						></path>
 					</svg>
-					<p className='mb-4 text-gray-500 '>Are you sure you want to delete this item?</p>
-					<div className='flex justify-center items-center space-x-4'>
+					<p className='mb-4 text-gray-500'>Are you sure you want to delete this item?</p>
+					<div className={clsx('flex', 'justify-center', 'items-center', 'space-x-4')}>
 						<LugatButton
 							onClick={handleNo}
-							buttonClassNames={'!w-fit bg-gray-50 hover:bg-gray-100 !text-gray-900'}
+							buttonClassNames={clsx('!w-fit', 'bg-gray-50', 'hover:bg-gray-100', '!text-gray-900')}
 						>
 							No, cancel
 						</LugatButton>
 						<LugatButton
 							onClick={handleYes}
-							buttonClassNames={'!w-fit bg-red-500 hover:bg-red-600'}
+							buttonClassNames={clsx('!w-fit', 'bg-red-500', 'hover:bg-red-600')}
 						>
 							Yes, I'm sure
 						</LugatButton>

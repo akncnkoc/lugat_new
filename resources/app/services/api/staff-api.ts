@@ -8,7 +8,7 @@ export const staffApi = createApi({
 	baseQuery: baseQueryConfigWithAuth,
 	tagTypes: ['Staff'],
 	endpoints: (builder) => ({
-		getStaffs: builder.mutation<StaffResource, { page: string; search: string }>({
+		getStaffs: builder.query<StaffResource, { page: string; search: string }>({
 			query({ page = '1', search }) {
 				const url = new URL(window.location.toString())
 				url.searchParams.set('page', page)
@@ -20,6 +20,7 @@ export const staffApi = createApi({
 					url: `v1/staff?${decodeURIComponent(url.searchParams.toString())}`,
 				}
 			},
+			providesTags: ['Staff'],
 		}),
 		getStaff: builder.query<StaffSingleResource, string>({
 			query: (id: string) => `v1/staff/${id}`,
@@ -58,7 +59,7 @@ export const staffApi = createApi({
 })
 
 export const {
-	useGetStaffsMutation,
+	useLazyGetStaffsQuery,
 	useGetStaffQuery,
 	useStoreStaffMutation,
 	useUpdateStaffMutation,

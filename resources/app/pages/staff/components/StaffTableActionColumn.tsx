@@ -24,7 +24,7 @@ const StaffTableActionColumn: React.FC<{
 
 	return (
 		<>
-			<div className={'text-right space-x-1'}>
+			<div className={'flex justify-end space-x-1'}>
 				<LugatButton
 					buttonClassNames={'!w-fit'}
 					onClick={() => navigate(`/staff/${cell.row.original.id}/edit`)}

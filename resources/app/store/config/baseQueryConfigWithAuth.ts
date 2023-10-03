@@ -33,7 +33,6 @@ const baseQueryConfigWithReAuth: BaseQueryFn<
 	storeDispatch(setIsGlobalLoading(true))
 	let result = await baseQueryConfig(args, api, extraOptions)
 	if (result.error && result.error.status === 401) {
-
 		try {
 			const refreshResult = (
 				await axios.post(API_URL + 'v1/auth/refreshToken', null, {
@@ -47,7 +46,7 @@ const baseQueryConfigWithReAuth: BaseQueryFn<
 				storeDispatch(setRefreshToken(refreshResult?.data?.refresh_token))
 				result = await baseQueryConfig(args, api, extraOptions)
 			}
-		}catch (err){
+		} catch (err) {
 			toast.promise(
 				new Promise((resolve) => {
 					setTimeout(() => {
@@ -55,13 +54,13 @@ const baseQueryConfigWithReAuth: BaseQueryFn<
 					}, 1500)
 				}),
 				{
-					loading: 'Oturum sonlandırıldı. Lütfen tekrar giriş yapın.',
+					loading: 'The session has been terminated. Please log in again.',
 					success: () => {
 						window.location.pathname = '/login'
 						storeDispatch(setToken(null))
 						storeDispatch(setRefreshToken(null))
-						storeDispatch(setIsGlobalLoading(false));
-						return ''
+						storeDispatch(setIsGlobalLoading(false))
+						return 'Rerouted'
 					},
 					error: '',
 				},

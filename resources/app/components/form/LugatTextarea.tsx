@@ -17,7 +17,7 @@ const LugatTextarea: React.FC<RabbitTextareaProps> = forwardRef<
 >((props, ref) => {
 	const { label, error, textareaClassnames, value, textarea = false, ...textareProps } = props
 	return (
-		<div>
+		<div className={'flex-1'}>
 			{props.label && <LugatInputLabel label={props.label} required={props.required} />}
 			<textarea
 				ref={ref}

@@ -8,7 +8,7 @@ export const customerApi = createApi({
 	baseQuery: baseQueryConfigWithAuth,
 	tagTypes: ['Customer'],
 	endpoints: (builder) => ({
-		getCustomers: builder.mutation<CustomerResource, { page: string; search: string }>({
+		getCustomers: builder.query<CustomerResource, { page: string; search: string }>({
 			query({ page = '1', search }) {
 				const url = new URL(window.location.toString())
 				url.searchParams.set('page', page)
@@ -19,6 +19,7 @@ export const customerApi = createApi({
 					url: `v1/customer?${decodeURIComponent(url.searchParams.toString())}`,
 				}
 			},
+			providesTags: ['Customer'],
 		}),
 		getCustomer: builder.query<CustomerSingleResource, string>({
 			query: (id: string) => `v1/customer/${id}`,
@@ -57,7 +58,7 @@ export const customerApi = createApi({
 })
 
 export const {
-	useGetCustomersMutation,
+	useLazyGetCustomersQuery,
 	useGetCustomerQuery,
 	useStoreCustomerMutation,
 	useUpdateCustomerMutation,

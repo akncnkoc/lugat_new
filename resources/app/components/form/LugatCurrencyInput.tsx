@@ -12,7 +12,7 @@ type LugatCurrencyInputProps = {
 } & CurrencyInputProps
 
 const LugatCurrencyInput = forwardRef<typeof CurrencyInput, LugatCurrencyInputProps>(
-	(props, ref) => (
+	(props, _) => (
 		<div className={'flex-1'}>
 			{props.label && <LugatInputLabel label={props.label} required={props.required} />}
 			<CurrencyInput

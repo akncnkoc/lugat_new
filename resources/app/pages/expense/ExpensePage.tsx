@@ -4,16 +4,17 @@ import LugatButton from '@/components/form/LugatButton'
 import { CurrencyCodeToSign } from '@/helpers/types'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import LugatTable from '@/components/table/LugatTable'
-import { useGetExpensesMutation } from '@/services/api/expense-api'
+import { useLazyGetExpensesQuery } from '@/services/api/expense-api'
 import ExpenseTableActionColumn from '@/pages/expense/components/ExpenseTableActionColumn'
 import { ExpenseDataType, ExpenseTypeData } from '@/types/expense-types'
+import { clsx } from 'clsx'
 
 const ExpensePage: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
 	const navigate = useNavigate()
 	const [currentPage, setCurrentPage] = useState(searchParams.get('page') ?? '1')
-	const [getExpenses, { isLoading, error, data: expenses }] = useGetExpensesMutation()
-	const fetch = (page = currentPage) => getExpenses({ page: currentPage })
+	const [getExpenses, { isFetching, error, data: expenses }] = useLazyGetExpensesQuery()
+	const fetch = (page = currentPage) => getExpenses({ page: page })
 
 	const defaultColumns: ColumnDef<ExpenseDataType>[] = [
 		{
@@ -52,7 +53,7 @@ const ExpensePage: React.FC = () => {
 
 	return (
 		<>
-			<div className={'flex space-x-4 justify-end px-4'}>
+			<div className={clsx('flex', 'space-x-4', 'justify-end', 'px-4')}>
 				<div className='w-fit'>
 					<LugatButton onClick={() => navigate('/expense/create')}>Create Expense</LugatButton>
 				</div>
@@ -63,7 +64,7 @@ const ExpensePage: React.FC = () => {
 						label={'Expense'}
 						table={table}
 						meta={expenses?.meta ?? undefined}
-						fetching={isLoading}
+						fetching={isFetching}
 						onPaginate={(page: string) => setCurrentPage(page)}
 						currentPage={currentPage}
 						error={error}

@@ -6,7 +6,8 @@ import LugatTable from '@/components/table/LugatTable'
 import { CustomerDataType } from '@/types/customer-types'
 import CustomerTableActionColumn from '@/pages/customer/components/CustomerTableActionColumn'
 import LugatInput from '@/components/form/LugatInput'
-import { useGetCustomersMutation } from '@/services/api/customer-api'
+import { useLazyGetCustomersQuery } from '@/services/api/customer-api'
+import { clsx } from 'clsx'
 
 const ExpensePage: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
@@ -18,7 +19,7 @@ const ExpensePage: React.FC = () => {
 		page: searchParams.get('page') ?? '1',
 		search: searchParams.get('search') ?? '',
 	})
-	const [getCustomers, { isLoading, error, data: customers }] = useGetCustomersMutation()
+	const [getCustomers, { isFetching, error, data: customers }] = useLazyGetCustomersQuery()
 	const fetch = (page = pageParams.page, search = pageParams.search) =>
 		getCustomers({ page, search })
 
@@ -33,7 +34,7 @@ const ExpensePage: React.FC = () => {
 		},
 		{
 			header: 'Phone',
-			accessorKey: 'phone',
+			accessorKey: 'phone', 
 		},
 		{
 			header: 'Type',
@@ -76,7 +77,7 @@ const ExpensePage: React.FC = () => {
 	}
 	return (
 		<>
-			<div className={'flex space-x-4 justify-between px-4 items-center'}>
+			<div className={clsx('flex', 'space-x-4', 'justify-between', 'px-4', 'items-center')}>
 				<div>
 					<div className='w-fit'>
 						<LugatInput
@@ -98,7 +99,7 @@ const ExpensePage: React.FC = () => {
 						label={'Customer'}
 						table={table}
 						meta={customers?.meta ?? undefined}
-						fetching={isLoading}
+						fetching={isFetching}
 						onPaginate={(page: string) => handleOnPaginate(page)}
 						currentPage={pageParams.page}
 						error={error}

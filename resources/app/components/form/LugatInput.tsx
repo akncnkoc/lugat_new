@@ -53,7 +53,7 @@ const LugatInput: React.FC<RabbitInputProps> = forwardRef<HTMLInputElement, Rabb
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }}
-						className='mt-2 text-sm text-red-600'
+						className='mt-2 text-sm text-red-600 font-semibold'
 					>
 						{error}
 					</motion.p>

@@ -8,7 +8,7 @@ export const productApi = createApi({
 	baseQuery: baseQueryConfigWithAuth,
 	tagTypes: ['Product'],
 	endpoints: (builder) => ({
-		getProducts: builder.mutation<
+		getProducts: builder.query<
 			ProductResource,
 			{
 				page: string
@@ -32,6 +32,7 @@ export const productApi = createApi({
 					url: `v1/product?${decodeURIComponent(url.searchParams.toString())}`,
 				}
 			},
+			providesTags: ['Product'],
 		}),
 		getProduct: builder.query<ProductSingleResource, string>({
 			query: (id: string) => `v1/product/${id}`,
@@ -70,7 +71,7 @@ export const productApi = createApi({
 })
 
 export const {
-	useGetProductsMutation,
+	useLazyGetProductsQuery,
 	useGetProductQuery,
 	useStoreProductMutation,
 	useUpdateProductMutation,

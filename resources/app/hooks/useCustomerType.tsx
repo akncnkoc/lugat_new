@@ -8,8 +8,8 @@ const useCustomerType = () => {
 			customerTypeApi.endpoints?.getCustomerTypes.initiate({ page, search }),
 		).then((res) => res.data)) as CustomerTypeResource
 		const responseJSON = response.data.map((customerType: CustomerTypeDataType) => ({
-			id: customerType.id,
-			name: customerType.name,
+			label: customerType.name,
+			value: customerType.id,
 		}))
 
 		return {

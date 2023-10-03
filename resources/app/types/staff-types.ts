@@ -27,8 +27,8 @@ export type StaffStoreFormType = {
 	email: string
 	salary: number
 	salary_vault: {
-		id: string
-		name: string
+		label: string
+		value: string
 	}
 	type: {
 		label: string
@@ -46,8 +46,8 @@ export const StaffStoreInitialValues: StaffStoreFormType = {
 		value: '-1',
 	},
 	salary_vault: {
-		id: '-1',
-		name: 'Select',
+		value: '-1',
+		label: 'Select',
 	},
 }
 

@@ -1,7 +1,6 @@
-import { store, storeDispatch } from '@/store'
+import { storeDispatch } from '@/store'
 import { vaultApi } from '@/services/api/vault-api'
-import { VaultDataType, VaultResource } from '@/types/vault-types'
-import { setVaults } from '@/store/slices/vaultSlice'
+import { VaultDataType } from '@/types/vault-types'
 
 const useLoadVault = () => {
 	const loadVaults = async (search: string, _: any, { page }: any) => {

@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-table'
 import LugatTable from '@/components/table/LugatTable'
 import LugatInput from '@/components/form/LugatInput'
-import { useGetProductsMutation } from '@/services/api/product-api'
+import { useLazyGetProductsQuery } from '@/services/api/product-api'
 import { ProductDataType } from '@/types/product-types'
 import { CurrencyCodeToSign } from '@/helpers/types'
 import ProductTableActionColumn from '@/pages/product/components/ProductTableActionColumn'
@@ -28,7 +28,7 @@ const ProductPage: React.FC = () => {
 		search: searchParams.get('search') ?? '',
 		sorting: [],
 	})
-	const [getProducts, { isLoading, error, data: products }] = useGetProductsMutation()
+	const [getProducts, { isFetching, error, data: products }] = useLazyGetProductsQuery()
 	const fetch = (
 		page = pageParams.page,
 		search = pageParams.search,
@@ -142,7 +142,7 @@ const ProductPage: React.FC = () => {
 					label={'Product'}
 					table={table}
 					meta={products?.meta ?? undefined}
-					fetching={isLoading}
+					fetching={isFetching}
 					onPaginate={(page: string) => handleOnPaginate(page)}
 					currentPage={pageParams.page}
 					error={error}
