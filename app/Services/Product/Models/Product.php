@@ -25,21 +25,6 @@ class Product extends Model
         return ProductFactory::new();
     }
 
-    public function buyPriceVault(): BelongsTo
-    {
-        return $this->belongsTo(Vault::class, 'buy_price_vault_id', 'id');
-    }
-
-    public function sellPriceVault(): BelongsTo
-    {
-        return $this->belongsTo(Vault::class, 'sell_price_vault_id', 'id');
-    }
-
-    public function productImages(): HasMany
-    {
-        return $this->hasMany(ProductImage::class, 'product_id', 'id');
-    }
-
     public function suppliers(): HasManyThrough
     {
         return $this->hasManyThrough(Supplier::class, ProductSupplier::class);
@@ -48,5 +33,9 @@ class Product extends Model
     public function productSuppliers(): HasMany
     {
         return $this->hasMany(ProductSupplier::class, 'product_id', 'id');
+    }
+
+    public function subProducts(): HasMany{
+        return $this->hasMany(SubProduct::class, 'product_id', 'id');
     }
 }

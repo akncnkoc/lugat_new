@@ -5,7 +5,7 @@ use Illuminate\Support\ServiceProvider;
 return [
     'name'            => env('APP_NAME', 'Lügat'),
     'env'             => env('APP_ENV', 'production'),
-    'debug'           => (bool) env('APP_DEBUG', false),
+    'debug'           => (bool)env('APP_DEBUG', false),
     'url'             => env('APP_URL', 'http://localhost'),
     'asset_url'       => env('ASSET_URL'),
     'timezone'        => 'Europe/Istanbul',
@@ -34,6 +34,7 @@ return [
         App\Services\Supplier\Providers\SupplierServiceProvider::class,
         App\Services\Product\Providers\ProductServiceProvider::class,
         App\Services\Staff\Providers\StaffServiceProvider::class,
+        App\Services\Invoice\Providers\InvoiceServiceProvider::class,
     ])->toArray(),
 
 ];

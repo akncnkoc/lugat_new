@@ -3,7 +3,7 @@
 namespace App\Services\Product\Traits;
 
 use App\Services\Product\Models\Product;
-use App\Services\Product\Models\ProductImage;
+use App\Services\Product\Models\SubProductImage;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\ImageManager;
 
@@ -25,7 +25,7 @@ trait ProductImageUpload
                     ->resize(1024, 768, fn($constraint) => $constraint->aspectRatio())
                     ->insert(public_path('assets/companylogowatermark.png'), 'bottom-right', 20, 20)
                     ->save(storage_path($savedPath));
-            ProductImage::create([
+            SubProductImage::create([
                 'path'       => "app/product/$product->id/images/".$image->hashName(),
                 'product_id' => $product->id,
                 'properties' => json_encode([

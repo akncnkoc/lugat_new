@@ -57,7 +57,7 @@ class CustomerTest extends TestCase
     public function test_authenticated_user_can_get_customers_list()
     {
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('customer.index'));
+        $response = $this->getJson(route('customer.index.tsx'));
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
@@ -68,7 +68,7 @@ class CustomerTest extends TestCase
 
     public function test_unauthorized_user_cant_get_customers_list()
     {
-        $response = $this->getJson(route('customer.index'));
+        $response = $this->getJson(route('customer.index.tsx'));
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -76,7 +76,7 @@ class CustomerTest extends TestCase
     {
         $this->user->revokePermissionTo('view customer');
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('customer.index'));
+        $response = $this->getJson(route('customer.index.tsx'));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 

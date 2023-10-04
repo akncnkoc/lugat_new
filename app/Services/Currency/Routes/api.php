@@ -9,7 +9,7 @@ Route::middleware(['auth:sanctum'])
      ->name('currency.')
      ->controller(CurrencyController::class)
      ->group(function () {
-         Route::get('/', 'index')->name('index');
+         Route::get('/', 'index')->name('index.tsx');
          Route::post('/{currency}', 'updatePrimaryCurrency')->name('update-primary-currency');
          Route::put('/reload', 'loadCurrenciesFromTCMB')->name('reload');
      });

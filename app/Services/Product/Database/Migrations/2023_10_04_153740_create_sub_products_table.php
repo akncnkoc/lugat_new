@@ -11,15 +11,18 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('invoice_products', function (Blueprint $table) {
+        Schema::create('sub_products', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('invoice_id')->constrained('invoices')->restrictOnDelete();
+            $table->string('name');
+            $table->decimal('buy_price', 15)->default(0);
+            $table->decimal('sell_price', 15)->default(0);
+            $table->foreignUuid('buy_currency_id')->nullable()->constrained('currencies')->restrictOnDelete();
+            $table->foreignUuid('sell_currency_id')->constrained('currencies')->restrictOnDelete();
             $table->foreignUuid('product_id')->constrained('products')->restrictOnDelete();
-            $table->decimal('price', 15)->default(1);
-            $table->foreignUuid('price_currency_id')->constrained('currencies')->restrictOnDelete();
+            $table->unsignedDecimal('stock', 15)->default(0);
             $table->enum('tax', TaxType::values());
-            $table->decimal('tax_price', 15)->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 };

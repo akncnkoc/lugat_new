@@ -2,12 +2,12 @@
 
 namespace App\Services\Product\Http\Resources;
 
-use App\Services\Product\Models\ProductImage;
+use App\Services\Product\Models\SubProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin ProductImage
+ * @mixin SubProductImage
  */
 class ProductImageResource extends JsonResource
 {

@@ -2,22 +2,20 @@
 
 namespace App\Services\Product\Models;
 
-use App\Services\Product\Database\Factories\ProductImageFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class ProductImage extends Model
+class SubProduct extends Model
 {
-    use HasFactory,HasUuids, SoftDeletes;
+    use HasFactory, HasUuids;
 
-    protected $guarded = [];
 
-    protected static function newFactory(): ProductImageFactory
+    public function productImages(): HasMany
     {
-        return ProductImageFactory::new();
+        return $this->hasMany(SubProductImage::class, 'sub_product_id', 'id');
     }
 
     public function product(): BelongsTo

@@ -3,7 +3,7 @@
 namespace App\Services\Product\Database\Seeders;
 
 use App\Services\Product\Models\Product;
-use App\Services\Product\Models\ProductImage;
+use App\Services\Product\Models\SubProductImage;
 use App\Services\Product\Models\ProductSupplier;
 use App\Services\Supplier\Models\Supplier;
 use Illuminate\Database\Seeder;

@@ -49,7 +49,7 @@ class ProductImageTest extends TestCase
     public function test_authenticated_user_can_get_product_images_list(): void
     {
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('product-image.index', $this->product->id));
+        $response = $this->getJson(route('product-image.index.tsx', $this->product->id));
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
@@ -60,7 +60,7 @@ class ProductImageTest extends TestCase
 
     public function test_unauthorized_user_cant_get_product_list(): void
     {
-        $response = $this->getJson(route('product-image.index', $this->product->id));
+        $response = $this->getJson(route('product-image.index.tsx', $this->product->id));
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -68,7 +68,7 @@ class ProductImageTest extends TestCase
     {
         $this->user->revokePermissionTo('view product image');
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('product-image.index', $this->product->id));
+        $response = $this->getJson(route('product-image.index.tsx', $this->product->id));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 

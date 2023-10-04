@@ -27,7 +27,7 @@ Route::prefix('/api/v1/product-image')
      ->name('product-image.')
      ->middleware('auth:sanctum')
      ->group(function () {
-         Route::get('/{product}', 'index')->name('index');
+         Route::get('/{product}', 'index')->name('index.tsx');
          Route::get('/product/{productImage}', 'show')->name('show');
          Route::post('/{product}', 'store')->name('store');
          Route::delete('/{product}/{productImage}', 'destroy')->name('destroy');

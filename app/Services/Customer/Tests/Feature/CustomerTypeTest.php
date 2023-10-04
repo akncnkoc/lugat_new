@@ -42,7 +42,7 @@ class CustomerTypeTest extends TestCase
   public function test_authenticated_user_can_get_customer_types_list(): void
   {
     Sanctum::actingAs($this->user);
-    $response = $this->getJson(route('customer-type.index'));
+    $response = $this->getJson(route('customer-type.index.tsx'));
     $response->assertStatus(Response::HTTP_OK);
     $response->assertJsonStructure([
       'data' => [
@@ -53,7 +53,7 @@ class CustomerTypeTest extends TestCase
 
   public function test_unauthorized_user_cant_get_customer_types_list(): void
   {
-    $response = $this->getJson(route('customer-type.index'));
+    $response = $this->getJson(route('customer-type.index.tsx'));
     $response->assertStatus(Response::HTTP_UNAUTHORIZED);
   }
 
@@ -61,7 +61,7 @@ class CustomerTypeTest extends TestCase
   {
     $this->user->revokePermissionTo('view customer type');
     Sanctum::actingAs($this->user);
-    $response = $this->getJson(route('customer-type.index'));
+    $response = $this->getJson(route('customer-type.index.tsx'));
     $response->assertStatus(Response::HTTP_FORBIDDEN);
   }
 

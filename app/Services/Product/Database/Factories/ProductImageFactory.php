@@ -2,7 +2,7 @@
 
 namespace App\Services\Product\Database\Factories;
 
-use App\Services\Product\Models\ProductImage;
+use App\Services\Product\Models\SubProductImage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\Testing\File;
 use JsonException;
@@ -12,7 +12,7 @@ use JsonException;
  */
 class ProductImageFactory extends Factory
 {
-    protected $model = ProductImage::class;
+    protected $model = SubProductImage::class;
 
     /**
      * @throws JsonException

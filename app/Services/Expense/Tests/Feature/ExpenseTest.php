@@ -49,7 +49,7 @@ class ExpenseTest extends TestCase
     public function test_authenticated_user_can_get_expense_list(): void
     {
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('expense.index'));
+        $response = $this->getJson(route('expense.index.tsx'));
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
@@ -62,7 +62,7 @@ class ExpenseTest extends TestCase
 
     public function test_unauthorized_user_cant_get_expense_list(): void
     {
-        $response = $this->getJson(route('expense.index'));
+        $response = $this->getJson(route('expense.index.tsx'));
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -70,7 +70,7 @@ class ExpenseTest extends TestCase
     {
         $this->user->revokePermissionTo('view expense');
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('expense.index'));
+        $response = $this->getJson(route('expense.index.tsx'));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 

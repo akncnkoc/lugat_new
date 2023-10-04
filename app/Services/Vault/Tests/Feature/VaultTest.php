@@ -45,7 +45,7 @@ class VaultTest extends TestCase
     public function test_authenticated_user_can_get_vault_list(): void
     {
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('vault.index'));
+        $response = $this->getJson(route('vault.index.tsx'));
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
@@ -56,7 +56,7 @@ class VaultTest extends TestCase
 
     public function test_unauthorized_user_cant_get_vault_list(): void
     {
-        $response = $this->getJson(route('vault.index'));
+        $response = $this->getJson(route('vault.index.tsx'));
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -64,7 +64,7 @@ class VaultTest extends TestCase
     {
         $this->user->revokePermissionTo('view vault');
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('vault.index'));
+        $response = $this->getJson(route('vault.index.tsx'));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 

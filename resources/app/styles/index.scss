@@ -42,7 +42,9 @@
         font-family: 'Averta Std', sans-serif;
         @apply text-gray-900 bg-black/5 w-full h-full text-sm overflow-auto;
     }
-
+    button{
+        @apply focus:outline-0;
+    }
     #app {
         @apply w-full h-full flex flex-1;
     }

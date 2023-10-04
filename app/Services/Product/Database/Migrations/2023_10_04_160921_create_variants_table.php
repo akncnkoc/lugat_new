@@ -10,13 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('product_images', static function (Blueprint $table) {
+        Schema::create('variants', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('product_id')->constrained('products')->restrictOnDelete();
-            $table->string('path');
-            $table->json('properties');
-            $table->timestamps();
-            $table->softDeletes();
+            $table->string('name');
         });
     }
 };

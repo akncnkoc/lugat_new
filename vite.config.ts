@@ -13,8 +13,8 @@ export default defineConfig({
   plugins: [
     laravel({
       input: [
-        'resources/app/styles/index.scss',
-        'resources/app/index.tsx',
+        'resources/app/styles/index.tsx.scss',
+        'resources/app/index.tsx.tsx',
       ],
       refresh: true,
       // @ts-ignore

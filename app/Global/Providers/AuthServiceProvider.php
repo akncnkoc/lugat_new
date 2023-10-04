@@ -9,7 +9,7 @@ use App\Services\Customer\Policies\CustomerTypePolicy;
 use App\Services\Expense\Models\Expense;
 use App\Services\Expense\Policies\ExpensePolicy;
 use App\Services\Product\Models\Product;
-use App\Services\Product\Models\ProductImage;
+use App\Services\Product\Models\SubProductImage;
 use App\Services\Product\Models\ProductSupplier;
 use App\Services\Product\Policies\ProductImagePolicy;
 use App\Services\Product\Policies\ProductPolicy;
@@ -36,7 +36,7 @@ class AuthServiceProvider extends ServiceProvider
         Vault::class           => VaultPolicy::class,
         Supplier::class        => SupplierPolicy::class,
         Product::class         => ProductPolicy::class,
-        ProductImage::class    => ProductImagePolicy::class,
+        SubProductImage::class => ProductImagePolicy::class,
         ProductSupplier::class => ProductSupplierPolicy::class,
         Staff::class           => StaffPolicy::class,
     ];
