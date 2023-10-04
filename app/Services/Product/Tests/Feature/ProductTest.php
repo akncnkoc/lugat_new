@@ -2,11 +2,16 @@
 
 namespace App\Services\Product\Tests\Feature;
 
+use App\Services\Currency\Http\Controllers\CurrencyController;
+use App\Services\Currency\Models\Currency;
+use App\Services\Invoice\Traits\TaxType;
 use App\Services\Product\Database\Seeders\ProductSeeder;
 use App\Services\Product\Models\Product;
 use App\Services\User\Database\Seeders\UserSeeder;
 use App\Services\User\Models\User;
+use App\Services\Vault\Database\Seeders\VaultSeeder;
 use App\Services\Vault\Models\Vault;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
@@ -23,15 +28,18 @@ class ProductTest extends TestCase
     protected array $params;
     protected string $searchExpression;
     protected array $searchBindings;
+    public Collection $vaults;
 
     public function setUp(): void
     {
         parent::setUp();
+        $this->seed(VaultSeeder::class);
         $this->seed(UserSeeder::class);
         $this->seed(ProductSeeder::class);
-        $this->params = $this->setParams();
         $this->user = User::first();
         $this->product = Product::first();
+        $this->vaults = Vault::all();
+        $this->params = $this->setParams();
     }
 
     public function setParams(): array
@@ -41,8 +49,9 @@ class ProductTest extends TestCase
             'model_code' => $this->faker->email,
             'buy_price' => $this->faker->numberBetween(100, 200),
             'sell_price' => $this->faker->numberBetween(100, 200),
-            'buy_price_vault_id' => Vault::factory()->create()->id,
-            'sell_price_vault_id' => Vault::factory()->create()->id,
+            'buy_price_vault_id' => $this->vaults->random()->id,
+            'sell_price_vault_id' =>  $this->vaults->random()->id,
+            'tax' => $this->faker->randomElement(TaxType::values())
         ];
     }
 
@@ -53,7 +62,7 @@ class ProductTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'name', 'model_code', 'buy_price', 'sell_price', 'buy_price_vault', 'sell_price_vault', 'critical_stock_alert']
+                '*' => ['id', 'name', 'model_code', 'buy_price', 'sell_price', 'buy_price_vault', 'sell_price_vault', 'critical_stock_alert', 'tax']
             ], 'links', 'meta'
         ]);
     }
@@ -79,7 +88,7 @@ class ProductTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                'id', 'name', 'model_code', 'buy_price', 'sell_price', 'buy_price_vault', 'sell_price_vault', 'critical_stock_alert'
+                'id', 'name', 'model_code', 'buy_price', 'sell_price', 'buy_price_vault', 'sell_price_vault', 'critical_stock_alert', 'tax'
             ]
         ]);
     }

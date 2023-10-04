@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\Invoice\Traits\TaxType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,11 +15,12 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('model_code')->nullable();
-            $table->decimal('buy_price', 15, 5)->default(1);
+            $table->decimal('buy_price', 15)->default(1);
             $table->foreignUuid('buy_price_vault_id')->nullable()->constrained('vaults')->restrictOnDelete();
-            $table->decimal('sell_price', 15, 5)->default(1);
+            $table->decimal('sell_price', 15)->default(1);
             $table->foreignUuid('sell_price_vault_id')->constrained('vaults')->restrictOnDelete();
             $table->boolean('critical_stock_alert')->default(false);
+            $table->enum('tax', TaxType::values());
             $table->timestamps();
             $table->softDeletes();
         });

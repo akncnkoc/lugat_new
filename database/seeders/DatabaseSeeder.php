@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        (new CurrencyController)->loadCurrenciesFromTCMB();
+
         $this->call([
             VaultSeeder::class,
             ExpenseSeeder::class,

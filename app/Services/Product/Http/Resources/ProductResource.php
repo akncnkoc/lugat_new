@@ -27,7 +27,8 @@ class ProductResource extends JsonResource
             'sell_price' => round($this->sell_price, 2),
             'buy_price_vault' => VaultResource::make($this->buyPriceVault),
             'sell_price_vault' => VaultResource::make($this->sellPriceVault),
-            'critical_stock_alert' => $this->critical_stock_alert
+            'critical_stock_alert' => $this->critical_stock_alert,
+            'tax' => $this->tax
         ];
     }
 }

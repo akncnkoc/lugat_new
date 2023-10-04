@@ -30,7 +30,8 @@ class ProductStoreRequest extends FormRequest
                 'sell_price'           => 'sometimes|numeric',
                 'buy_price_vault_id'   => 'sometimes|uuid|exists:vaults,id',
                 'sell_price_vault_id'  => 'sometimes|uuid|exists:vaults,id',
-                'critical_stock_alert' => 'sometimes|boolean'
+                'critical_stock_alert' => 'sometimes|boolean',
+                'tax'                  => 'sometimes|in:0,1,10,20'
             ];
         }
         return [
@@ -42,7 +43,8 @@ class ProductStoreRequest extends FormRequest
             'sell_price_vault_id'  => 'required|uuid|exists:vaults,id',
             'critical_stock_alert' => 'sometimes|boolean',
             'images'               => 'sometimes|array',
-            'images.*'             => 'image|max:4096'
+            'images.*'             => 'image|max:4096',
+            'tax'                  => 'required|in:0,1,10,20'
         ];
     }
 }

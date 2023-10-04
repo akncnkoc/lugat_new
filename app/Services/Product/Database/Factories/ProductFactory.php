@@ -2,6 +2,7 @@
 
 namespace App\Services\Product\Database\Factories;
 
+use App\Services\Invoice\Traits\TaxType;
 use App\Services\Product\Models\Product;
 use App\Services\Vault\Models\Vault;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -19,13 +20,14 @@ class ProductFactory extends Factory
         $buyPrice = $this->faker->numberBetween(100, 200);
         $sellPrice = $buyPrice + ($buyPrice * 0.3);
         return [
-            'name'                => $this->faker->name,
-            'model_code'          => $this->faker->postcode,
-            'buy_price'           => $buyPrice,
-            'buy_price_vault_id'  => $vault,
-            'sell_price'          => $sellPrice,
-            'sell_price_vault_id' => $vault,
-            'critical_stock_alert' => $this->faker->boolean
+            'name'                 => $this->faker->name,
+            'model_code'           => $this->faker->postcode,
+            'buy_price'            => $buyPrice,
+            'buy_price_vault_id'   => $vault->id,
+            'sell_price'           => $sellPrice,
+            'sell_price_vault_id'  => $vault->id,
+            'critical_stock_alert' => $this->faker->boolean,
+            'tax'                  => $this->faker->randomElement(TaxType::values())
         ];
     }
 }
