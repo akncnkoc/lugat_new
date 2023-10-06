@@ -1,5 +1,6 @@
 import { CollectionDataType, DefaultResponseCollectionType } from '@/helpers/types'
 import { VaultDataType } from '@/types/vault-types'
+import { VariantDataType } from '@/types/variant-types'
 
 export type ProductDataType = {
 	id: string
@@ -15,7 +16,10 @@ export type ProductDataType = {
 
 export type ProductStoreFormType = {
 	name: string
-	model_code: string
+	sku: string
+	barcode: string
+	have_variants?: boolean
+	stock: number
 	buy_price: number
 	sell_price: number
 	buy_price_vault: {
@@ -28,10 +32,14 @@ export type ProductStoreFormType = {
 	}
 	critical_stock_alert: boolean
 	images?: Array<File>
+	variants: Array<VariantDataType>
 }
 export const ProductStoreInitialValues: ProductStoreFormType = {
 	name: '',
-	model_code: '',
+	have_variants: true,
+	stock: 0,
+	sku: '',
+	barcode: '',
 	buy_price: 0,
 	sell_price: 0,
 	buy_price_vault: {
@@ -44,6 +52,7 @@ export const ProductStoreInitialValues: ProductStoreFormType = {
 	},
 	critical_stock_alert: false,
 	images: [],
+	variants: []
 }
 
 export type ProductStoreType = {

@@ -5,7 +5,7 @@ use Illuminate\Support\ServiceProvider;
 return [
     'name'            => env('APP_NAME', 'Lügat'),
     'env'             => env('APP_ENV', 'production'),
-    'debug'           => (bool)env('APP_DEBUG', false),
+    'debug'           => (bool) env('APP_DEBUG', false),
     'url'             => env('APP_URL', 'http://localhost'),
     'asset_url'       => env('ASSET_URL'),
     'timezone'        => 'Europe/Istanbul',
@@ -26,6 +26,7 @@ return [
         \App\Global\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         App\Services\Auth\Providers\AuthServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
         App\Services\Currency\Providers\CurrencyServiceProvider::class,
         App\Services\Vault\Providers\VaultServiceProvider::class,
         App\Services\User\Providers\UserServiceProvider::class,
@@ -37,4 +38,7 @@ return [
         App\Services\Invoice\Providers\InvoiceServiceProvider::class,
     ])->toArray(),
 
+    'aliases' => [
+        'Image' => Intervention\Image\Facades\Image::class
+    ]
 ];

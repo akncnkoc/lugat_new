@@ -24,27 +24,27 @@ class ProductStoreRequest extends FormRequest
     {
         if ($this->routeIs('product.update')) {
             return [
-                'name'                 => 'sometimes|string|max:255',
-                'model_code'           => 'sometimes|string|max:255',
-                'buy_price'            => 'sometimes|numeric',
-                'sell_price'           => 'sometimes|numeric',
-                'buy_price_vault_id'   => 'sometimes|uuid|exists:vaults,id',
-                'sell_price_vault_id'  => 'sometimes|uuid|exists:vaults,id',
-                'critical_stock_alert' => 'sometimes|boolean',
-                'tax'                  => 'sometimes|in:0,1,10,20'
+                'name' => 'sometimes|string|max:255',
             ];
         }
         return [
-            'name'                 => 'required|string|max:255',
-            'model_code'           => 'sometimes|string|max:255',
-            'buy_price'            => 'sometimes|numeric',
-            'sell_price'           => 'required|numeric',
-            'buy_price_vault_id'   => 'sometimes|uuid|exists:vaults,id',
-            'sell_price_vault_id'  => 'required|uuid|exists:vaults,id',
-            'critical_stock_alert' => 'sometimes|boolean',
-            'images'               => 'sometimes|array',
-            'images.*'             => 'image|max:4096',
-            'tax'                  => 'required|in:0,1,10,20'
+            'name'                            => 'required|string|max:255',
+            'sub_products'                    => 'required|array|min:1',
+            'sub_products.*.name'             => 'required|string|max:255',
+            'sub_products.*.sku'              => 'sometimes|string|max:255',
+            'sub_products.*.barcode'          => 'sometimes|string|max:255',
+            'sub_products.*.buy_price'        => 'required|numeric',
+            'sub_products.*.sell_price'       => 'required|numeric',
+            'sub_products.*.buy_currency_id'  => 'required|uuid|exists:currencies,id',
+            'sub_products.*.sell_currency_id' => 'required|uuid|exists:currencies,id',
+            'sub_products.*.stock'            => 'required|numeric',
+            'sub_products.*.tax'              => 'required|in:0,1,10,20',
+            'sub_products.*.variants'         => 'sometimes',
+            'sub_products.*.variants.*'       => 'required|uuid|exists:variants,id',
+            'sub_products.*.images'           => 'sometimes',
+            'sub_products.*.images.*'         => 'image|size:4096',
+            'suppliers'                       => 'sometimes|array',
+            'suppliers.*'                     => 'uuid|exists:suppliers,id'
         ];
     }
 }

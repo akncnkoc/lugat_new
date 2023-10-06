@@ -19,11 +19,21 @@ import {
 	REHYDRATE,
 } from 'redux-persist'
 import { rootReducer } from '@/store/rootReducer'
+import { variantApi } from '@/services/api/variant-api'
 
 const persistConfig = {
 	key: 'root',
 	storage: storage,
-	blacklist: ['vaultApi', 'productApi', 'expenseApi', 'customerApi', 'authApi', 'staffApi', 'customerTypeApi'],
+	blacklist: [
+		'vaultApi',
+		'productApi',
+		'expenseApi',
+		'customerApi',
+		'authApi',
+		'staffApi',
+		'customerTypeApi',
+		'variantApi',
+	],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -41,7 +51,8 @@ const store = configureStore({
 			.concat(customerApi.middleware)
 			.concat(customerTypeApi.middleware)
 			.concat(staffApi.middleware)
-			.concat(productApi.middleware),
+			.concat(productApi.middleware)
+			.concat(variantApi.middleware),
 })
 
 const persistor = persistStore(store)

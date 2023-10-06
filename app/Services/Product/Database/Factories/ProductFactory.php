@@ -2,9 +2,8 @@
 
 namespace App\Services\Product\Database\Factories;
 
-use App\Services\Invoice\Traits\TaxType;
 use App\Services\Product\Models\Product;
-use App\Services\Vault\Models\Vault;
+use Bezhanov\Faker\ProviderCollectionHelper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,18 +15,9 @@ class ProductFactory extends Factory
 
     public function definition(): array
     {
-        $vault = Vault::inRandomOrder()->first();
-        $buyPrice = $this->faker->numberBetween(100, 200);
-        $sellPrice = $buyPrice + ($buyPrice * 0.3);
+        ProviderCollectionHelper::addAllProvidersTo($this->faker);
         return [
-            'name'                 => $this->faker->name,
-            'model_code'           => $this->faker->postcode,
-            'buy_price'            => $buyPrice,
-            'buy_price_vault_id'   => $vault->id,
-            'sell_price'           => $sellPrice,
-            'sell_price_vault_id'  => $vault->id,
-            'critical_stock_alert' => $this->faker->boolean,
-            'tax'                  => $this->faker->randomElement(TaxType::values())
+            'name' => $this->faker->productName,
         ];
     }
 }

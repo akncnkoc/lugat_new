@@ -12,8 +12,9 @@ return new class extends Migration {
     {
         Schema::create('sub_product_variants', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('sub_product_id')->constrained('sub_products')->restrictOnDelete();
-            $table->foreignUuid('variant_id')->constrained('variants')->restrictOnDelete();
+            $table->foreignUuid('sub_product_id')->constrained('sub_products')->cascadeOnDelete();
+            $table->foreignUuid('variant_id')->constrained('variants')->cascadeOnDelete();
+            $table->softDeletes();
         });
     }
 };

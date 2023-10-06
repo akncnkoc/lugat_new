@@ -2,7 +2,7 @@ import * as yup from 'yup'
 import React, { ReactNode } from 'react'
 import { NavigateOptions } from 'react-router/dist/lib/context'
 
-type ColletionLinkType = {
+export type ColletionLinkType = {
 	first: string | null
 	last: string | null
 	prev: string | null

@@ -4,6 +4,7 @@
 use App\Services\Product\Http\Controllers\ProductController;
 use App\Services\Product\Http\Controllers\ProductImageController;
 use App\Services\Product\Http\Controllers\ProductSupplierController;
+use App\Services\Product\Http\Controllers\VariantController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,6 +20,17 @@ Route::prefix('/api/v1/product')
      ->middleware('auth:sanctum')
      ->group(function () {
          Route::post('search', 'search')->name('search');
+     });
+
+
+Route::prefix('/api/v1/variant')
+     ->controller(VariantController::class)
+     ->name('variant.')
+     ->middleware('auth:sanctum')
+     ->group(function () {
+         Route::get('/', 'index')->name('index');
+         Route::get('/{variant}', 'show')->name('show');
+         Route::post('/', 'create')->name('create');
      });
 
 

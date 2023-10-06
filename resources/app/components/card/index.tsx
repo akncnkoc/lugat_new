@@ -25,10 +25,11 @@ const CardHeader: React.FC<CardHeaderProps> = (props) => {
 }
 export type CardBodyProps = {
 	children?: React.ReactNode | React.ReactNode[]
+	className?: string
 }
 const CardBody: React.FC<CardBodyProps> = (props) => {
 	return (
-		<div className={clsx('bg-white', 'px-4', 'pb-4', 'pt-5', 'sm:p-6', 'sm:pb-4')}>
+		<div className={clsx('bg-white', 'px-4', 'pb-4', 'pt-5', 'sm:p-6', 'sm:pb-4', props.className)}>
 			<div className={clsx('flex', 'w-full')}>
 				<div className={clsx('flex', 'flex-1', 'grow')}>{props.children}</div>
 			</div>
@@ -63,9 +64,7 @@ type ICardComposition = {
 	Body: React.FC<CardBodyProps>
 	Footer: React.FC<CardFooterProps>
 }
-const Card: React.FC<{ children?: React.ReactNode | React.ReactNode[] }> & ICardComposition = (
-	props,
-) => {
+const Card: React.FC<{ children: React.ReactNode[] }> & ICardComposition = (props) => {
 	return (
 		<CardContext.Provider value={undefined}>
 			<div

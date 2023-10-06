@@ -1,8 +1,12 @@
-import { AsyncPaginate } from 'react-select-async-paginate'
+import type { ComponentProps, UseAsyncPaginateParams } from 'react-select-async-paginate'
+import { withAsyncPaginate } from 'react-select-async-paginate'
 import { clsx } from 'clsx'
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { motion } from 'framer-motion'
 import LugatInputLabel from '@/components/form/LugatInputLabel'
+import type { GroupBase } from 'react-select'
+import type { CreatableProps } from 'react-select/creatable'
+import Creatable from 'react-select/creatable'
 
 const controlStyles = {
 	base: 'border rounded-lg bg-white hover:cursor-pointer text-left font-semibold',
@@ -15,13 +19,33 @@ const optionStyles = {
 	selected: "after:content-['✔'] after:ml-2 after:text-green-500 text-gray-500",
 }
 
+type AsyncPaginateCreatableProps<
+	OptionType,
+	Group extends GroupBase<OptionType>,
+	Additional,
+	IsMulti extends boolean,
+> = CreatableProps<OptionType, IsMulti, Group> &
+	UseAsyncPaginateParams<OptionType, Group, Additional> &
+	ComponentProps<OptionType, Group, IsMulti>
+
+type AsyncPaginateCreatableType = <
+	OptionType,
+	Group extends GroupBase<OptionType>,
+	Additional,
+	IsMulti extends boolean = false,
+>(
+	props: AsyncPaginateCreatableProps<OptionType, Group, Additional, IsMulti>,
+) => ReactElement
+
+const CreatableAsyncPaginate = withAsyncPaginate(Creatable) as AsyncPaginateCreatableType
+
 const LugatAsyncSelect: React.FC<any> = (props) => {
+	const { label, required, error, loadOptions, ...otherProps } = props
 	return (
 		<div className={'flex-1'}>
-			{props.label && (
-				<LugatInputLabel label={props.label} required={props.required} />
-			)}
-			<AsyncPaginate
+			{label && <LugatInputLabel label={label} required={required} />}
+			<CreatableAsyncPaginate
+				loadOptions={loadOptions}
 				hideSelectedOptions={false}
 				unstyled
 				styles={{
@@ -31,8 +55,6 @@ const LugatAsyncSelect: React.FC<any> = (props) => {
 							boxShadow: 'none',
 						},
 					}),
-					// On mobile, the label will truncate automatically, so we want to
-					// override that behaviour.
 					multiValueLabel: (base) => ({
 						...base,
 						whiteSpace: 'normal',
@@ -48,7 +70,7 @@ const LugatAsyncSelect: React.FC<any> = (props) => {
 						clsx(
 							isFocused ? controlStyles.focus : controlStyles.nonFocus,
 							controlStyles.base,
-							props.error && 'focus:!ring-red-500 text-red-500 placeholder-red-500 !border-red-500',
+							error && 'focus:!ring-red-500 text-red-500 placeholder-red-500 !border-red-500',
 						),
 					placeholder: () => 'text-gray-500 pl-1 py-0.5 text-left',
 					input: () => 'pl-1 py-0.5',
@@ -74,7 +96,7 @@ const LugatAsyncSelect: React.FC<any> = (props) => {
 					noOptionsMessage: () =>
 						'text-gray-500 p-2 bg-gray-50 border border-dashed border-gray-50 rounded-sm',
 				}}
-				{...props}
+				{...otherProps}
 			/>
 			{props.error && (
 				<motion.p
