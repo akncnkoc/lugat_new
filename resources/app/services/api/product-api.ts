@@ -48,7 +48,10 @@ export const productApi = createApi({
 			},
 			invalidatesTags: ['Product'],
 		}),
-		updateProduct: builder.mutation<DefaultResponseType, { body: ProductStoreType; id: string }>({
+		updateProduct: builder.mutation<
+			DefaultResponseType,
+			{ body: Pick<ProductStoreType, 'name'>; id: string }
+		>({
 			query({ id, body }) {
 				return {
 					url: `v1/product/${id}`,

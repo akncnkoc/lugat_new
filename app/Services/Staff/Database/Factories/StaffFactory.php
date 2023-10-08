@@ -2,6 +2,7 @@
 
 namespace App\Services\Staff\Database\Factories;
 
+use App\Services\Currency\Models\Currency;
 use App\Services\Staff\Enums\StaffType;
 use App\Services\Staff\Models\Staff;
 use App\Services\Vault\Models\Vault;
@@ -23,7 +24,7 @@ class StaffFactory extends Factory
             'type'            => $this->faker->randomElement(StaffType::values()),
             'email'           => $this->faker->email,
             'salary'          => $this->faker->numberBetween(1000, 10000),
-            'salary_vault_id' => Vault::inRandomOrder()->first()
+            'salary_currency_id' => Currency::inRandomOrder()->first()
         ];
     }
 }

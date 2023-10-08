@@ -2,6 +2,7 @@
 
 namespace App\Services\Staff\Models;
 
+use App\Services\Currency\Models\Currency;
 use App\Services\Staff\Database\Factories\StaffFactory;
 use App\Services\Staff\Enums\StaffType;
 use App\Services\Vault\Models\Vault;
@@ -28,9 +29,9 @@ class Staff extends Model
         return StaffFactory::new();
     }
 
-    public function salaryVault(): BelongsTo
+    public function salaryCurrency(): BelongsTo
     {
-        return $this->belongsTo(Vault::class, 'salary_vault_id', 'id');
+        return $this->belongsTo(Currency::class, 'salary_currency_id', 'id');
     }
 
     protected function fullName(): Attribute

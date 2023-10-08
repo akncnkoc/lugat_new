@@ -40,6 +40,10 @@ export type CurrencyDataType = {
 	updated_at: number
 }
 
+export type SelectOption = {
+	value: string
+	label: string
+}
 export const CurrencyCodeToSign = (code: string): string | null => {
 	const signs = {
 		USD: '$',
@@ -104,7 +108,6 @@ export type Shape<Fields> = {
 }
 
 export type CurrencyResource = CollectionDataType<CurrencyDataType>
-
 
 export enum ConfirmationDialogResponse {
 	YES = 'YES',

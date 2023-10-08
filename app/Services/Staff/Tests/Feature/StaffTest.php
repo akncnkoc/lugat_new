@@ -2,6 +2,8 @@
 
 namespace App\Services\Staff\Tests\Feature;
 
+use App\Services\Currency\Http\Controllers\CurrencyController;
+use App\Services\Currency\Models\Currency;
 use App\Services\Staff\Database\Seeders\StaffSeeder;
 use App\Services\Staff\Enums\StaffType;
 use App\Services\Staff\Models\Staff;
@@ -28,6 +30,7 @@ class StaffTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        (new CurrencyController)->loadCurrenciesFromTCMB();
         $this->seed(UserSeeder::class);
         $this->seed(StaffSeeder::class);
         $this->params = $this->setParams();
@@ -44,25 +47,25 @@ class StaffTest extends TestCase
             'email'           => $this->faker->email,
             'type'            => $this->faker->randomElement(StaffType::values()),
             'salary'          => $this->faker->numberBetween(1000, 10000),
-            'salary_vault_id' => Vault::factory()->create()->id
+            'salary_currency_id' => Currency::inRandomOrder()->first()->id
         ];
     }
 
     public function test_authenticated_user_can_get_staff_list(): void
     {
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('staff.index.tsx'));
+        $response = $this->getJson(route('staff.index'));
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'name', 'surname', 'phone', 'email', 'salary', 'salary_vault', 'type']
+                '*' => ['id', 'name', 'surname', 'phone', 'email', 'salary', 'salary_currency', 'type']
             ], 'links', 'meta'
         ]);
     }
 
     public function test_unauthorized_user_cant_get_staff_list(): void
     {
-        $response = $this->getJson(route('staff.index.tsx'));
+        $response = $this->getJson(route('staff.index'));
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -70,7 +73,7 @@ class StaffTest extends TestCase
     {
         $this->user->revokePermissionTo('view staff');
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('staff.index.tsx'));
+        $response = $this->getJson(route('staff.index'));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
@@ -81,7 +84,7 @@ class StaffTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                'id', 'name', 'surname', 'phone', 'email', 'salary', 'salary_vault', 'type'
+                'id', 'name', 'surname', 'phone', 'email', 'salary', 'salary_currency', 'type'
             ]
         ]);
     }
@@ -205,7 +208,7 @@ class StaffTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'name', 'surname', 'phone', 'email', 'salary', 'salary_vault', 'type']
+                '*' => ['id', 'name', 'surname', 'phone', 'email', 'salary', 'salary_currency', 'type']
             ], 'links', 'meta'
         ]);
     }

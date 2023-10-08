@@ -2,12 +2,13 @@
 
 namespace App\Services\Expense\Tests\Feature;
 
+use App\Services\Currency\Http\Controllers\CurrencyController;
+use App\Services\Currency\Models\Currency;
 use App\Services\Expense\Database\Seeders\ExpenseSeeder;
 use App\Services\Expense\Enums\ExpenseType;
 use App\Services\Expense\Models\Expense;
 use App\Services\User\Database\Seeders\UserSeeder;
 use App\Services\User\Models\User;
-use App\Services\Vault\Models\Vault;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +29,7 @@ class ExpenseTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        (new CurrencyController)->loadCurrenciesFromTCMB();
         $this->seed(UserSeeder::class);
         $this->seed(ExpenseSeeder::class);
         $this->params = $this->setParams();
@@ -39,7 +41,7 @@ class ExpenseTest extends TestCase
     {
         return array(
             'amount'       => $this->faker->numberBetween(1, 50),
-            'vault_id'     => Vault::factory()->create()->id,
+            'currency_id'  => Currency::inRandomOrder()->first()->id,
             'comment'      => $this->faker->sentence,
             'receipt_date' => $this->faker->dateTimeBetween('-2 month')->format('d.m.Y H:i:s'),
             'type'         => $this->faker->randomElement(ExpenseType::cases())->value,
@@ -49,11 +51,11 @@ class ExpenseTest extends TestCase
     public function test_authenticated_user_can_get_expense_list(): void
     {
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('expense.index.tsx'));
+        $response = $this->getJson(route('expense.index'));
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'amount', 'vault', 'receipt_date', 'comment', 'type']
+                '*' => ['id', 'amount', 'currency', 'receipt_date', 'comment', 'type']
             ],
             'links',
             'meta'
@@ -62,7 +64,7 @@ class ExpenseTest extends TestCase
 
     public function test_unauthorized_user_cant_get_expense_list(): void
     {
-        $response = $this->getJson(route('expense.index.tsx'));
+        $response = $this->getJson(route('expense.index'));
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -70,7 +72,7 @@ class ExpenseTest extends TestCase
     {
         $this->user->revokePermissionTo('view expense');
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('expense.index.tsx'));
+        $response = $this->getJson(route('expense.index'));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
@@ -83,7 +85,7 @@ class ExpenseTest extends TestCase
             'data' => [
                 'id',
                 'amount',
-                'vault',
+                'currency',
                 'receipt_date',
                 'comment',
                 'type'
@@ -121,7 +123,7 @@ class ExpenseTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED);
         $this->assertDatabaseHas('expenses', [
             'amount'       => $this->expense->amount,
-            'vault_id'     => $this->expense->vault_id,
+            'currency_id'  => $this->expense->currency_id,
             'comment'      => $this->expense->comment,
             'receipt_date' => $this->expense->receipt_date,
         ]);
@@ -154,7 +156,7 @@ class ExpenseTest extends TestCase
     {
         Sanctum::actingAs($this->user);
         $this->params['amount'] = $this->faker->numberBetween(1, 40);
-        unset($this->params['vault_id']);
+        unset($this->params['currency_id']);
         $response = $this->putJson(route('expense.update', $this->expense->id), $this->params);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas('expenses', [
@@ -213,7 +215,7 @@ class ExpenseTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'amount', 'vault', 'receipt_date', 'comment', 'type']
+                '*' => ['id', 'amount', 'currency', 'receipt_date', 'comment', 'type']
             ],
             'links',
             'meta'

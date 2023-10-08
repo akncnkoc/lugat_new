@@ -37,7 +37,7 @@ const VaultEdit: React.FC = () => {
 		validateOnBlur: false,
 		validationSchema: VaultEditValidationSchema,
 		onSubmit: (values) => {
-			updateVault({ body: { ...values, currency_id: values.currency.id }, id: id ?? '' })
+			updateVault({ body: { ...values, currency_id: values.currency.value }, id: id ?? '' })
 				.unwrap()
 				.then((_) => {
 					toast.success('Vault updated')
@@ -56,8 +56,8 @@ const VaultEdit: React.FC = () => {
 				vaultUpdateFormik.setValues({
 					name: vault.name,
 					currency: {
-						id: vault.currency.id,
-						name: vault.currency.name,
+						value: vault.currency.id,
+						label: vault.currency.name,
 					},
 				})
 			})
@@ -66,7 +66,6 @@ const VaultEdit: React.FC = () => {
 
 	return (
 		<Card>
-			{' '}
 			<React.Suspense
 				fallback={
 					<div className={'h-96 w-full flex items-center justify-center'}>
@@ -97,12 +96,10 @@ const VaultEdit: React.FC = () => {
 										/>
 										<LugatAsyncSelect
 											error={
-												getIn(vaultUpdateFormik.touched, 'currency.id') &&
-												getIn(vaultUpdateFormik.errors, 'currency.id')
+												getIn(vaultUpdateFormik.touched, 'currency.value') &&
+												getIn(vaultUpdateFormik.errors, 'currency.value')
 											}
 											value={vaultUpdateFormik.values.currency}
-											getOptionLabel={(e: any) => e.name}
-											getOptionValue={(e: any) => e.id}
 											label={'Currency'}
 											additional={{
 												page: 1,

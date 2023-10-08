@@ -2,6 +2,7 @@
 
 namespace App\Services\Expense\Models;
 
+use App\Services\Currency\Models\Currency;
 use App\Services\Expense\Database\Factories\ExpenseFactory;
 use App\Services\Expense\Enums\ExpenseType;
 use App\Services\Vault\Models\Vault;
@@ -27,8 +28,8 @@ class Expense extends Model
         return ExpenseFactory::new();
     }
 
-    public function vault(): BelongsTo
+    public function currency(): BelongsTo
     {
-        return $this->belongsTo(Vault::class, 'vault_id', 'id');
+        return $this->belongsTo(Currency::class, 'currency_id', 'id');
     }
 }

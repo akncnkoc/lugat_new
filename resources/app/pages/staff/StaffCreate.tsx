@@ -8,18 +8,18 @@ import LugatInput from '@/components/form/LugatInput'
 import { StaffStoreFormType, StaffStoreInitialValues } from '@/types/staff-types'
 import useStaffType from '@/hooks/useStaffType'
 import { useStoreStaffMutation } from '@/services/api/staff-api'
-import useLoadVault from '@/hooks/useLoadVault'
 import { StaffCreateValidationSchema } from '@/helpers/schemas'
 import LugatCurrencyInput from '@/components/form/LugatCurrencyInput'
 import Card from '@/components/card'
 import SeperatedColumn from '@/components/SeperatedColumn'
 import SeperatedRow from '@/components/form/SeperatedRow'
+import useCurrencies from '@/hooks/useCurrencies'
 
 const StaffCreate: React.FC = () => {
 	const navigate = useNavigate()
 	const [storeStaff, { isLoading }] = useStoreStaffMutation()
 	const { loadStaffTypes } = useStaffType()
-	const { loadVaults } = useLoadVault()
+	const { loadCurrencies } = useCurrencies()
 
 	const staffCreateFormik = useFormik<StaffStoreFormType>({
 		initialValues: StaffStoreInitialValues,
@@ -28,7 +28,7 @@ const StaffCreate: React.FC = () => {
 		onSubmit: (values) => {
 			storeStaff({
 				...values,
-				salary_vault_id: values.salary_vault.value,
+				salary_currency_id: values.salary_currency.value,
 				type: values.type.value,
 			})
 				.unwrap()
@@ -99,18 +99,18 @@ const StaffCreate: React.FC = () => {
 						/>
 						<LugatAsyncSelect
 							error={
-								getIn(staffCreateFormik.touched, 'salary_vault.value') &&
-								getIn(staffCreateFormik.errors, 'salary_vault.value')
+								getIn(staffCreateFormik.touched, 'salary_currency.value') &&
+								getIn(staffCreateFormik.errors, 'salary_currency.value')
 							}
-							value={staffCreateFormik.values.salary_vault}
-							label={'Salary Vault'}
+							value={staffCreateFormik.values.salary_currency}
+							label={'Salary Currency'}
 							additional={{
 								page: 1,
 							}}
 							defaultOptions
-							loadOptions={loadVaults}
+							loadOptions={loadCurrencies}
 							onChange={(value: any) => {
-								staffCreateFormik.setFieldValue('salary_vault', value)
+								staffCreateFormik.setFieldValue('salary_currency', value)
 							}}
 						/>
 					</SeperatedRow>

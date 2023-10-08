@@ -28,14 +28,14 @@ class ExpenseStoreRequest extends FormRequest
             return [
                 'amount'       => 'sometimes|numeric',
                 'receipt_date' => 'sometimes|date',
-                'vault_id'     => 'sometimes|uuid|exists:vaults,id',
+                'currency_id'     => 'sometimes|uuid|exists:currencies,id',
                 'type'         => ['sometimes', Rule::in(ExpenseType::values())],
             ];
         }
         return [
             'amount'       => 'required|numeric',
             'receipt_date' => 'required|date',
-            'vault_id'     => 'required|uuid|exists:vaults,id',
+            'currency_id'     => 'required|uuid|exists:currencies,id',
             'type'         => ['required', Rule::in(ExpenseType::values())],
             'comment'      => 'sometimes|max:255',
         ];

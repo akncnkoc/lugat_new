@@ -49,7 +49,7 @@ const StaffEdit: React.FC = () => {
 			updateStaff({
 				body: {
 					...values,
-					salary_vault_id: values.salary_vault.value,
+					salary_currency_id: values.salary_currency.value,
 					type: values.type.value,
 				},
 				id: id ?? '',
@@ -74,9 +74,9 @@ const StaffEdit: React.FC = () => {
 					email: staff.email,
 					phone: staff.phone,
 					salary: staff.salary,
-					salary_vault: {
-						value: staff.salary_vault.id,
-						label: staff.salary_vault.name,
+					salary_currency: {
+						value: staff.salary_currency.id,
+						label: staff.salary_currency.name,
 					},
 					type: {
 						label: StaffTypeData[staff.type as keyof typeof StaffTypeData],
@@ -157,10 +157,10 @@ const StaffEdit: React.FC = () => {
 											/>
 											<LugatAsyncSelect
 												error={
-													getIn(staffUpdateFormik.touched, 'salary_vault.value') &&
-													getIn(staffUpdateFormik.errors, 'salary_vault.value')
+													getIn(staffUpdateFormik.touched, 'salary_currency.value') &&
+													getIn(staffUpdateFormik.errors, 'salary_currency.value')
 												}
-												value={staffUpdateFormik.values.salary_vault}
+												value={staffUpdateFormik.values.salary_currency}
 												label={'Salary Vault'}
 												additional={{
 													page: 1,
@@ -168,7 +168,7 @@ const StaffEdit: React.FC = () => {
 												defaultOptions
 												loadOptions={loadVaults}
 												onChange={(value: any) => {
-													staffUpdateFormik.setFieldValue('salary_vault', value)
+													staffUpdateFormik.setFieldValue('salary_currency', value)
 												}}
 											/>
 										</SeperatedRow>

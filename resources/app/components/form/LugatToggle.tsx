@@ -13,7 +13,7 @@ const LugatToggle: React.FC<LugatToggleProps> = ({ selected, onChange, prefix, s
 		onChange && onChange(!selected)
 	}
 	return (
-		<div className={clsx('flex','items-center', 'select-none')} onClick={() => handleToggle()}>
+		<div className={clsx('flex', 'items-center', 'select-none')} onClick={() => handleToggle()}>
 			{prefix && prefix}
 			<div
 				className={clsx(
@@ -21,13 +21,12 @@ const LugatToggle: React.FC<LugatToggleProps> = ({ selected, onChange, prefix, s
 					'h-7',
 					'flex',
 					'items-center',
-					'bg-gray-300',
 					'rounded-full',
 					[suffix && 'mr-2'],
 					[prefix && 'ml-2'],
 					'px-1',
 					'cursor-pointer',
-					[selected && 'bg-blue-700'],
+					[selected ? 'bg-blue-700' : 'bg-gray-300'],
 				)}
 			>
 				<div

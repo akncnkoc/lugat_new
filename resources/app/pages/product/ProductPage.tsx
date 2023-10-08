@@ -12,7 +12,6 @@ import LugatTable from '@/components/table/LugatTable'
 import LugatInput from '@/components/form/LugatInput'
 import { useLazyGetProductsQuery } from '@/services/api/product-api'
 import { ProductDataType } from '@/types/product-types'
-import { CurrencyCodeToSign } from '@/helpers/types'
 import ProductTableActionColumn from '@/pages/product/components/ProductTableActionColumn'
 import { clsx } from 'clsx'
 
@@ -51,26 +50,6 @@ const ProductPage: React.FC = () => {
 		{
 			header: 'Name',
 			accessorKey: 'name',
-		},
-		{
-			header: 'Model Code',
-			accessorKey: 'model_code',
-		},
-		{
-			header: 'Buy',
-			accessorFn: (originalRow) =>
-				originalRow.buy_price + ' ' + CurrencyCodeToSign(originalRow.buy_price_vault.currency.code),
-		},
-		{
-			header: 'Sell',
-			accessorFn: (originalRow) =>
-				originalRow.sell_price +
-				' ' +
-				CurrencyCodeToSign(originalRow.sell_price_vault.currency.code),
-		},
-		{
-			header: 'Critical Stock Alert',
-			accessorFn: (originalRow) => (originalRow.critical_stock_alert ? 'Yes' : 'No'),
 		},
 		{
 			header: 'Actions',

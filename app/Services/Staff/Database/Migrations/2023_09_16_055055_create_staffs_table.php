@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->decimal('salary', 15, 5)->default(0);
-            $table->foreignUuid('salary_vault_id')->nullable()->constrained('vaults')->restrictOnDelete();
+            $table->foreignUuid('salary_currency_id')->nullable()->constrained('currencies')->restrictOnDelete();
             $table->enum('type', StaffType::values());
             $table->timestamps();
             $table->softDeletes();

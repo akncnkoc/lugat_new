@@ -148,5 +148,10 @@ export const VaultEditValidationSchema = object().shape<Shape<Partial<VaultStore
 
 export const ProductCreateValidationSchema = object().shape<Shape<Partial<ProductStoreFormType>>>({
 	name: string().label('Name').required().max(255),
-	buy_price: number().label('Amount').required().min(1).max(100000),
+	sell_price: number().required(),
+	sell_currency: object()
+		.label('Sell Currency')
+		.shape({
+			value: string().required().notOneOf(['-1'], 'Sell currency must be selected'),
+		}),
 })

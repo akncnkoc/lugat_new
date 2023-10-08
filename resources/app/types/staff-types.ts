@@ -1,5 +1,9 @@
-import { CollectionDataType, DefaultResponseCollectionType } from '@/helpers/types'
-import { VaultDataType } from '@/types/vault-types'
+import {
+	CollectionDataType,
+	CurrencyDataType,
+	DefaultResponseCollectionType,
+	SelectOption,
+} from '@/helpers/types'
 
 export enum StaffTypeData {
 	full_time = 'Full Time',
@@ -16,7 +20,7 @@ export type StaffDataType = {
 	phone: string
 	email: string
 	salary: number
-	salary_vault: VaultDataType
+	salary_currency: CurrencyDataType
 	type: keyof typeof StaffTypeData | '-1'
 }
 
@@ -26,10 +30,7 @@ export type StaffStoreFormType = {
 	phone: string
 	email: string
 	salary: number
-	salary_vault: {
-		label: string
-		value: string
-	}
+	salary_currency: SelectOption
 	type: {
 		label: string
 		value: keyof typeof StaffTypeData | '-1'
@@ -45,7 +46,7 @@ export const StaffStoreInitialValues: StaffStoreFormType = {
 		label: 'Select',
 		value: '-1',
 	},
-	salary_vault: {
+	salary_currency: {
 		value: '-1',
 		label: 'Select',
 	},
@@ -57,7 +58,7 @@ export type StaffStoreType = {
 	phone: string
 	email: string
 	salary: number
-	salary_vault_id: string
+	salary_currency_id: string
 	type: string
 }
 

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Services\Expense\Database\Seeders\ExpenseSeeder;
 use App\Services\Product\Database\Seeders\ProductSeeder;
+use App\Services\Product\Database\Seeders\VariantSeeder;
 use App\Services\Staff\Database\Seeders\StaffSeeder;
 use App\Services\Supplier\Database\Seeders\SupplierSeeder;
 use App\Services\User\Database\Seeders\UserSeeder;
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
             SupplierSeeder::class,
             //            CustomerSeeder::class,
             StaffSeeder::class,
+            VariantSeeder::class,
             ProductSeeder::class
         ]);
     }

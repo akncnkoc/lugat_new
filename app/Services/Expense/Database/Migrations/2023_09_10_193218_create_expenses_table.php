@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->enum('type', ExpenseType::values());
             $table->decimal('amount', 15);
-            $table->foreignUuid('vault_id')->constrained('vaults')->restrictOnDelete();
+            $table->foreignUuid('currency_id')->constrained('currencies')->restrictOnDelete();
             $table->string('comment')->nullable();
             $table->dateTimeTz('receipt_date')->nullable();
             $table->timestamps();

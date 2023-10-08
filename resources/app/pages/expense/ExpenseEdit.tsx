@@ -17,7 +17,6 @@ import {
 	ExpenseStoreInitialValues,
 	ExpenseTypeData,
 } from '@/types/expense-types'
-import useLoadVault from '@/hooks/useLoadVault'
 import { ExpenseEditValidationSchema } from '@/helpers/schemas'
 import LugatCurrencyInput from '@/components/form/LugatCurrencyInput'
 import Card from '@/components/card'
@@ -25,6 +24,7 @@ import SeperatedColumn from '@/components/SeperatedColumn'
 import SeperatedRow from '@/components/form/SeperatedRow'
 import { clsx } from 'clsx'
 import { turkeyLocaleConfig } from '@/config/datepicker-config'
+import useCurrencies from '@/hooks/useCurrencies'
 
 export const expenseLoader = async ({ params }: any) => {
 	const results = storeDispatch(expenseApi.endpoints?.getExpense.initiate(params.id ?? '')).then(
@@ -42,7 +42,7 @@ const ExpenseEdit: React.FC = () => {
 		results: TrackedPromise
 	}
 	const [updateExpense, { isLoading }] = useUpdateExpenseMutation()
-	const { loadVaults } = useLoadVault()
+	const { loadCurrencies } = useCurrencies()
 	const expenseUpdateFormik = useFormik<ExpenseStoreFormType>({
 		initialValues: ExpenseStoreInitialValues,
 		validateOnBlur: false,
@@ -51,7 +51,7 @@ const ExpenseEdit: React.FC = () => {
 			updateExpense({
 				body: {
 					...values,
-					vault_id: values.vault.value,
+					currency_id: values.currency.value,
 					type: values.type.value as keyof typeof ExpenseTypeData,
 				},
 				id: id ?? '',
@@ -78,9 +78,9 @@ const ExpenseEdit: React.FC = () => {
 					},
 					comment: expense.comment,
 					receipt_date: parse(expense.receipt_date.toString(), 'dd.MM.yyyy HH:mm:ss', new Date()),
-					vault: {
-						label: expense.vault.name,
-						value: expense.vault.id,
+					currency: {
+						label: expense.currency.name,
+						value: expense.currency.id,
 					},
 				})
 			})
@@ -126,19 +126,19 @@ const ExpenseEdit: React.FC = () => {
 											/>
 											<LugatAsyncSelect
 												error={
-													getIn(expenseUpdateFormik.touched, 'vault.value') &&
-													getIn(expenseUpdateFormik.errors, 'vault.value')
+													getIn(expenseUpdateFormik.touched, 'currency.value') &&
+													getIn(expenseUpdateFormik.errors, 'currency.value')
 												}
-												value={expenseUpdateFormik.values.vault}
-												label={'Vault'}
+												value={expenseUpdateFormik.values.currency}
+												label={'Currency'}
 												additional={{
 													page: 1,
 												}}
 												placeholder={'Select'}
 												defaultOptions
-												loadOptions={loadVaults}
+												loadOptions={loadCurrencies}
 												onChange={(value: any) => {
-													expenseUpdateFormik.setFieldValue('vault', value)
+													expenseUpdateFormik.setFieldValue('currency', value)
 												}}
 											/>
 										</SeperatedRow>

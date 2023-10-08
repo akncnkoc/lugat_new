@@ -1,15 +1,15 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { DefaultResponseType } from '@/helpers/types'
 import baseQueryConfigWithAuth from '@/store/config/baseQueryConfigWithAuth'
-import { VaultStoreType } from '@/types/vault-types'
-import { VariantResource, VariantSingleResource, VariantStoreType } from '@/types/variant-types'
+import { VaultSingleResource, VaultStoreType } from '@/types/vault-types'
+import { SupplierResource, SupplierSingleResource } from '@/types/supplier-types'
 
-export const variantApi = createApi({
-	reducerPath: 'variantApi',
+export const supplierApi = createApi({
+	reducerPath: 'supplierApi',
 	baseQuery: baseQueryConfigWithAuth,
-	tagTypes: ['Variant'],
+	tagTypes: ['Supplier'],
 	endpoints: (builder) => ({
-		getVariants: builder.query<VariantResource, { page: string; search: string }>({
+		getSuppliers: builder.query<SupplierResource, { page: string; search: string }>({
 			query({ page = '1', search }) {
 				const url = new URL(window.location.toString())
 				url.searchParams.set('page', page)
@@ -17,24 +17,24 @@ export const variantApi = createApi({
 					url.searchParams.set('search', search.toString())
 				}
 				return {
-					url: `v1/variant?${decodeURIComponent(url.searchParams.toString())}`,
+					url: `v1/supplier?${decodeURIComponent(url.searchParams.toString())}`,
 				}
 			},
-			providesTags: ['Variant'],
+			providesTags: ['Supplier'],
 		}),
-		getVariant: builder.query<VariantSingleResource, string>({
-			query: (id: string) => `v1/variant/${id}`,
-			providesTags: ['Variant'],
+		getSupplier: builder.query<SupplierSingleResource, string>({
+			query: (id: string) => `v1/supplier/${id}`,
+			providesTags: ['Supplier'],
 		}),
-		storeVariant: builder.mutation<DefaultResponseType, VariantStoreType>({
+		storeVault: builder.mutation<DefaultResponseType, VaultStoreType>({
 			query(body) {
 				return {
-					url: `v1/variant`,
+					url: `v1/vault`,
 					method: 'POST',
 					body,
 				}
 			},
-			invalidatesTags: ['Variant'],
+			invalidatesTags: ['Supplier'],
 		}),
 		updateVault: builder.mutation<DefaultResponseType, { body: VaultStoreType; id: string }>({
 			query({ id, body }) {
@@ -44,7 +44,7 @@ export const variantApi = createApi({
 					body,
 				}
 			},
-			invalidatesTags: ['Variant'],
+			invalidatesTags: ['Supplier'],
 		}),
 		deleteVault: builder.mutation<DefaultResponseType, string>({
 			query(id) {
@@ -53,9 +53,9 @@ export const variantApi = createApi({
 					method: 'DELETE',
 				}
 			},
-			invalidatesTags: ['Variant'],
+			invalidatesTags: ['Supplier'],
 		}),
 	}),
 })
 
-export const {} = variantApi
+export const { useStoreVaultMutation, useDeleteVaultMutation, useUpdateVaultMutation } = supplierApi

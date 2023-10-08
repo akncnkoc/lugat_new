@@ -1,0 +1,158 @@
+<?php
+
+namespace App\Services\Product\Database\Seeders;
+
+use App\Services\Product\Models\Variant;
+use Illuminate\Database\Seeder;
+
+class VariantSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $variants = [
+            ['name' => 'Dimension', 'variant_id' => 'empty'],
+            ['name' => '80x150'],
+            ['name' => '80x300'],
+            ['name' => '100x200'],
+            ['name' => '100x300'],
+            ['name' => '120x170'],
+            ['name' => '120x180'],
+            ['name' => '160x230'],
+            ['name' => '200x290'],
+            ['name' => '240x340'],
+            ['name' => '240x340'],
+            ['name' => '200x290'],
+            ['name' => '200x290'],
+            ['name' => '200x300'],
+            ['name' => '240x320'],
+            ['name' => '100x187'],
+            ['name' => '125x192'],
+            ['name' => '127x185'],
+            ['name' => '73x302'],
+            ['name' => '75x300'],
+            ['name' => '148x224'],
+            ['name' => '147x218'],
+            ['name' => '100x195'],
+            ['name' => '150x225'],
+            ['name' => '147x215'],
+            ['name' => '73x120'],
+            ['name' => '119x185'],
+            ['name' => '121x205'],
+            ['name' => '83x152'],
+            ['name' => '52x192'],
+            ['name' => '103x190'],
+            ['name' => '80x120'],
+            ['name' => '80x126'],
+            ['name' => '120x190'],
+            ['name' => '150x196'],
+            ['name' => '106x165'],
+            ['name' => '91x147'],
+            ['name' => '88x130'],
+            ['name' => '121x183'],
+            ['name' => '121x176'],
+            ['name' => 'Color', 'variant_id' => 'empty'],
+            ['name' => 'Blue',],
+            ['name' => 'Red',],
+            ['name' => 'Yellow',],
+            ['name' => 'Black',],
+            ['name' => 'White',],
+            ['name' => 'Green',],
+            ['name' => 'Size', 'variant_id' => 'empty'],
+            ['name' => 'XXS'],
+            ['name' => 'XS'],
+            ['name' => 'S'],
+            ['name' => 'M'],
+            ['name' => 'L'],
+            ['name' => 'XL'],
+            ['name' => 'XXL'],
+            ['name' => '3XL'],
+            ['name' => '4XL'],
+            ['name' => '5XL'],
+            ['name' => '3-4 Age'],
+            ['name' => '4-5 Age'],
+            ['name' => '5-6 Age'],
+            ['name' => '6-7 Age'],
+            ['name' => '7-8 Age'],
+            ['name' => '8-9 Age'],
+            ['name' => '9-10 Age'],
+            ['name' => '10-11 Age'],
+            ['name' => '11-12 Age'],
+            ['name' => '12-13 Age'],
+            ['name' => '13-14 Age'],
+            ['name' => '0-1 Month'],
+            ['name' => '1-3 Month'],
+            ['name' => '3-6 Month'],
+            ['name' => '6-9 Month'],
+            ['name' => '9-12 Month'],
+            ['name' => '12-18 Month'],
+            ['name' => '18-24 Month'],
+            ['name' => '24-36 Month'],
+            ['name' => 'Newborn'],
+            ['name' => 'Shoe Size', 'variant_id' => 'empty'],
+            ['name' => '26'],
+            ['name' => '26.5'],
+            ['name' => '27'],
+            ['name' => '27.5'],
+            ['name' => '28'],
+            ['name' => '28.5'],
+            ['name' => '29'],
+            ['name' => '29.5'],
+            ['name' => '30'],
+            ['name' => '30.5'],
+            ['name' => '31'],
+            ['name' => '31.5'],
+            ['name' => '32'],
+            ['name' => '33'],
+            ['name' => '33.5'],
+            ['name' => '34'],
+            ['name' => '35'],
+            ['name' => '35.5'],
+            ['name' => '36'],
+            ['name' => '37'],
+            ['name' => '37.5'],
+            ['name' => '38'],
+            ['name' => '38.7'],
+            ['name' => '39'],
+            ['name' => '39.3'],
+            ['name' => '39.5'],
+            ['name' => '40'],
+            ['name' => '40.5'],
+            ['name' => '41'],
+            ['name' => '42'],
+            ['name' => '42.5'],
+            ['name' => '43'],
+            ['name' => '44'],
+            ['name' => '44.5'],
+            ['name' => '45'],
+            ['name' => '46'],
+            ['name' => '46.5'],
+            ['name' => '47'],
+            ['name' => 'Amount', 'variant_id' => 'empty'],
+            ['name' => '75 ml'],
+            ['name' => '100 ml'],
+            ['name' => '200 ml'],
+            ['name' => '250 ml'],
+            ['name' => '500 ml'],
+            ['name' => '1 lt'],
+            ['name' => '125 gr'],
+            ['name' => '250 gr'],
+            ['name' => '60 gr'],
+        ];
+        $beforeVariant = null;
+        foreach ($variants as $variant) {
+            if (isset($variant['variant_id'])) {
+                $beforeVariant = null;
+            }
+            $createvariant = Variant::create([
+                'name'       => $variant['name'],
+                'parent_id' => $beforeVariant
+            ]);
+            if ($beforeVariant == null) {
+                $beforeVariant = $createvariant->id;
+            }
+        }
+    }
+}

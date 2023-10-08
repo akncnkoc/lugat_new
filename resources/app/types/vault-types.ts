@@ -2,6 +2,7 @@ import {
 	CollectionDataType,
 	CurrencyDataType,
 	DefaultResponseCollectionType,
+	SelectOption,
 } from '@/helpers/types'
 
 export type VaultDataType = {
@@ -12,31 +13,20 @@ export type VaultDataType = {
 
 export type VaultStoreFormType = {
 	name: string
-	currency: {
-		id: string
-		name: string
-	}
+	currency: SelectOption
 }
 
 export const VaultStoreInitialValues: VaultStoreFormType = {
 	name: '',
 	currency: {
-		id: '-1',
-		name: 'Select',
+		label: 'Select',
+		value: '-1',
 	},
 }
 
 export type VaultStoreType = {
 	name: string
 	currency_id: string
-}
-
-export type VaultEditFormType = {
-	name: string
-	currency: {
-		id: string
-		name: string
-	}
 }
 
 export type VaultSingleResource = DefaultResponseCollectionType<VaultDataType>

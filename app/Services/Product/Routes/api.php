@@ -4,6 +4,7 @@
 use App\Services\Product\Http\Controllers\ProductController;
 use App\Services\Product\Http\Controllers\ProductImageController;
 use App\Services\Product\Http\Controllers\ProductSupplierController;
+use App\Services\Product\Http\Controllers\SubProductController;
 use App\Services\Product\Http\Controllers\VariantController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,16 @@ Route::prefix('/api/v1/variant')
          Route::get('/', 'index')->name('index');
          Route::get('/{variant}', 'show')->name('show');
          Route::post('/', 'create')->name('create');
+     });
+
+Route::prefix('/api/v1/sub-product')
+     ->controller(SubProductController::class)
+     ->name('sub-product.')
+     ->middleware('auth:sanctum')
+     ->group(function () {
+         Route::post('/', 'updateSubProducts')->name('update-sub-products');
+         Route::put('/{product}', 'storeSubProducts')->name('store-sub-products');
+         Route::delete('/{subProduct}', 'destroy')->name('destroy');
      });
 
 

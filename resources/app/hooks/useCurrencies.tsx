@@ -7,7 +7,10 @@ const useCurrencies = () => {
 		const response = (await storeDispatch(
 			currencyApi.endpoints?.getCurrencies.initiate({ page, search }),
 		).then((res) => res.data)) as CurrencyResource
-		const responseJSON = response.data.map((currency) => ({ id: currency.id, name: currency.name }))
+		const responseJSON = response.data.map((currency) => ({
+			value: currency.id,
+			label: currency.name,
+		}))
 
 		return {
 			options: responseJSON,

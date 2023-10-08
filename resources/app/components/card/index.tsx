@@ -64,21 +64,24 @@ type ICardComposition = {
 	Body: React.FC<CardBodyProps>
 	Footer: React.FC<CardFooterProps>
 }
-const Card: React.FC<{ children: React.ReactNode[] }> & ICardComposition = (props) => {
+const Card: React.FC<{
+	children: React.ReactNode | React.ReactNode[]
+	className?: string
+}> &
+	ICardComposition = (props) => {
 	return (
 		<CardContext.Provider value={undefined}>
 			<div
 				className={clsx(
 					'relative',
-					'transform',
 					'rounded-lg',
 					'bg-white',
 					'text-left',
 					'shadow-2xl',
 					'shadow-gray-100',
+					'z-0',
 					'transition-all',
-					'tablet:max-w-7xl',
-					'tablet:mx-auto',
+					props.className,
 				)}
 			>
 				{props.children}

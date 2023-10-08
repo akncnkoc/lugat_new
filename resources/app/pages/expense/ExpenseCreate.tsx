@@ -14,18 +14,18 @@ import {
 	ExpenseStoreInitialValues,
 	ExpenseTypeData,
 } from '@/types/expense-types'
-import useLoadVault from '@/hooks/useLoadVault'
 import { ExpenseCreateValidationSchema } from '@/helpers/schemas'
 import LugatCurrencyInput from '@/components/form/LugatCurrencyInput'
 import Card from '@/components/card'
 import SeperatedColumn from '@/components/SeperatedColumn'
 import SeperatedRow from '@/components/form/SeperatedRow'
 import { clsx } from 'clsx'
+import useCurrencies from '@/hooks/useCurrencies'
 
 const ExpenseCreate: React.FC = () => {
 	const navigate = useNavigate()
 	const [storeExpense, { isLoading }] = useStoreExpenseMutation()
-	const { loadVaults } = useLoadVault()
+	const { loadCurrencies } = useCurrencies()
 
 	const expenseCreateFormik = useFormik<ExpenseStoreFormType>({
 		initialValues: ExpenseStoreInitialValues,
@@ -34,7 +34,7 @@ const ExpenseCreate: React.FC = () => {
 		onSubmit: (values) => {
 			storeExpense({
 				...values,
-				vault_id: values.vault.value,
+				currency_id: values.currency.value,
 				type: values.type.value as keyof typeof ExpenseTypeData,
 			})
 				.unwrap()
@@ -75,19 +75,19 @@ const ExpenseCreate: React.FC = () => {
 						/>
 						<LugatAsyncSelect
 							error={
-								getIn(expenseCreateFormik.touched, 'vault.value') &&
-								getIn(expenseCreateFormik.errors, 'vault.value')
+								getIn(expenseCreateFormik.touched, 'currency.value') &&
+								getIn(expenseCreateFormik.errors, 'currency.value')
 							}
-							value={expenseCreateFormik.values.vault}
-							label={'Vault'}
+							value={expenseCreateFormik.values.currency}
+							label={'Currency'}
 							additional={{
 								page: 1,
 							}}
 							placeholder={'Select'}
 							defaultOptions
-							loadOptions={loadVaults}
+							loadOptions={loadCurrencies}
 							onChange={(value: any) => {
-								expenseCreateFormik.setFieldValue('vault', value)
+								expenseCreateFormik.setFieldValue('currency', value)
 							}}
 						/>
 					</SeperatedRow>

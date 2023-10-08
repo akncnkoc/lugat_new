@@ -33,6 +33,7 @@ const baseQueryConfigWithReAuth: BaseQueryFn<
 	storeDispatch(setIsGlobalLoading(true))
 	let result = await baseQueryConfig(args, api, extraOptions)
 	if (result.error && result.error.status === 401) {
+		api.abort();
 		try {
 			const refreshResult = (
 				await axios.post(API_URL + 'v1/auth/refreshToken', null, {

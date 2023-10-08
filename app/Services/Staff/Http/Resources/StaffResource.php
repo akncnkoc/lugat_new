@@ -2,6 +2,7 @@
 
 namespace App\Services\Staff\Http\Resources;
 
+use App\Services\Currency\Http\Resources\CurrencyResource;
 use App\Services\Staff\Models\Staff;
 use App\Services\Vault\Http\Resources\VaultResource;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class StaffResource extends JsonResource
             'phone'        => $this->phone,
             'type'         => $this->type,
             'salary'       => $this->salary,
-            'salary_vault' => VaultResource::make($this->salaryVault),
+            'salary_currency' => CurrencyResource::make($this->salaryCurrency),
         ];
     }
 }

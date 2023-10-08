@@ -36,6 +36,8 @@ const useLoadVariant = () => {
 		const responseJSON = response.sub_variants.data.map((variant: VariantDataType) => ({
 			label: variant.name,
 			value: variant.id,
+			parent_id: response.data.id,
+			name: response.data.name,
 		}))
 
 		return {

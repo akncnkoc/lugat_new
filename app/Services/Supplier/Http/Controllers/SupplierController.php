@@ -20,7 +20,13 @@ class SupplierController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $this->authorize('supplierView', Supplier::class);
-        return SupplierResource::collection(Supplier::paginate());
+        $supplierQuery = Supplier::query();
+        if ($search = request()?->query('search')) {
+            $supplierQuery->where('name', 'ILIKE', "%$search%")
+                          ->orWhere('phone', 'ILIKE', "%$search%")
+                          ->orWhere('email', 'ILIKE', "%$search%");
+        }
+        return SupplierResource::collection($supplierQuery->orderBy('name')->paginate());
     }
 
 

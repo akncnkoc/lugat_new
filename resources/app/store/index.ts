@@ -20,6 +20,8 @@ import {
 } from 'redux-persist'
 import { rootReducer } from '@/store/rootReducer'
 import { variantApi } from '@/services/api/variant-api'
+import { supplierApi } from '@/services/api/supplier-api'
+import { subProductApi } from '@/services/api/sub-product-api'
 
 const persistConfig = {
 	key: 'root',
@@ -33,6 +35,7 @@ const persistConfig = {
 		'staffApi',
 		'customerTypeApi',
 		'variantApi',
+		'supplierApi'
 	],
 }
 
@@ -52,7 +55,9 @@ const store = configureStore({
 			.concat(customerTypeApi.middleware)
 			.concat(staffApi.middleware)
 			.concat(productApi.middleware)
-			.concat(variantApi.middleware),
+			.concat(variantApi.middleware)
+			.concat(subProductApi.middleware)
+			.concat(supplierApi.middleware)
 })
 
 const persistor = persistStore(store)

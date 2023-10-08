@@ -20,7 +20,7 @@ const ExpensePage: React.FC = () => {
 		{
 			header: 'Amount',
 			accessorFn: (originalRow) =>
-				originalRow.amount + ' ' + CurrencyCodeToSign(originalRow.vault.currency.code),
+				originalRow.amount + ' ' + CurrencyCodeToSign(originalRow.currency.code),
 		},
 		{
 			header: 'Expense Type',

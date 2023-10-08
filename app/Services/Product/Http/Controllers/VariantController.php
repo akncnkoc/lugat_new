@@ -24,6 +24,7 @@ class VariantController extends Controller
         if ($search = request()?->query('search')) {
             $variant->where("name", $search);
         }
+        $variant->whereNull('parent_id');
         return VariantResource::collection($variant->orderBy('name')->paginate());
     }
 

@@ -14,7 +14,7 @@ return new class extends Migration {
         Schema::create('invoice_products', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('invoice_id')->constrained('invoices')->restrictOnDelete();
-            $table->foreignUuid('product_id')->constrained('products')->restrictOnDelete();
+            $table->foreignUuid('sub_product_id')->constrained('sub_products')->restrictOnDelete();
             $table->decimal('price', 15)->default(1);
             $table->foreignUuid('price_currency_id')->constrained('currencies')->restrictOnDelete();
             $table->enum('tax', TaxType::values());

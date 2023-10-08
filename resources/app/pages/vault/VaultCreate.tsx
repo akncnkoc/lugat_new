@@ -21,7 +21,7 @@ const VaultCreate: React.FC = () => {
 		validateOnBlur: false,
 		validationSchema: VaultCreateValidationSchema,
 		onSubmit: (values) => {
-			storeVault({ ...values, currency_id: values.currency.id })
+			storeVault({ ...values, currency_id: values.currency.value })
 				.unwrap()
 				.then((_) => {
 					toast.success('Vault stored')
@@ -55,12 +55,10 @@ const VaultCreate: React.FC = () => {
 					/>
 					<LugatAsyncSelect
 						error={
-							getIn(vaultCreateFormik.touched, 'currency.id') &&
-							getIn(vaultCreateFormik.errors, 'currency.id')
+							getIn(vaultCreateFormik.touched, 'currency.value') &&
+							getIn(vaultCreateFormik.errors, 'currency.value')
 						}
 						value={vaultCreateFormik.values.currency}
-						getOptionLabel={(e: any) => e.name}
-						getOptionValue={(e: any) => e.id}
 						label={'Currency'}
 						additional={{
 							page: 1,

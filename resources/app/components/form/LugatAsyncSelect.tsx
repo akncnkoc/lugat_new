@@ -10,11 +10,11 @@ import Creatable from 'react-select/creatable'
 
 const controlStyles = {
 	base: 'border rounded-lg bg-white hover:cursor-pointer text-left font-semibold',
-	focus: 'border-gray-200 ring-1 ring-gray-200',
-	nonFocus: 'border-gray-100 hover:border-gray-400',
+	focus: 'border-gray-200 ring-1 ring-gray-200 ',
+	nonFocus: 'border-gray-100 hover:border-gray-400 ',
 }
 const optionStyles = {
-	base: 'hover:cursor-pointer px-3 py-2 rounded text-left',
+	base: 'hover:cursor-pointer px-3 py-2 rounded text-left ',
 	focus: 'bg-gray-100 active:bg-gray-200',
 	selected: "after:content-['✔'] after:ml-2 after:text-green-500 text-gray-500",
 }
@@ -47,6 +47,7 @@ const LugatAsyncSelect: React.FC<any> = (props) => {
 			<CreatableAsyncPaginate
 				loadOptions={loadOptions}
 				hideSelectedOptions={false}
+				menuPortalTarget={document.body}
 				unstyled
 				styles={{
 					input: (base) => ({
@@ -64,6 +65,7 @@ const LugatAsyncSelect: React.FC<any> = (props) => {
 						...base,
 						transition: 'none',
 					}),
+					menuPortal: base => ({ ...base, zIndex: 9999 })
 				}}
 				classNames={{
 					control: ({ isFocused }) =>
@@ -73,8 +75,8 @@ const LugatAsyncSelect: React.FC<any> = (props) => {
 							error && 'focus:!ring-red-500 text-red-500 placeholder-red-500 !border-red-500',
 						),
 					placeholder: () => 'text-gray-500 pl-1 py-0.5 text-left',
-					input: () => 'pl-1 py-0.5',
-					valueContainer: () => 'p-1 gap-1 border-gray-50',
+					input: () => 'pl-1 py-0.5 ',
+					valueContainer: () => 'p-1 gap-1 border-gray-50 ',
 					singleValue: () => 'leading-7 ml-1 ',
 					multiValue: () => 'bg-gray-100 rounded items-center py-0.5 pl-2 pr-1 gap-1.5',
 					multiValueLabel: () => 'leading-6 py-0.5',

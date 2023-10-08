@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SubProduct extends Model
@@ -42,6 +43,10 @@ class SubProduct extends Model
         return $this->hasMany(SubProductVariant::class, 'sub_product_id', 'id');
     }
 
+    public function variants(): HasManyThrough
+    {
+        return $this->hasManyThrough(Variant::class, SubProductVariant::class, 'sub_product_id', 'id', 'id', 'variant_id');
+    }
     public function buyCurrency(): ?BelongsTo
     {
         return $this->belongsTo(Currency::class, 'buy_currency_id', 'id');

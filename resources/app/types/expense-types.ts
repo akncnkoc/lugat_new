@@ -1,5 +1,9 @@
-import { CollectionDataType, DefaultResponseCollectionType } from '@/helpers/types'
-import { VaultDataType } from '@/types/vault-types'
+import {
+	CollectionDataType,
+	CurrencyDataType,
+	DefaultResponseCollectionType,
+	SelectOption,
+} from '@/helpers/types'
 
 export enum ExpenseTypeData {
 	food = 'Food & Drinks',
@@ -21,7 +25,7 @@ export enum ExpenseTypeData {
 export type ExpenseStoreType = {
 	amount: number
 	receipt_date: Date | null
-	vault_id: string
+	currency_id: string
 	type: keyof typeof ExpenseTypeData | '-1'
 	comment?: string | null
 }
@@ -29,7 +33,7 @@ export type ExpenseStoreType = {
 export type ExpenseDataType = {
 	id: string
 	amount: number
-	vault: VaultDataType
+	currency: CurrencyDataType
 	comment: string | null
 	receipt_date: Date
 	type: keyof typeof ExpenseTypeData
@@ -37,14 +41,8 @@ export type ExpenseDataType = {
 
 export type ExpenseStoreFormType = {
 	amount: number
-	vault: {
-		value: string
-		label: string
-	}
-	type: {
-		label: string
-		value: string
-	}
+	currency: SelectOption
+	type: SelectOption
 	comment: string | null
 	receipt_date: Date | null
 }
@@ -54,7 +52,7 @@ export const ExpenseStoreInitialValues: ExpenseStoreFormType = {
 	type: { value: '-1', label: 'Select' },
 	comment: '',
 	receipt_date: new Date(),
-	vault: {
+	currency: {
 		value: '-1',
 		label: 'Select',
 	},

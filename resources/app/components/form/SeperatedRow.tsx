@@ -12,7 +12,6 @@ const SeperatedRow: React.FC<SeperatedRowProps> = ({ children }) => {
 				'flex-1',
 				'flex',
 				'flex-col',
-				'space-y-2',
 				'laptop:flex-row',
 				'laptop:space-x-2',
 				'laptop:space-y-0',

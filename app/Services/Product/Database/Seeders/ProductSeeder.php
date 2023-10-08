@@ -20,7 +20,6 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         $faker = Factory::create();
-        Variant::factory(10)->create();
         Product::factory(10)->has(SubProduct::factory(random_int(3, 5))->state(function (array $attrs, Product $product) use ($faker) {
             $variant = Variant::inRandomOrder()->first();
             $buyPrice = random_int(100, 200);
@@ -28,7 +27,7 @@ class ProductSeeder extends Seeder
             $currency_id = Currency::inRandomOrder()->first()->id;
 
             return [
-                'name'             => $product->name.' '.$variant->name,
+                'name'             => $variant->name,
                 'buy_price'        => $buyPrice,
                 'sku'              => $faker->postcode,
                 'barcode'          => $faker->postcode,

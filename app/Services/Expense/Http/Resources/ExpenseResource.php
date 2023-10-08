@@ -2,8 +2,8 @@
 
 namespace App\Services\Expense\Http\Resources;
 
+use App\Services\Currency\Http\Resources\CurrencyResource;
 use App\Services\Expense\Models\Expense;
-use App\Services\Vault\Http\Resources\VaultResource;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,12 +21,12 @@ class ExpenseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'amount' => $this->amount,
-            'vault' => VaultResource::make($this->vault),
-            'comment' => $this->comment,
+            'id'           => $this->id,
+            'amount'       => $this->amount,
+            'currency'     => CurrencyResource::make($this->currency),
+            'comment'      => $this->comment,
             'receipt_date' => $this->whenNotNull(Carbon::make($this->receipt_date)?->format('d.m.Y H:i:s')),
-            'type' => $this->type
+            'type'         => $this->type
         ];
     }
 }
