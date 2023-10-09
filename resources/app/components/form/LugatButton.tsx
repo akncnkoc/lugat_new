@@ -22,7 +22,7 @@ const LugatButton: React.FC<RabbitButtonProps> = forwardRef<HTMLButtonElement, R
 					'text-center',
 					'text-white',
 					'rounded-md',
-					'w-full',
+					'w-fit',
 					'bg-blue-500',
 					'text-center',
 					'flex',

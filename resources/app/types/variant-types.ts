@@ -3,12 +3,14 @@ import {
 	CollectionMetaType,
 	ColletionLinkType,
 	DefaultResponseCollectionType,
+	SelectOption,
 } from '@/helpers/types'
 
 export type VariantDataType = {
 	id: string
 	name: string
 	parent_id: string | null
+	childrens: VariantDataType[]
 }
 
 export type VariantSingleResource = DefaultResponseCollectionType<VariantDataType> & {
@@ -30,14 +32,8 @@ export type VariantFormType = {
 	barcode: string
 	buy_price: number
 	sell_price: number
-	buy_currency: {
-		label: string
-		value: string
-	}
-	sell_currency: {
-		label: string
-		value: string
-	}
+	buy_currency: SelectOption
+	sell_currency: SelectOption
 	stock: number
 	tax: 0 | 1 | 10 | 20
 	variants: Array<string>

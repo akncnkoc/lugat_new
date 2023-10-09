@@ -113,3 +113,9 @@ export enum ConfirmationDialogResponse {
 	YES = 'YES',
 	NO = 'NO',
 }
+
+export type TreeViewItemDataType = {
+	label: string
+	value: string
+	childrens: Array<TreeViewItemDataType>
+}

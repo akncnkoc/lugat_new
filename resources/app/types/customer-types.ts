@@ -1,4 +1,4 @@
-import { CollectionDataType, DefaultResponseCollectionType } from '@/helpers/types'
+import { CollectionDataType, DefaultResponseCollectionType, SelectOption } from '@/helpers/types'
 
 export type CustomerDataType = {
 	id: string
@@ -22,14 +22,8 @@ export type CustomerStoreFormType = {
 	surname: string
 	phone: string
 	email: string
-	gender: {
-		label: string
-		value: string
-	}
-	customer_type: {
-		label: string
-		value: string
-	}
+	gender: SelectOption
+	customer_type:SelectOption
 	city: string
 	district: string
 	neighborhood: string

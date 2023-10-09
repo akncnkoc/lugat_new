@@ -24,7 +24,7 @@ type ProductVariantsProps = {
 	loadCurrencies: Function
 }
 
-const ProductVariants: React.FC<ProductVariantsProps> = (props) => {
+const StoreableProductVariants: React.FC<ProductVariantsProps> = (props) => {
 	const showConfirmDialog = useModal({
 		Component: ConfirmationDialog,
 		closeOnEsc: true,
@@ -168,4 +168,4 @@ const ProductVariants: React.FC<ProductVariantsProps> = (props) => {
 	))
 }
 
-export default ProductVariants
+export default StoreableProductVariants

@@ -1,3 +1,5 @@
+import { VariantDataType } from '@/types/variant-types'
+
 interface VariantItem {
 	parent_id: string
 	name: string
@@ -73,3 +75,17 @@ export function flattenArray(arr: any[]): any[] {
 	recursiveFlatten(arr)
 	return flattened
 }
+
+interface MappedVariantType {
+	label: string;
+	value: string;
+	childrens: MappedVariantType[];
+}
+
+export const recursiveMappingForVariantType = (variants: VariantDataType[]): MappedVariantType[] => {
+	return variants.map((variant: VariantDataType) => ({
+		label: variant.name,
+		value: variant.id,
+		childrens: variant.childrens ? recursiveMappingForVariantType(variant.childrens) : [],
+	}));
+};

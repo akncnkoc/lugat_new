@@ -9,10 +9,12 @@ export const variantApi = createApi({
 	baseQuery: baseQueryConfigWithAuth,
 	tagTypes: ['Variant'],
 	endpoints: (builder) => ({
-		getVariants: builder.query<VariantResource, { page: string; search: string }>({
-			query({ page = '1', search }) {
+		getVariants: builder.query<VariantResource, { page?: string; search?: string }>({
+			query({ page, search }) {
 				const url = new URL(window.location.toString())
-				url.searchParams.set('page', page)
+				if (page) {
+					url.searchParams.set('page', page)
+				}
 				if (search) {
 					url.searchParams.set('search', search.toString())
 				}

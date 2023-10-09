@@ -14,6 +14,7 @@ import { useLazyGetProductsQuery } from '@/services/api/product-api'
 import { ProductDataType } from '@/types/product-types'
 import ProductTableActionColumn from '@/pages/product/components/ProductTableActionColumn'
 import { clsx } from 'clsx'
+import ProductVariants from '@/pages/product/modal/ProductVariants'
 
 const ProductPage: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams()
@@ -112,7 +113,8 @@ const ProductPage: React.FC = () => {
 						/>
 					</div>
 				</div>
-				<div className='w-fit'>
+				<div className='w-fit flex space-x-2'>
+					<ProductVariants />
 					<LugatButton onClick={() => navigate('/product/create')}>Create Product</LugatButton>
 				</div>
 			</div>

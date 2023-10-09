@@ -19,7 +19,7 @@ import LugatAsyncSelect from '@/components/form/LugatAsyncSelect'
 import useLoadVariant from '@/hooks/useLoadVariant'
 import { flattenArray, getVariantPreview } from '@/helpers/functions'
 import { ProductVariantFormType, VariantFormType } from '@/types/variant-types'
-import ProductVariants from '@/pages/product/components/ProductVariants'
+import StoreableProductVariants from '@/pages/product/components/StoreableProductVariants'
 import { array, number, object, string } from 'yup'
 import { Shape } from '@/helpers/types'
 import { isEmpty } from 'lodash'
@@ -391,7 +391,7 @@ const ProductCreate: React.FC = () => {
 									)}
 
 									{createdVariantsFormik.values.data.length > 0 && (
-										<ProductVariants
+										<StoreableProductVariants
 											values={createdVariantsFormik.values}
 											touched={createdVariantsFormik.touched}
 											errors={createdVariantsFormik.errors}

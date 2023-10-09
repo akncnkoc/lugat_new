@@ -23,7 +23,7 @@ import LugatInputLabel from '@/components/form/LugatInputLabel'
 import Dropzone from 'react-dropzone'
 import LugatToggle from '@/components/form/LugatToggle'
 import { motion } from 'framer-motion'
-import ProductVariants from '@/pages/product/components/ProductVariants'
+import StoreableProductVariants from '@/pages/product/components/StoreableProductVariants'
 import useCurrencies from '@/hooks/useCurrencies'
 import useLoadVariant from '@/hooks/useLoadVariant'
 import useSupplier from '@/hooks/useSupplier'
@@ -483,7 +483,7 @@ const ProductEdit: React.FC = () => {
 												<Card.Body>
 													<SeperatedColumn>
 														{alreadyCreatedVariantsFormik.values.data.length > 0 && (
-															<ProductVariants
+															<StoreableProductVariants
 																values={alreadyCreatedVariantsFormik.values}
 																touched={alreadyCreatedVariantsFormik.touched}
 																errors={alreadyCreatedVariantsFormik.errors}
@@ -569,7 +569,7 @@ const ProductEdit: React.FC = () => {
 														</div>
 													)}
 													{newlyCreatedVariantsFormik.values.data.length > 0 && (
-														<ProductVariants
+														<StoreableProductVariants
 															values={newlyCreatedVariantsFormik.values}
 															touched={newlyCreatedVariantsFormik.touched}
 															errors={newlyCreatedVariantsFormik.errors}
