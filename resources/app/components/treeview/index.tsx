@@ -15,7 +15,7 @@ type TreeviewProps = {
 	children?:
 		| React.ReactNode
 		| React.ReactNode[]
-		| ((name: string) => React.ReactNode | React.ReactNode[])
+		| ((name: TreeViewItemDataType[]) => React.ReactNode | React.ReactNode[])
 	loadFn?: () => Promise<TreeViewItemDataType[]>
 }
 type TreeviewCompositionProps = {
@@ -36,22 +36,13 @@ const Treeview: React.FC<TreeviewProps> & TreeviewCompositionProps = (props) => 
 	if (typeof props.children == 'function') {
 		return (
 			<TreeviewContext.Provider value={TreeviewContextValues}>
-				{props.children('test')}
+				{props.children(data)}
 			</TreeviewContext.Provider>
 		)
 	}
 	return (
 		<TreeviewContext.Provider value={TreeviewContextValues}>
-			<ul>
-				{data.map((item, index) => (
-					<Treeview.Item
-						key={index}
-						value={item.value}
-						label={item.label}
-						data={item.childrens}
-					/>
-				))}
-			</ul>
+			{props.children}
 		</TreeviewContext.Provider>
 	)
 }

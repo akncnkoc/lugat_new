@@ -114,7 +114,7 @@ const Login: React.FC = () => {
 							Forgot Password ?
 						</LugatLink>
 					</div>
-					<LugatButton>Login</LugatButton>
+					<LugatButton buttonClassNames={'w-full'}>Login</LugatButton>
 				</form>
 			</div>
 		</div>

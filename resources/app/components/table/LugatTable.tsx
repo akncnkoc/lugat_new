@@ -12,6 +12,7 @@ import { CustomerDataType } from '@/types/customer-types'
 import { StaffDataType } from '@/types/staff-types'
 import { ProductDataType } from '@/types/product-types'
 import { clsx } from 'clsx'
+import { VariantDataType } from '@/types/variant-types'
 
 type LugatTableProps = {
 	table:
@@ -20,6 +21,7 @@ type LugatTableProps = {
 		| Table<CustomerDataType>
 		| Table<StaffDataType>
 		| Table<ProductDataType>
+		| Table<VariantDataType>
 	meta?: CollectionMetaType
 	onPaginate: Function
 	currentPage: number | string

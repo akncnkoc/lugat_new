@@ -28,9 +28,6 @@ export type TreeviewItemProps = {
 		| React.ReactNode
 		| React.ReactNode[]
 		| (({ open, toggle }: TreeviewItemChildrenFunctionType) => React.ReactNode | React.ReactNode[])
-	label: string
-	value: string
-	data?: TreeViewItemDataType[]
 }
 
 const TreeviewItem: React.FC<TreeviewItemProps> & TreeViewItemComposition = (props) => {
@@ -44,28 +41,7 @@ const TreeviewItem: React.FC<TreeviewItemProps> & TreeViewItemComposition = (pro
 	}
 	return (
 		<TreeviewItemContext.Provider value={TreeviewItemContextDefaultValues}>
-			<li>
-				<LugatButton
-					onClick={() => {
-						setOpen((prev) => !prev)
-						console.log(props.data)
-					}}
-				>
-					{props.label}
-				</LugatButton>
-				{open && (
-					<ul>
-						{props.data?.map((item, index) => (
-							<TreeviewItem
-								key={index}
-								value={item.value}
-								label={item.label}
-								data={item.childrens}
-							/>
-						))}
-					</ul>
-				)}
-			</li>
+			{props.children}
 		</TreeviewItemContext.Provider>
 	)
 }

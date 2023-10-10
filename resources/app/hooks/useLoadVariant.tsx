@@ -64,7 +64,6 @@ const useLoadVariant = () => {
 				return res
 			})
 
-		console.log(recursiveMappingForVariantType(response.data))
 		return recursiveMappingForVariantType(response.data)
 	}
 

@@ -60,4 +60,4 @@ export const variantApi = createApi({
 	}),
 })
 
-export const {} = variantApi
+export const {useLazyGetVariantsQuery} = variantApi
