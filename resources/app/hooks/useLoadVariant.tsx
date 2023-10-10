@@ -1,7 +1,6 @@
 import { storeDispatch } from '@/store'
 import { variantApi } from '@/services/api/variant-api'
 import { VariantDataType } from '@/types/variant-types'
-import { recursiveMappingForVariantType } from '@/helpers/functions'
 
 const useLoadVariant = () => {
 	const loadVariants = async (search: string, _: any, { page }: any) => {
@@ -57,17 +56,7 @@ const useLoadVariant = () => {
 			})
 	}
 
-	const loadVariantTree = async (): Promise<any> => {
-		const response = await storeDispatch(variantApi.endpoints?.getVariants.initiate({}))
-			.unwrap()
-			.then((res) => {
-				return res
-			})
-
-		return recursiveMappingForVariantType(response.data)
-	}
-
-	return { loadVariants, loadVariant, createVariant, loadVariantTree }
+	return { loadVariants, loadVariant, createVariant }
 }
 
 export default useLoadVariant

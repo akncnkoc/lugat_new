@@ -19,7 +19,7 @@ import { motion } from 'framer-motion'
 
 const ProductVariants: React.FC = () => {
 	const [showVariantsModal, setShowVariantsModal] = useState(false)
-	const [searchParams, setSearchParams] = useSearchParams()
+	const [searchParams, _] = useSearchParams()
 	const [getVariants, { isFetching, error, data: variants }] = useLazyGetVariantsQuery()
 	const [pageParams, setPageParams] = useState<{
 		page: string
@@ -98,7 +98,7 @@ const ProductVariants: React.FC = () => {
 	}
 
 	useEffect(() => {
-		if(showVariantsModal) fetch()
+		if (showVariantsModal) fetch()
 	}, [showVariantsModal])
 
 	const closeModal = () => setShowVariantsModal(false)
