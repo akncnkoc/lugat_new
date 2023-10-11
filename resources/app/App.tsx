@@ -1,7 +1,6 @@
 import router from './Router'
 import ToastNotifications from '@/components/ToastNotifications'
 import { RouterProvider } from 'react-router-dom'
-import { useAppSelector } from '@/store/hooks'
 import { useWindowSize } from '@uidotdev/usehooks'
 import { useEffect, useMemo } from 'react'
 import { storeDispatch } from '@/store'
