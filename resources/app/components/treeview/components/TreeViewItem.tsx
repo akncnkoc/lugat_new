@@ -2,8 +2,6 @@ import React, { createContext, useState } from 'react'
 import TreeviewItemChild, {
 	TreeViewItemChildProps,
 } from '@/components/treeview/components/TreeViewItemChild'
-import { TreeViewItemDataType } from '@/helpers/types'
-import LugatButton from '@/components/form/LugatButton'
 
 const TreeviewItemContextDefaultValues = {
 	open: false,

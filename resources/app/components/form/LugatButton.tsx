@@ -4,11 +4,12 @@ import { clsx } from 'clsx'
 type RabbitButtonProps = {
 	buttonClassNames?: string
 	loading?: boolean
+	className?: string
 } & ComponentPropsWithRef<'button'>
 
 const LugatButton: React.FC<RabbitButtonProps> = forwardRef<HTMLButtonElement, RabbitButtonProps>(
 	(props, ref) => {
-		const { buttonClassNames, loading, ...buttonProps } = props
+		const { buttonClassNames, loading, className, ...buttonProps } = props
 
 		return (
 			<button
@@ -31,6 +32,7 @@ const LugatButton: React.FC<RabbitButtonProps> = forwardRef<HTMLButtonElement, R
 					'hover:bg-blue-600',
 					'transition-all',
 					buttonClassNames,
+					className
 				)}
 				{...buttonProps}
 			>

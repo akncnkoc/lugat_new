@@ -24,14 +24,10 @@ Route::prefix('/api/v1/product')
      });
 
 
-Route::prefix('/api/v1/variant')
-     ->controller(VariantController::class)
-     ->name('variant.')
+Route::prefix('/api/v1')
      ->middleware('auth:sanctum')
      ->group(function () {
-         Route::get('/', 'index')->name('index');
-         Route::get('/{variant}', 'show')->name('show');
-         Route::post('/', 'create')->name('create');
+         Route::apiResource('variant', VariantController::class);
      });
 
 Route::prefix('/api/v1/sub-product')

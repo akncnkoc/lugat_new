@@ -32,7 +32,8 @@ class VariantController extends Controller
     {
         $this->authorize('productView', Product::class);
         return VariantResource::make($variant)->additional([
-            'sub_variants' => $variant->subVariants()->paginate()
+            'sub_variants' => $variant->subVariants()->orderBy('name')->paginate(),
+            'parent'       => Variant::firstWhere('id', $variant->parent_id)
         ]);
     }
 
@@ -43,5 +44,23 @@ class VariantController extends Controller
             Variant::create($request->safe()->all());
         });
         return $this->success('variant created', statusCode: Response::HTTP_CREATED);
+    }
+
+    public function update(VariantStoreRequest $request, Variant $variant): JsonResponse
+    {
+        $this->authorize('productUpdate', Product::class);
+        DB::transaction(static function () use ($variant, $request) {
+            $variant->update($request->safe()->all());
+        });
+        return $this->success('variant updated');
+    }
+
+    public function destroy(Variant $variant): JsonResponse
+    {
+        $this->authorize('productDelete', Product::class);
+        DB::transaction(static function () use ($variant) {
+            $variant->delete();
+        });
+        return $this->success('variant deleted');
     }
 }

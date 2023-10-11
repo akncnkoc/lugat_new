@@ -1,7 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { DefaultResponseType } from '@/helpers/types'
 import baseQueryConfigWithAuth from '@/store/config/baseQueryConfigWithAuth'
-import { VaultStoreType } from '@/types/vault-types'
 import { VariantResource, VariantSingleResource, VariantStoreType } from '@/types/variant-types'
 
 export const variantApi = createApi({
@@ -38,20 +37,20 @@ export const variantApi = createApi({
 			},
 			invalidatesTags: ['Variant'],
 		}),
-		updateVault: builder.mutation<DefaultResponseType, { body: VaultStoreType; id: string }>({
+		updateVariant: builder.mutation<DefaultResponseType, { body: VariantStoreType; id: string }>({
 			query({ id, body }) {
 				return {
-					url: `v1/vault/${id}`,
+					url: `v1/variant/${id}`,
 					method: 'PUT',
 					body,
 				}
 			},
 			invalidatesTags: ['Variant'],
 		}),
-		deleteVault: builder.mutation<DefaultResponseType, string>({
+		deleteVariant: builder.mutation<DefaultResponseType, string>({
 			query(id) {
 				return {
-					url: `v1/vault/${id}`,
+					url: `v1/variant/${id}`,
 					method: 'DELETE',
 				}
 			},
@@ -60,4 +59,9 @@ export const variantApi = createApi({
 	}),
 })
 
-export const {useLazyGetVariantsQuery} = variantApi
+export const {
+	useLazyGetVariantsQuery,
+	useLazyGetVariantQuery,
+	useStoreVariantMutation,
+	useDeleteVariantMutation,
+} = variantApi

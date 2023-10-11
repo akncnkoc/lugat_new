@@ -65,7 +65,7 @@ const LugatAsyncSelect: React.FC<any> = (props) => {
 						...base,
 						transition: 'none',
 					}),
-					menuPortal: base => ({ ...base, zIndex: 9999 })
+					menuPortal: base => ({ ...base, zIndex: 9999999 })
 				}}
 				classNames={{
 					control: ({ isFocused }) =>

@@ -1,28 +1,28 @@
 import React from 'react'
-import LugatButton from '@/components/form/LugatButton'
 import ConfirmationDialog from '@/components/ConfirmationDialog'
 import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
 import { Cell } from '@tanstack/react-table'
 import { useModal } from '@/components/modal/useModal'
-import { useDeleteProductMutation } from '@/services/api/product-api'
 import { ConfirmationDialogResponse } from '@/helpers/types'
 import { VariantDataType } from '@/types/variant-types'
 import { BsPen, BsTrash } from 'react-icons/bs'
 import { LugatTooltip, LugatTooltipContent, LugatTooltipTrigger } from '@/components/LugatTooltip'
+import { clsx } from 'clsx'
+import { useDeleteVariantMutation } from '@/services/api/variant-api'
+import LugatModal from '@/components/modal'
+import ProductVariantsEditModal from '@/pages/product/modal/ProductVariantsEditModal'
 
-const ProductTableActionColumn: React.FC<{
+const VariantTableActionColumn: React.FC<{
 	cell: Cell<VariantDataType, unknown>
 	refetch: Function
 }> = ({ cell, refetch }) => {
-	const navigate = useNavigate()
 	const showConfirmDialog = useModal({
 		Component: ConfirmationDialog,
 		closeOnEsc: true,
 		closeOnOverlayClick: true,
 		defaultResolved: ConfirmationDialogResponse.NO,
 	})
-	const [deleteProduct, { isLoading: deleteIsLoading }] = useDeleteProductMutation()
+	const [deleteVariant, { isLoading: deleteIsLoading }] = useDeleteVariantMutation()
 
 	const handleDelete = async () => {
 		const confirmResponse = await showConfirmDialog()
@@ -30,12 +30,12 @@ const ProductTableActionColumn: React.FC<{
 			return
 		}
 		if (!deleteIsLoading) {
-			await toast.promise(deleteProduct(cell.row.original.id), {
-				loading: 'Product deleting...',
-				error: 'Product cannot deleted',
+			await toast.promise(deleteVariant(cell.row.original.id), {
+				loading: 'Variant deleting...',
+				error: 'Variant cannot deleted',
 				success: () => {
 					refetch()
-					return 'Product Deleted'
+					return 'Variant Deleted'
 				},
 			})
 		} else {
@@ -48,30 +48,66 @@ const ProductTableActionColumn: React.FC<{
 	return (
 		<>
 			<div className={'flex justify-end space-x-1'}>
-				<LugatTooltip placement={'left'}>
-					<LugatTooltipTrigger>
-						<LugatButton
-							buttonClassNames={'!px-4'}
-							onClick={() => navigate(`/product/${cell.row.original.id}/edit`)}
-						>
-							<BsPen />
-						</LugatButton>
-					</LugatTooltipTrigger>
-					<LugatTooltipContent
-						className={'bg-gray-800 text-white py-2 px-4 font-semibold rounded-lg'}
-					>
-						Edit
-					</LugatTooltipContent>
-				</LugatTooltip>
+				<LugatModal>
+					<LugatModal.Trigger>
+						<LugatTooltip placement={'left'}>
+							<LugatTooltipTrigger
+								className={clsx(
+									'px-4',
+									'h-10',
+									'text-sm',
+									'font-semibold',
+									'text-center',
+									'text-white',
+									'rounded-md',
+									'w-fit',
+									'bg-blue-500',
+									'hover:bg-blue-600',
+									'text-center',
+									'flex',
+									'items-center',
+									'justify-center',
+									'hover:bg-blue-600',
+									'transition-all',
+								)}
+							>
+								<BsPen />
+							</LugatTooltipTrigger>
+							<LugatTooltipContent
+								className={'bg-gray-800 text-white py-2 px-4 font-semibold rounded-lg'}
+							>
+								Edit
+							</LugatTooltipContent>
+						</LugatTooltip>
+					</LugatModal.Trigger>
+					<LugatModal.Body>
+						{(setShow) => <ProductVariantsEditModal setShow={setShow} id={cell.row.original.id} />}
+					</LugatModal.Body>
+				</LugatModal>
 
 				<LugatTooltip placement={'right'}>
-					<LugatTooltipTrigger>
-						<LugatButton
-							buttonClassNames={'!px-4 bg-red-500 hover:bg-red-600'}
-							onClick={handleDelete}
-						>
-							<BsTrash />
-						</LugatButton>
+					<LugatTooltipTrigger
+						onClick={handleDelete}
+						className={clsx(
+							'px-4',
+							'h-10',
+							'text-sm',
+							'font-semibold',
+							'text-center',
+							'text-white',
+							'rounded-md',
+							'w-fit',
+							'bg-red-500',
+							'hover:bg-red-600',
+							'text-center',
+							'flex',
+							'items-center',
+							'justify-center',
+							'hover:bg-blue-600',
+							'transition-all',
+						)}
+					>
+						<BsTrash />
 					</LugatTooltipTrigger>
 					<LugatTooltipContent
 						className={'bg-gray-800 text-white py-2 px-4 font-semibold rounded-lg'}
@@ -84,4 +120,4 @@ const ProductTableActionColumn: React.FC<{
 	)
 }
 
-export default ProductTableActionColumn
+export default VariantTableActionColumn

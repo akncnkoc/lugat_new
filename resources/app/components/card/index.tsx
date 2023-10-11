@@ -1,8 +1,6 @@
 import React from 'react'
 import { clsx } from 'clsx'
 
-const CardContext = React.createContext<undefined>(undefined)
-
 export type CardHeaderProps = {
 	children?: React.ReactNode | React.ReactNode[]
 }
@@ -64,29 +62,23 @@ type ICardComposition = {
 	Body: React.FC<CardBodyProps>
 	Footer: React.FC<CardFooterProps>
 }
-const Card: React.FC<{
-	children: React.ReactNode | React.ReactNode[]
-	className?: string
-}> &
-	ICardComposition = (props) => {
+const Card: React.FC<{ children: React.ReactNode | React.ReactNode[], className?: string }> & ICardComposition = (props) => {
 	return (
-		<CardContext.Provider value={undefined}>
-			<div
-				className={clsx(
-					'relative',
-					'rounded-lg',
-					'bg-white',
-					'text-left',
-					'shadow-2xl',
-					'shadow-gray-100',
-					'z-0',
-					'transition-all',
-					props.className,
-				)}
-			>
-				{props.children}
-			</div>
-		</CardContext.Provider>
+		<div
+			className={clsx(
+				'relative',
+				'rounded-lg',
+				'bg-white',
+				'text-left',
+				'shadow-2xl',
+				'shadow-gray-100',
+				'z-0',
+				'transition-all',
+				props.className,
+			)}
+		>
+			{props.children}
+		</div>
 	)
 }
 Card.Header = CardHeader

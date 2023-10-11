@@ -14,6 +14,7 @@ export type VariantDataType = {
 }
 
 export type VariantSingleResource = DefaultResponseCollectionType<VariantDataType> & {
+	parent: VariantDataType
 	sub_variants: {
 		data: Array<VariantDataType>
 	} & ColletionLinkType &
@@ -23,6 +24,11 @@ export type VariantSingleResource = DefaultResponseCollectionType<VariantDataTyp
 export type VariantStoreType = {
 	name: string
 	parent_id: string | null
+}
+
+export type VariantStoreFormType = {
+	name: string
+	parent: SelectOption
 }
 
 export type VariantFormType = {

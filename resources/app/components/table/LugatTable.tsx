@@ -27,7 +27,7 @@ type LugatTableProps = {
 	currentPage: number | string
 	fetching: boolean
 	error?: FetchBaseQueryError | SerializedError | undefined
-	label: string
+	label?: string
 }
 
 const LugatTable: React.FC<LugatTableProps> = ({
@@ -40,9 +40,11 @@ const LugatTable: React.FC<LugatTableProps> = ({
 	label,
 }) => {
 	return (
-		<div className={clsx('overflow-x-auto', 'sm:rounded-lg', 'bg-white')}>
+		<div className={clsx('overflow-x-auto', 'sm:rounded-lg', 'bg-white', 'w-full')}>
 			<div className='overflow-hidden'>
-				<div className={clsx('bg-white', 'w-full', 'px-6', 'py-4', 'font-semibold')}>{label}</div>
+				{label && (
+					<div className={clsx('bg-white', 'w-full', 'px-6', 'py-4', 'font-semibold')}>{label}</div>
+				)}
 				<table
 					className={clsx(
 						'min-w-full',
@@ -97,7 +99,7 @@ const LugatTable: React.FC<LugatTableProps> = ({
 									<LugatAlert
 										alertClassNames={clsx('bg-red-200', 'text-red-900', '!w-fit', 'mx-auto')}
 									>
-										Someting went wrong cant get {label.toLocaleLowerCase()}.
+										Someting went wrong cant get {label && label.toLocaleLowerCase()}.
 									</LugatAlert>
 								</td>
 							</tr>
@@ -113,7 +115,7 @@ const LugatTable: React.FC<LugatTableProps> = ({
 											'!w-fit space-y-2',
 										)}
 									>
-										No {label.toLocaleLowerCase()} found.
+										No {label && label.toLocaleLowerCase()} found.
 									</LugatAlert>
 								</td>
 							</tr>

@@ -20,7 +20,7 @@ const ConfirmationDialog: FC<Props> = ({ onResolve }) => {
 	return (
 		<AnimatePresence>
 			<motion.div
-				className={clsx('relative', 'p-4', 'w-full', 'max-w-lg', 'h-52', 'md:h-52')}
+				className={clsx('relative', 'p-4', 'w-full', 'max-w-lg', 'h-52', 'md:h-52', 'z-[99999999]')}
 				initial={{
 					opacity: 0,
 					scale: 0.75,
