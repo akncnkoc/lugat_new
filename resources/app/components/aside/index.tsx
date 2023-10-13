@@ -18,6 +18,7 @@ import StaffMenuPopover from '@/components/aside/popovers/StaffMenuPopover'
 import { useAppSelector } from '@/store/hooks'
 import { useWindowSize } from '@uidotdev/usehooks'
 import { clsx } from 'clsx'
+import SettingsIcon from '@/components/icons/SettingsIcon'
 
 const Aside: React.FC = () => {
 	const navigate = useNavigate()
@@ -85,6 +86,11 @@ const Aside: React.FC = () => {
 			isPopover: true,
 			popover: <ExpenseMenuPopover />,
 			isMenuEnabled,
+		},
+		{
+			text: 'Setting',
+			route: '/setting',
+			icon: <SettingsIcon fillColor={'currentColor'} />,
 		},
 	]
 

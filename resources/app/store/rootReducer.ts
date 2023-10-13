@@ -14,6 +14,7 @@ import { productApi } from '@/services/api/product-api'
 import { variantApi } from '@/services/api/variant-api'
 import { supplierApi } from '@/services/api/supplier-api'
 import { subProductApi } from '@/services/api/sub-product-api'
+import { settingApi } from '@/services/api/setting-api'
 
 export const rootReducer = combineReducers({
 	userSlice,
@@ -31,4 +32,5 @@ export const rootReducer = combineReducers({
 	[subProductApi.reducerPath]: subProductApi.reducer,
 	[variantApi.reducerPath]: variantApi.reducer,
 	[supplierApi.reducerPath]: supplierApi.reducer,
+	[settingApi.reducerPath]: settingApi.reducer,
 })

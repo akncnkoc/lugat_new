@@ -1,49 +1,51 @@
 <?php
 
+use App\Services\Setting\Models\GeneralSettings;
+
 return [
 
     /*
      * Each settings class used in your application must be registered, you can
      * put them (manually) here.
      */
-    'settings' => [
-
+    'settings'                       => [
+        GeneralSettings::class
     ],
 
     /*
      * The path where the settings classes will be created.
      */
-    'setting_class_path' => app_path('Settings'),
+    'setting_class_path'             => app_path('Services/Setting'),
 
     /*
      * In these directories settings migrations will be stored and ran when migrating. A settings
      * migration created via the make:settings-migration command will be stored in the first path or
      * a custom defined path when running the command.
      */
-    'migrations_paths' => [
-        database_path('settings'),
+    'migrations_paths'               => [
+        app_path('Services/Setting/Database/Migrations'),
     ],
 
     /*
      * When no repository was set for a settings class the following repository
      * will be used for loading and saving settings.
      */
-    'default_repository' => 'database',
+    'default_repository'             => 'database',
 
     /*
-     * Settings will be stored and loaded from these repositories.
+     * Setting will be stored and loaded from these repositories.
      */
-    'repositories' => [
+    'repositories'                   => [
         'database' => [
-            'type' => Spatie\LaravelSettings\SettingsRepositories\DatabaseSettingsRepository::class,
-            'model' => null,
-            'table' => null,
+            'type'       => Spatie\LaravelSettings\SettingsRepositories\DatabaseSettingsRepository::class,
+            'model'      => null,
+            'table'      => null,
             'connection' => null,
         ],
-        'redis' => [
-            'type' => Spatie\LaravelSettings\SettingsRepositories\RedisSettingsRepository::class,
+        'redis'    => [
+            'type'       => Spatie\LaravelSettings\SettingsRepositories\RedisSettingsRepository::class,
             'connection' => null,
-            'prefix' => null,
+            'prefix'     => null,
         ],
     ],
 
@@ -52,21 +54,21 @@ return [
      * settings will be stored within a provided Laravel store and can have an
      * additional prefix.
      */
-    'cache' => [
+    'cache'                          => [
         'enabled' => env('SETTINGS_CACHE_ENABLED', false),
-        'store' => null,
-        'prefix' => null,
-        'ttl' => null,
+        'store'   => null,
+        'prefix'  => null,
+        'ttl'     => null,
     ],
 
     /*
      * These global casts will be automatically used whenever a property within
      * your settings class isn't a default PHP type.
      */
-    'global_casts' => [
-        DateTimeInterface::class => Spatie\LaravelSettings\SettingsCasts\DateTimeInterfaceCast::class,
-        DateTimeZone::class => Spatie\LaravelSettings\SettingsCasts\DateTimeZoneCast::class,
-//        Spatie\DataTransferObject\DataTransferObject::class => Spatie\LaravelSettings\SettingsCasts\DtoCast::class,
+    'global_casts'                   => [
+        DateTimeInterface::class       => Spatie\LaravelSettings\SettingsCasts\DateTimeInterfaceCast::class,
+        DateTimeZone::class            => Spatie\LaravelSettings\SettingsCasts\DateTimeZoneCast::class,
+        //        Spatie\DataTransferObject\DataTransferObject::class => Spatie\LaravelSettings\SettingsCasts\DtoCast::class,
         Spatie\LaravelData\Data::class => Spatie\LaravelSettings\SettingsCasts\DataCast::class,
     ],
 
@@ -74,8 +76,8 @@ return [
      * The package will look for settings in these paths and automatically
      * register them.
      */
-    'auto_discover_settings' => [
-        app_path('Settings'),
+    'auto_discover_settings'         => [
+        app_path('Services/Setting'),
     ],
 
     /*

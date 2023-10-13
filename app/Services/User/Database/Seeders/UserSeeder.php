@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
                      ->state(new Sequence(
                          [
                              'email'   => 'test@test.com',
-                             'password' => Hash::make('password')
+                             'password' => Hash::make('incrediblySecurePassword')
                          ]
                      ))->create();
         $users->each(function (User $user) {

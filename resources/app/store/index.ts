@@ -23,6 +23,7 @@ import { variantApi } from '@/services/api/variant-api'
 import { supplierApi } from '@/services/api/supplier-api'
 import { subProductApi } from '@/services/api/sub-product-api'
 import { currencyApi } from '@/services/api/currency-api'
+import { settingApi } from '@/services/api/setting-api'
 
 const persistConfig = {
 	key: 'root',
@@ -36,7 +37,7 @@ const persistConfig = {
 		'staffApi',
 		'customerTypeApi',
 		'subProductApi',
-		'supplierApi'
+		'supplierApi',
 	],
 }
 
@@ -60,6 +61,7 @@ const store = configureStore({
 			.concat(subProductApi.middleware)
 			.concat(currencyApi.middleware)
 			.concat(supplierApi.middleware)
+			.concat(settingApi.middleware),
 })
 
 const persistor = persistStore(store)

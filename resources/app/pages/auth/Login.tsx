@@ -19,7 +19,7 @@ const Login: React.FC = () => {
 	const loginForm = useFormik<LoginFormType>({
 		initialValues: {
 			email: 'test@test.com',
-			password: 'password',
+			password: 'incrediblySecurePassword',
 		},
 		validationSchema: LoginFormValidationSchema,
 		onSubmit: async (values) => {

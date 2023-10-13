@@ -1,11 +1,12 @@
 import React from 'react'
-import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom'
 import ProtectedRoute, { pageLoader } from '@/layouts/ProtectedRoute'
+import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom'
 import { expenseLoader } from '@/pages/expense/ExpenseEdit'
 import { vaultLoader } from '@/pages/vault/VaultEdit'
 import { customerLoader } from '@/pages/customer/CustomerEdit'
 import { staffLoader } from '@/pages/staff/StaffEdit'
 import { productLoader } from '@/pages/product/ProductEdit'
+import { settingLoader } from '@/pages/setting'
 import LoaderComponent from '@/components/anims/LoaderComponent'
 
 const Dashboard = React.lazy(() => import('@/pages/dashboard'))
@@ -26,6 +27,7 @@ const ProductPage = React.lazy(() => import('@/pages/product/ProductPage'))
 const ProductCreatePage = React.lazy(() => import('@/pages/product/ProductCreate'))
 const ProductEditPage = React.lazy(() => import('@/pages/product/ProductEdit'))
 const LoginPage = React.lazy(() => import('@/pages/auth/Login'))
+const Setting = React.lazy(() => import('@/pages/setting'))
 const NotfoundPage = React.lazy(() => import('@/pages/notfound'))
 
 const router = createBrowserRouter(
@@ -37,6 +39,15 @@ const router = createBrowserRouter(
 					element={
 						<React.Suspense fallback={<LoaderComponent loaderClassName={'after:bg-gray-200'} />}>
 							<Dashboard />
+						</React.Suspense>
+					}
+				/>
+				<Route
+					path={'setting'}
+					loader={settingLoader}
+					element={
+						<React.Suspense fallback={<LoaderComponent loaderClassName={'after:bg-gray-200'} />}>
+							<Setting />
 						</React.Suspense>
 					}
 				/>
