@@ -36,6 +36,7 @@ return [
         App\Services\Product\Providers\ProductServiceProvider::class,
         App\Services\Staff\Providers\StaffServiceProvider::class,
         App\Services\Invoice\Providers\InvoiceServiceProvider::class,
+        App\Services\Dashboard\Providers\DashboardServiceProvider::class,
     ])->toArray(),
 
     'aliases' => [

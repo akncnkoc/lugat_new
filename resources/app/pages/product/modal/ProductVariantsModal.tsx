@@ -33,7 +33,7 @@ const ProductVariantsModal: React.FC = () => {
 		return getVariants({
 			page,
 			search,
-		})
+		}, true)
 	}
 
 	const defaultColumns: ColumnDef<VariantDataType>[] = [

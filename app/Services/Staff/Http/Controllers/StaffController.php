@@ -4,7 +4,6 @@ namespace App\Services\Staff\Http\Controllers;
 
 use App\Global\Http\Controllers\Controller;
 use App\Global\Http\Requests\SearchRequest;
-use App\Global\Traits\ResponseTrait;
 use App\Services\Staff\Http\Requests\StaffStoreRequest;
 use App\Services\Staff\Http\Resources\StaffResource;
 use App\Services\Staff\Models\Staff;
@@ -15,8 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StaffController extends Controller
 {
-    use ResponseTrait;
-
 
     public function index(): AnonymousResourceCollection
     {

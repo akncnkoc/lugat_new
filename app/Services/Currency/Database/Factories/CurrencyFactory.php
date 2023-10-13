@@ -15,13 +15,13 @@ class CurrencyFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->currencyCode,
-            'code' => $this->faker->currencyCode,
-            'primary' => $this->faker->boolean(),
-            'banknote_buy' => 1,
+            'name'          => $this->faker->currencyCode,
+            'code'          => $this->faker->currencyCode,
+            'primary'       => $this->faker->boolean(),
+            'banknote_buy'  => 1,
             'banknote_sell' => 1,
-            'forex_buy' => 1,
-            'forex_sell' => 1
+            'forex_buy'     => 1,
+            'forex_sell'    => 1
         ];
     }
 }

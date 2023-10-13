@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
-    use ResponseTrait, ProductImageUpload;
+    use ProductImageUpload;
 
     public function index(SearchRequest $request): AnonymousResourceCollection
     {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom'
-import ProtectedRoute from '@/layouts/ProtectedRoute'
+import ProtectedRoute, { pageLoader } from '@/layouts/ProtectedRoute'
 import { expenseLoader } from '@/pages/expense/ExpenseEdit'
 import { vaultLoader } from '@/pages/vault/VaultEdit'
 import { customerLoader } from '@/pages/customer/CustomerEdit'
@@ -8,8 +8,7 @@ import { staffLoader } from '@/pages/staff/StaffEdit'
 import { productLoader } from '@/pages/product/ProductEdit'
 import LoaderComponent from '@/components/anims/LoaderComponent'
 
-const Home = React.lazy(() => import('@/pages/Home'))
-
+const Dashboard = React.lazy(() => import('@/pages/dashboard'))
 const ExpensePage = React.lazy(() => import('@/pages/expense/ExpensePage'))
 const ExpenseCreatePage = React.lazy(() => import('@/pages/expense/ExpenseCreate'))
 const ExpenseEditPage = React.lazy(() => import('@/pages/expense/ExpenseEdit'))
@@ -32,12 +31,12 @@ const NotfoundPage = React.lazy(() => import('@/pages/notfound'))
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<>
-			<Route path='/' element={<ProtectedRoute />}>
+			<Route path='/' element={<ProtectedRoute />} loader={pageLoader}>
 				<Route
 					index
 					element={
 						<React.Suspense fallback={<LoaderComponent loaderClassName={'after:bg-gray-200'} />}>
-							<Home />
+							<Dashboard />
 						</React.Suspense>
 					}
 				/>

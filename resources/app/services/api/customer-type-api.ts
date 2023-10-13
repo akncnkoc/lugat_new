@@ -3,7 +3,7 @@ import baseQueryConfigWithAuth from '@/store/config/baseQueryConfigWithAuth'
 import { CustomerTypeResource } from '@/types/customer-types'
 
 export const customerTypeApi = createApi({
-	reducerPath: 'customerType',
+	reducerPath: 'customerTypeApi',
 	baseQuery: baseQueryConfigWithAuth,
 	tagTypes: ['CustomerType'],
 	endpoints: (builder) => ({

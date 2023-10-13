@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SupplierController extends Controller
 {
-    use ResponseTrait;
 
     public function index(): AnonymousResourceCollection
     {

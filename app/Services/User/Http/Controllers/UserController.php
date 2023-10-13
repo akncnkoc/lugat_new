@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    use ResponseTrait;
 
     public function store(UserStoreRequest $request)
     {

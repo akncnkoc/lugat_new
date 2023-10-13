@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductSupplierController extends Controller
 {
-    use ResponseTrait;
 
 
     public function store(ProductSupplierStoreRequest $request, Product $product): ?JsonResponse

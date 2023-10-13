@@ -3,7 +3,6 @@
 namespace App\Services\Auth\Http\Controllers;
 
 use App\Global\Http\Controllers\Controller;
-use App\Global\Traits\ResponseTrait;
 use App\Services\Auth\Enums\UserTokenAbility;
 use App\Services\Auth\Http\Requests\ForgotPasswordRequest;
 use App\Services\Auth\Http\Requests\LoginRequest;
@@ -22,7 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    use ResponseTrait;
 
     /**
      * @param  LoginRequest  $request

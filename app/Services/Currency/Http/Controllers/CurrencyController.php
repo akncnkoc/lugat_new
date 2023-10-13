@@ -3,18 +3,19 @@
 namespace App\Services\Currency\Http\Controllers;
 
 use App\Global\Http\Controllers\Controller;
-use App\Global\Traits\ResponseTrait;
 use App\Services\Currency\Http\Resources\CurrencyResource;
 use App\Services\Currency\Models\Currency;
-use App\Services\Vault\Models\Vault;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Stichoza\GoogleTranslate\Exceptions\LargeTextException;
+use Stichoza\GoogleTranslate\Exceptions\RateLimitException;
+use Stichoza\GoogleTranslate\Exceptions\TranslationRequestException;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class CurrencyController extends Controller
 {
-    use ResponseTrait;
 
     public function index(): AnonymousResourceCollection
     {
@@ -31,15 +32,20 @@ class CurrencyController extends Controller
         return $this->success('currency updated primary');
     }
 
+    /**
+     * @throws LargeTextException
+     * @throws RateLimitException
+     * @throws TranslationRequestException
+     */
     public function loadCurrenciesFromTCMB(): ?JsonResponse
     {
 //        $response = Http::get('https://www.tcmb.gov.tr/kurlar/today.xml');
         $xml = simplexml_load_string(File::get(storage_path('app/currency-data.xml')));
-
+        $tr = new GoogleTranslate('en');
         $currencyConverted = [
             [
                 'unit'          => 1,
-                'name'          => 'Türk Lirası',
+                'name'          => $tr->translate('Türk Lirası'),
                 'code'          => 'TRY',
                 'forex_buy'     => 1,
                 'forex_sell'    => 1,
@@ -50,7 +56,7 @@ class CurrencyController extends Controller
         foreach ($xml->children() as $currency) {
             $currencyConverted[] = [
                 'unit'          => $currency->Unit,
-                'name'          => $currency->Isim,
+                'name'          => $tr->translate($currency->Isim),
                 'code'          => $currency->attributes()->CurrencyCode,
                 'forex_buy'     => $currency->ForexBuying == '' ? 1 : $currency->ForexBuying,
                 'forex_sell'    => $currency->ForexSelling == '' ? 1 : $currency->ForexSelling,

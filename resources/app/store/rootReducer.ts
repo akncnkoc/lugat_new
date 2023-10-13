@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import userSlice from '@/store/slices/userSlice'
 import appSlice from '@/store/slices/appSlice'
+import currencySlice from '@/store/slices/currencySlice'
 import vaultSlice from '@/store/slices/vaultSlice'
 import { authApi } from '@/services/api/auth-api'
 import { expenseApi } from '@/services/api/expense-api'
@@ -17,6 +18,7 @@ import { subProductApi } from '@/services/api/sub-product-api'
 export const rootReducer = combineReducers({
 	userSlice,
 	appSlice,
+	currencySlice,
 	vaultSlice,
 	[authApi.reducerPath]: authApi.reducer,
 	[expenseApi.reducerPath]: expenseApi.reducer,

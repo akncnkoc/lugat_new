@@ -3,7 +3,6 @@
 namespace App\Services\Product\Http\Controllers;
 
 use App\Global\Http\Controllers\Controller;
-use App\Global\Traits\ResponseTrait;
 use App\Services\Product\Database\Factories\VariantResource;
 use App\Services\Product\Http\Requests\VariantStoreRequest;
 use App\Services\Product\Models\Product;
@@ -15,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class VariantController extends Controller
 {
-    use ResponseTrait;
+
 
     public function index(): AnonymousResourceCollection
     {

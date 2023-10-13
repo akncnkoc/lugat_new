@@ -14,7 +14,7 @@ use JsonException;
 
 class SubProductController extends Controller
 {
-    use ResponseTrait, ProductImageUpload;
+    use  ProductImageUpload;
 
 
     public function destroy(SubProduct $subProduct): ?JsonResponse

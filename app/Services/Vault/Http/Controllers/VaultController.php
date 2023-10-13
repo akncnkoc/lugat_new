@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class VaultController extends Controller
 {
-    use ResponseTrait;
 
     public function index(): AnonymousResourceCollection
     {

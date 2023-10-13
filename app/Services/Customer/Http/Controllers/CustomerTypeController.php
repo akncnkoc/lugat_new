@@ -4,7 +4,6 @@ namespace App\Services\Customer\Http\Controllers;
 
 use App\Global\Http\Controllers\Controller;
 use App\Global\Http\Requests\SearchRequest;
-use App\Global\Traits\ResponseTrait;
 use App\Services\Customer\Http\Requests\CustomerTypeStoreRequest;
 use App\Services\Customer\Http\Resources\CustomerTypeResource;
 use App\Services\Customer\Models\CustomerType;
@@ -13,11 +12,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
-;
 
 class CustomerTypeController extends Controller
 {
-    use ResponseTrait;
 
     public function index(): AnonymousResourceCollection
     {

@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductImageController extends Controller
 {
-    use ResponseTrait, ProductImageUpload;
+    use  ProductImageUpload;
 
     public function show(SubProductImage $productImage)
     {

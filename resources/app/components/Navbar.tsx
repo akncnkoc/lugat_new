@@ -4,8 +4,9 @@ import { storeDispatch } from '@/store'
 import { setSidebarClassNames } from '@/store/slices/appSlice'
 import { useToggle, useWindowSize } from '@uidotdev/usehooks'
 import { RxHamburgerMenu } from 'react-icons/rx'
-import NavbarMenu from '@/components/NavbarMenu'
+import NavbarMenu from '@/layouts/components/NavbarMenu'
 import { clsx } from 'clsx'
+import CurrencyMenu from '@/layouts/components/CurrencyMenu'
 
 const Navbar: React.FC = () => {
 	const windowSize = useWindowSize()
@@ -57,7 +58,8 @@ const Navbar: React.FC = () => {
 						</div>
 					</div>
 					<div className={clsx('flex', 'items-center', 'pr-2')}>
-						<div className='flex items-center'>
+						<div className='flex items-center space-x-2'>
+							<CurrencyMenu />
 							<NavbarMenu />
 						</div>
 					</div>

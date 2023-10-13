@@ -16,13 +16,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ExpenseController extends Controller
 {
-    use ResponseTrait;
 
     public function index(): AnonymousResourceCollection
     {
         $this->authorize('expenseView', Expense::class);
         $expensePaginateQuery = Expense::orderBy('receipt_date', 'DESC')->paginate();
-        activity()->causedBy(Auth::user())->withProperties(['listing' => 'Page '.$expensePaginateQuery->currentPage.' listed'])->log('expense_index');
+        activity()->causedBy(Auth::user())->withProperties(['listing' => 'Page '.$expensePaginateQuery->currentPage().' listed'])->log('expense_index');
         return ExpenseResource::collection($expensePaginateQuery);
     }
 

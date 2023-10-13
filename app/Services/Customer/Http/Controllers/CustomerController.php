@@ -4,8 +4,6 @@ namespace App\Services\Customer\Http\Controllers;
 
 use App\Global\Http\Controllers\Controller;
 use App\Global\Http\Requests\SearchRequest;
-use App\Global\Traits\ResponseTrait;
-use App\Services\Customer\Http\Requests\CustomerSearchRequest;
 use App\Services\Customer\Http\Requests\CustomerStoreRequest;
 use App\Services\Customer\Http\Resources\CustomerResource;
 use App\Services\Customer\Models\Customer;
@@ -16,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CustomerController extends Controller
 {
-    use ResponseTrait;
 
     public function index(): AnonymousResourceCollection
     {

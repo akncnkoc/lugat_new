@@ -24,7 +24,7 @@ const SelectedTab: React.FC<{ selected: boolean; text: string }> = ({ selected, 
 		</a>
 	)
 }
-export default function Home() {
+export default function Dashboard() {
 	return (
 		<div className={'shadow rounded-lg p-4 bg-white'}>
 			<Tab.Group>
@@ -36,6 +36,7 @@ export default function Home() {
 				</Tab.List>
 				<Tab.Panels>
 					<Tab.Panel>test</Tab.Panel>
+					<Tab.Panel>test 2</Tab.Panel>
 				</Tab.Panels>
 			</Tab.Group>
 		</div>

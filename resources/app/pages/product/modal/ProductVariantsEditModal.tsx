@@ -50,10 +50,9 @@ const ProductVariantCreateModal: React.FC<{ setShow?: Function; id: string }> = 
 
 	useEffect(() => {
 		;(async () => {
-			const data = (await getVariant(props.id).then(
+			const data = (await getVariant(props.id, true).then(
 				(res) => res.data,
 			)) as unknown as VariantSingleResource
-			console.log(data)
 			await productVariantUpdateFormik.setValues({
 				name: data.data.name,
 				parent: {

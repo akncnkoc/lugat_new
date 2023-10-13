@@ -42,7 +42,6 @@ const ProductCreate: React.FC = () => {
 			if (values.have_variants) {
 				const errors = await createdVariantsFormik.validateForm()
 				if (!isEmpty(errors)) {
-					console.log(errors)
 					toast.error('Something went wrong with variants.')
 					return
 				}
