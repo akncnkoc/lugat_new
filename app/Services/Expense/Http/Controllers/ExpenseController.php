@@ -4,7 +4,6 @@ namespace App\Services\Expense\Http\Controllers;
 
 use App\Global\Http\Controllers\Controller;
 use App\Global\Http\Requests\SearchRequest;
-use App\Global\Traits\ResponseTrait;
 use App\Services\Expense\Http\Requests\ExpenseStoreRequest;
 use App\Services\Expense\Http\Resources\ExpenseResource;
 use App\Services\Expense\Models\Expense;
@@ -20,16 +19,15 @@ class ExpenseController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $this->authorize('expenseView', Expense::class);
-        $expensePaginateQuery = Expense::orderBy('receipt_date', 'DESC')->paginate();
-        activity()->causedBy(Auth::user())->withProperties(['listing' => 'Page '.$expensePaginateQuery->currentPage().' listed'])->log('expense_index');
+        $expensePaginateQuery = Expense::with('currency')->orderBy('receipt_date', 'DESC')->paginate();
+        activity()->causedBy(Auth::user())->withProperties(['listing' => 'Page ' . $expensePaginateQuery->currentPage() . ' listed'])->log('expense_index');
         return ExpenseResource::collection($expensePaginateQuery);
     }
-
 
     public function search(SearchRequest $request): AnonymousResourceCollection
     {
         $this->authorize('expenseView', Expense::class);
-        $expenseQuery = Expense::query();
+        $expenseQuery = Expense::with('currency')->query();
         $expenseQuery->whereRaw($request->get('expression'), $request->get('bindings'));
         $expenseQuery->orderBy($request->get('orderByColumn') ?? 'id', $request->get('orderByColumnDirection') ?? 'desc');
         return ExpenseResource::collection($expenseQuery->paginate());

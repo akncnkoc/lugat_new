@@ -4,10 +4,10 @@ namespace App\Services\Product\Http\Controllers;
 
 
 use App\Global\Http\Controllers\Controller;
-use App\Global\Traits\ResponseTrait;
 use App\Services\Product\Http\Requests\ProductImageStoreRequest;
 use App\Services\Product\Http\Resources\ProductImageResource;
 use App\Services\Product\Models\Product;
+use App\Services\Product\Models\SubProduct;
 use App\Services\Product\Models\SubProductImage;
 use App\Services\Product\Traits\ProductImageUpload;
 use Illuminate\Http\JsonResponse;
@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductImageController extends Controller
 {
-    use  ProductImageUpload;
+    use ProductImageUpload;
 
     public function show(SubProductImage $productImage)
     {
@@ -31,11 +31,11 @@ class ProductImageController extends Controller
         return ProductImageResource::collection($product->productImages()->paginate());
     }
 
-    public function store(ProductImageStoreRequest $request, Product $product): ?JsonResponse
+    public function store(ProductImageStoreRequest $request, SubProduct $subProduct): ?JsonResponse
     {
         $this->authorize('productImageStore', SubProductImage::class);
-        DB::transaction(static function () use ($request, $product) {
-            $this->uploadImagesForProduct($product, $request->file('images'));
+        DB::transaction(function () use ($request, $subProduct) {
+            $this->uploadImagesForSubProduct($subProduct->product, $subProduct, $request->file('images'));
         });
         return $this->success('product image stored', statusCode: Response::HTTP_CREATED);
     }
@@ -51,7 +51,7 @@ class ProductImageController extends Controller
                 if ($fileIsMoved) {
                     $productImage->update([
                         'deleted_at' => now(),
-                        'path'       => "app/product/$product->id/trashed/$filename.$extension"
+                        'path' => "app/product/$product->id/trashed/$filename.$extension"
                     ]);
                 }
             }

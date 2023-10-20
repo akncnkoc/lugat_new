@@ -3,36 +3,36 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Scandia";
+  font-family: 'Scandia';
   font-weight: 400;
-  src: url("/assets/fonts/ScandiaLine-Regular.woff2");
+  src: url('/assets/fonts/ScandiaLine-Regular.woff2');
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Scandia";
+  font-family: 'Scandia';
   font-weight: 600;
-  src: url("/assets/fonts/ScandiaLine-Medium.woff2");
+  src: url('/assets/fonts/ScandiaLine-Medium.woff2');
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Scandia";
+  font-family: 'Scandia';
   font-weight: 700;
-  src: url("/assets/fonts/ScandiaLine-Bold.woff2");
+  src: url('/assets/fonts/ScandiaLine-Bold.woff2');
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Scandia";
+  font-family: 'Scandia';
   font-weight: 100;
-  src: url("/assets/fonts/ScandiaLine-Light.woff2");
+  src: url('/assets/fonts/ScandiaLine-Light.woff2');
   font-display: swap;
 }
-
 
 @layer base {
-  html, body {
+  html,
+  body {
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -51,9 +51,15 @@
     @apply w-full h-full flex flex-1;
   }
 }
+.base_button {
+  @apply text-sm font-semibold rounded-md w-fit text-center flex items-center justify-center transition-all;
+}
+.tooltip_base_button {
+  @apply px-4 h-10 text-sm font-semibold rounded-md w-fit text-center flex items-center justify-center transition-all text-white;
+}
 
 .menu-items {
-  @apply absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-0
+  @apply absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-0;
 }
 
 .menu-item {
@@ -100,7 +106,7 @@
     transform: translateY(9px) rotate(22.5deg);
   }
   50% {
-    transform: translateY(18px) scale(1, .9) rotate(45deg);
+    transform: translateY(18px) scale(1, 0.9) rotate(45deg);
     border-bottom-right-radius: 40px;
   }
   75% {
@@ -112,14 +118,14 @@
 }
 
 @keyframes shadow {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1, 1);
   }
   50% {
     transform: scale(1.2, 1);
   }
 }
-
 
 .useModal__overlay {
   position: fixed;

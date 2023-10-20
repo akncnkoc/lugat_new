@@ -45,18 +45,20 @@ class SupplierTest extends TestCase
     public function test_authenticated_user_can_get_supplier_list(): void
     {
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('supplier.index.tsx'));
+        $response = $this->getJson(route('supplier.index'));
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'name',  'email', 'phone']
-            ], 'links', 'meta'
+                '*' => ['id', 'name', 'email', 'phone']
+            ],
+            'links',
+            'meta'
         ]);
     }
 
     public function test_unauthorized_user_cant_get_supplier_list(): void
     {
-        $response = $this->getJson(route('supplier.index.tsx'));
+        $response = $this->getJson(route('supplier.index'));
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -64,7 +66,7 @@ class SupplierTest extends TestCase
     {
         $this->user->revokePermissionTo('view supplier');
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('supplier.index.tsx'));
+        $response = $this->getJson(route('supplier.index'));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
@@ -75,7 +77,10 @@ class SupplierTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                'id', 'name', 'email', 'phone'
+                'id',
+                'name',
+                'email',
+                'phone'
             ]
         ]);
     }
@@ -199,7 +204,9 @@ class SupplierTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 '*' => ['id', 'name', 'email', 'phone']
-            ], 'links', 'meta'
+            ],
+            'links',
+            'meta'
         ]);
     }
 

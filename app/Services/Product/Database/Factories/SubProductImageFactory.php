@@ -10,7 +10,7 @@ use JsonException;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Services\Product\Models\Product>
  */
-class ProductImageFactory extends Factory
+class SubProductImageFactory extends Factory
 {
     protected $model = SubProductImage::class;
 

@@ -5,7 +5,6 @@ namespace App\Services\Product\Http\Controllers;
 
 use App\Global\Http\Controllers\Controller;
 use App\Global\Http\Requests\SearchRequest;
-use App\Global\Traits\ResponseTrait;
 use App\Services\Product\Http\Requests\ProductStoreRequest;
 use App\Services\Product\Http\Resources\ProductResource;
 use App\Services\Product\Models\Product;
@@ -25,10 +24,19 @@ class ProductController extends Controller
     public function index(SearchRequest $request): AnonymousResourceCollection
     {
         $this->authorize('productView', Product::class);
-        $productQuery = Product::query();
+        $productQuery = Product::query()->with([
+            'suppliers',
+            'subProducts',
+            'subProducts.buyCurrency',
+            'subProducts.sellCurrency',
+            'subProducts.subProductVariants',
+            'subProducts.subProductImages',
+            'subProducts.variants.subVariants',
+            'subProducts.subProductVariants'
+        ]);
         if ($search = request()?->query('search')) {
             $productQuery->where('name', 'ILIKE', "%$search%")
-                         ->orWhere('model_code', 'ILIKE', "%$search%");
+                ->orWhere('model_code', 'ILIKE', "%$search%");
         }
         if ($request->has('expression')) {
             $productQuery->whereRaw($request->get('expression'), $request->get('bindings'));
@@ -75,15 +83,15 @@ class ProductController extends Controller
     {
         foreach ($subProducts as $subProductItem) {
             $subProduct = $product->subProducts()->create([
-                'name'             => $subProductItem["name"],
-                'sku'              => $subProductItem["sku"],
-                'barcode'          => $subProductItem["barcode"],
-                'buy_price'        => $subProductItem["buy_price"],
-                'sell_price'       => $subProductItem["sell_price"],
-                'stock'            => $subProductItem["stock"],
-                'buy_currency_id'  => $subProductItem["buy_currency_id"],
+                'name' => $subProductItem["name"],
+                'sku' => $subProductItem["sku"],
+                'barcode' => $subProductItem["barcode"],
+                'buy_price' => $subProductItem["buy_price"],
+                'sell_price' => $subProductItem["sell_price"],
+                'stock' => $subProductItem["stock"],
+                'buy_currency_id' => $subProductItem["buy_currency_id"],
                 'sell_currency_id' => $subProductItem["sell_currency_id"],
-                'tax'              => $subProductItem["tax"],
+                'tax' => $subProductItem["tax"],
             ]);
             if (isset($subProductItem["variants"])) {
                 $this->storeSubProductVariants($subProductItem["variants"], $subProduct);

@@ -1,44 +1,41 @@
-import React, { ComponentPropsWithRef, forwardRef } from 'react'
 import { clsx } from 'clsx'
+import React, { ComponentPropsWithRef, forwardRef } from 'react'
 
-type RabbitButtonProps = {
-	buttonClassNames?: string
-	loading?: boolean
-	className?: string
-} & ComponentPropsWithRef<'button'>
+type ButtonSize = 'small' | 'medium' | 'large'
+type ButtonVariant = 'primary' | 'secondary' | 'info' | 'danger'
 
-const LugatButton: React.FC<RabbitButtonProps> = forwardRef<HTMLButtonElement, RabbitButtonProps>(
-	(props, ref) => {
-		const { buttonClassNames, loading, className, ...buttonProps } = props
+type RabbitButtonProps = ComponentPropsWithRef<'button'> & {
+  buttonClassNames?: string
+  loading?: boolean
+  className?: string
+  size?: ButtonSize
+  variant?: ButtonVariant
+}
 
-		return (
-			<button
-				ref={ref}
-				type='submit'
-				className={clsx(
-					'px-8',
-					'h-10',
-					'text-sm',
-					'font-semibold',
-					'text-center',
-					'text-white',
-					'rounded-md',
-					'w-fit',
-					'bg-blue-500',
-					'text-center',
-					'flex',
-					'items-center',
-					'justify-center',
-					'hover:bg-blue-600',
-					'transition-all',
-					buttonClassNames,
-					className
-				)}
-				{...buttonProps}
-			>
-				{buttonProps.children}
-			</button>
-		)
-	},
-)
+const buttonSizeClasses: Record<ButtonSize, string> = {
+  small: 'px-4 h-10',
+  medium: 'px-6 h-12',
+  large: 'px-8 h-14',
+}
+const buttonVariantClasses: Record<ButtonVariant, string> = {
+  primary: 'bg-blue-500 text-white hover:bg-blue-600',
+  secondary: 'bg-indigo-500 text-white hover:bg-indigo-600',
+  danger: 'bg-red-500 text-white hover:bg-red-600',
+  info: 'bg-warning-500 text-white hover:bg-warning-600',
+}
+
+const LugatButton: React.FC<RabbitButtonProps> = forwardRef<HTMLButtonElement, RabbitButtonProps>((props, ref) => {
+  const { buttonClassNames, loading, size = 'small', variant = 'primary', className, ...buttonProps } = props
+
+  return (
+    <button
+      ref={ref}
+      type='submit'
+      className={clsx('base_button', buttonSizeClasses[size], buttonVariantClasses[variant], buttonClassNames, className)}
+      {...buttonProps}
+    >
+      {buttonProps.children}
+    </button>
+  )
+})
 export default LugatButton

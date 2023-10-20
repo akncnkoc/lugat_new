@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\File;
 use Stichoza\GoogleTranslate\Exceptions\LargeTextException;
 use Stichoza\GoogleTranslate\Exceptions\RateLimitException;
 use Stichoza\GoogleTranslate\Exceptions\TranslationRequestException;
-use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class CurrencyController extends Controller
 {
@@ -39,28 +38,28 @@ class CurrencyController extends Controller
      */
     public function loadCurrenciesFromTCMB(): ?JsonResponse
     {
-//        $response = Http::get('https://www.tcmb.gov.tr/kurlar/today.xml');
+        //        $response = Http::get('https://www.tcmb.gov.tr/kurlar/today.xml');
         $xml = simplexml_load_string(File::get(storage_path('app/currency-data.xml')));
-        $tr = new GoogleTranslate('en');
+        //$tr = new GoogleTranslate('en');
         $currencyConverted = [
             [
-                'unit'          => 1,
-                'name'          => $tr->translate('Türk Lirası'),
-                'code'          => 'TRY',
-                'forex_buy'     => 1,
-                'forex_sell'    => 1,
-                'banknote_buy'  => 1,
+                'unit' => 1,
+                'name' => "Türk Lirası",
+                'code' => 'TRY',
+                'forex_buy' => 1,
+                'forex_sell' => 1,
+                'banknote_buy' => 1,
                 'banknote_sell' => 1
             ]
         ];
         foreach ($xml->children() as $currency) {
             $currencyConverted[] = [
-                'unit'          => $currency->Unit,
-                'name'          => $tr->translate($currency->Isim),
-                'code'          => $currency->attributes()->CurrencyCode,
-                'forex_buy'     => $currency->ForexBuying == '' ? 1 : $currency->ForexBuying,
-                'forex_sell'    => $currency->ForexSelling == '' ? 1 : $currency->ForexSelling,
-                'banknote_buy'  => $currency->BanknoteBuying == '' ? 1 : $currency->BanknoteBuying,
+                'unit' => $currency->Unit,
+                'name' => $currency->Isim,
+                'code' => $currency->attributes()->CurrencyCode,
+                'forex_buy' => $currency->ForexBuying == '' ? 1 : $currency->ForexBuying,
+                'forex_sell' => $currency->ForexSelling == '' ? 1 : $currency->ForexSelling,
+                'banknote_buy' => $currency->BanknoteBuying == '' ? 1 : $currency->BanknoteBuying,
                 'banknote_sell' => $currency->BanknoteSelling == '' ? 1 : $currency->BanknoteSelling
             ];
         }

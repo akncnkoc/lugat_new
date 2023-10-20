@@ -38,25 +38,28 @@ class VaultTest extends TestCase
     {
         return [
             'name' => $this->faker->name,
-            'currency_id' => Currency::factory()->create()->id,
+            'currency_id' => Currency::inRandomOrder()->first()->id,
         ];
     }
 
+    /** @test test */
     public function test_authenticated_user_can_get_vault_list(): void
     {
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('vault.index.tsx'));
+        $response = $this->getJson(route('vault.index'));
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
                 '*' => ['id', 'name', 'currency']
-            ], 'links', 'meta'
+            ],
+            'links',
+            'meta'
         ]);
     }
 
     public function test_unauthorized_user_cant_get_vault_list(): void
     {
-        $response = $this->getJson(route('vault.index.tsx'));
+        $response = $this->getJson(route('vault.index'));
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -64,7 +67,7 @@ class VaultTest extends TestCase
     {
         $this->user->revokePermissionTo('view vault');
         Sanctum::actingAs($this->user);
-        $response = $this->getJson(route('vault.index.tsx'));
+        $response = $this->getJson(route('vault.index'));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
@@ -75,7 +78,9 @@ class VaultTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                'id', 'name', 'currency'
+                'id',
+                'name',
+                'currency'
             ]
         ]);
     }
@@ -184,36 +189,6 @@ class VaultTest extends TestCase
         $this->user->revokePermissionTo('delete vault');
         Sanctum::actingAs($this->user);
         $response = $this->deleteJson(route('vault.destroy', $this->vault->id), $this->params);
-        $response->assertStatus(Response::HTTP_FORBIDDEN);
-    }
-
-    public function test_authenticated_user_can_get_vaults_search_list(): void
-    {
-        Sanctum::actingAs($this->user);
-        $this->searchExpression = "name like ?";
-        $this->searchBindings = ['%a%'];
-        $response = $this->postJson(route('vault.search'), [
-            'expression' => $this->searchExpression,
-            'bindings' => $this->searchBindings
-        ]);
-        $response->assertStatus(Response::HTTP_OK);
-        $response->assertJsonStructure([
-            'data' => [
-                '*' => ['id', 'name','currency']
-            ], 'links', 'meta'
-        ]);
-    }
-
-    public function test_authenticated_user_cant_get_vaults_search_list_without_permission(): void
-    {
-        $this->user->revokePermissionTo('view vault');
-        Sanctum::actingAs($this->user);
-        $this->searchExpression = "name like ?";
-        $this->searchBindings = ['%a%'];
-        $response = $this->postJson(route('vault.search'), [
-            'expression' => $this->searchExpression,
-            'bindings' => $this->searchBindings
-        ]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 }

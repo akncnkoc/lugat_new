@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Services\Currency\Models\Currency;
+use App\Services\Setting\Models\GeneralSettings;
 use Illuminate\Database\Seeder;
 
 class CurrencySeeder extends Seeder
@@ -12,6 +13,7 @@ class CurrencySeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        app(GeneralSettings::class)->defaultCurrency = Currency::firstWhere('code', 'TRY')->id;
+        app(GeneralSettings::class)->save();
     }
 }

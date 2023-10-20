@@ -31,7 +31,7 @@ class GeneralSettingStoreRequest extends FormRequest
             'companyVatNumber'    => 'sometimes|string|max:255',
             'companyAddress'      => 'sometimes|string|max:255',
             'companyPostCode'     => 'sometimes|string|max:255',
-            'companyPhoneNumber'  => 'sometimes|string|max:13',
+            'companyContactPhoneNumber'  => 'sometimes|string|max:13',
             'companyContactEmail' => 'sometimes|string|email|max:255',
             'companyWebsite'      => 'sometimes|string|max:255',
         ];

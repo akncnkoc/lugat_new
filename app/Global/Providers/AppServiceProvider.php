@@ -3,8 +3,6 @@
 namespace App\Global\Providers;
 
 use App\Services\Auth\Models\PersonalAccessToken;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 
@@ -24,6 +22,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
-//        DB::connection('pgsql')->statement("CREATE EXTENSION IF NOT EXISTS citext;");
+        //        DB::connection('pgsql')->statement("CREATE EXTENSION IF NOT EXISTS citext;");
     }
 }

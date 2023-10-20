@@ -18,7 +18,7 @@ class StaffController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $this->authorize('staffView', Staff::class);
-        $staffQuery = Staff::query();
+        $staffQuery = Staff::query()->with('salaryCurrency');
         if ($search = request()?->query('search')) {
             $staffQuery->whereRaw("CONCAT(`name`, `surname`) = ?", [$search]);
         }

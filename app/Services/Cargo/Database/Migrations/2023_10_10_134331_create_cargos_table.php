@@ -19,9 +19,10 @@ return new class extends Migration {
             $table->string('tracking_no')->nullable();
             $table->enum('amount_type', AmountType::values());
             $table->double('price')->default(0);
-            $table->foreignUuid('price_currency')->nullable()->constrained('currencies')->restrictOnDelete();
+            $table->foreignUuid('price_currency_id')->nullable()->constrained('currencies')->restrictOnDelete();
             $table->dateTime('date_of_paid')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

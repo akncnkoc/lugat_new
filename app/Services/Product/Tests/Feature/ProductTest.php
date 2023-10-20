@@ -5,6 +5,7 @@ namespace App\Services\Product\Tests\Feature;
 use App\Services\Currency\Models\Currency;
 use App\Services\Invoice\Traits\TaxType;
 use App\Services\Product\Database\Seeders\ProductSeeder;
+use App\Services\Product\Database\Seeders\VariantSeeder;
 use App\Services\Product\Models\Product;
 use App\Services\Product\Models\SubProduct;
 use App\Services\Product\Models\SubProductImage;
@@ -40,6 +41,7 @@ class ProductTest extends TestCase
     {
         parent::setUp();
         $this->seed(VaultSeeder::class);
+        $this->seed(VariantSeeder::class);
         $this->seed(SupplierSeeder::class);
         $this->seed(UserSeeder::class);
         $this->seed(ProductSeeder::class);
@@ -59,19 +61,19 @@ class ProductTest extends TestCase
         $sell_price = ($buy_price) - ($buy_price * .3);
         $currency = Currency::inRandomOrder()->first();
         return [
-            'name'         => $product_name,
+            'name' => $product_name,
             'sub_products' => [
                 [
-                    'name'             => $product_name." Variant",
-                    'sku'       => $this->faker->postcode,
-                    'barcode'       => $this->faker->postcode,
-                    'buy_price'        => $buy_price,
-                    'sell_price'       => $sell_price,
-                    'buy_currency_id'  => $currency->id,
+                    'name' => $product_name . " Variant",
+                    'sku' => $this->faker->postcode,
+                    'barcode' => $this->faker->postcode,
+                    'buy_price' => $buy_price,
+                    'sell_price' => $sell_price,
+                    'buy_currency_id' => $currency->id,
                     'sell_currency_id' => $currency->id,
-                    'stock'            => $this->faker->numberBetween(1, 10),
-                    'tax'              => $this->faker->randomElement(TaxType::values()),
-                    'variants'         => [
+                    'stock' => $this->faker->numberBetween(1, 10),
+                    'tax' => $this->faker->randomElement(TaxType::values()),
+                    'variants' => [
                         $variants[0]->id,
                         $variants[1]->id,
                         $variants[2]->id,
@@ -82,7 +84,7 @@ class ProductTest extends TestCase
                     //                ]
                 ]
             ],
-            'suppliers'    => [
+            'suppliers' => [
                 $suppliers[0]->id,
                 $suppliers[1]->id,
             ]
@@ -180,7 +182,7 @@ class ProductTest extends TestCase
             'name' => $this->createParams['name']
         ]);
         $this->assertDatabaseHas('sub_products', [
-            'name'  => $this->createParams['sub_products'][0]['name'],
+            'name' => $this->createParams['sub_products'][0]['name'],
             'stock' => $this->createParams['sub_products'][0]['stock'],
         ]);
         $this->assertDatabaseHas('sub_product_variants', [
@@ -222,7 +224,7 @@ class ProductTest extends TestCase
         $response = $this->putJson(route('product.update', $this->product->id), $this->updateParams);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas('products', [
-            'id'   => $this->product->id,
+            'id' => $this->product->id,
             'name' => $this->updateParams['name']
         ]);
     }

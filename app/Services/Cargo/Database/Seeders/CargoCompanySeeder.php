@@ -2,6 +2,7 @@
 
 namespace App\Services\Cargo\Database\Seeders;
 
+use App\Services\Cargo\Models\CargoCompany;
 use Illuminate\Database\Seeder;
 
 class CargoCompanySeeder extends Seeder
@@ -11,6 +12,6 @@ class CargoCompanySeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        CargoCompany::factory(10)->create();
     }
 }

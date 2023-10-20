@@ -9,7 +9,6 @@ use App\Services\Staff\Enums\StaffType;
 use App\Services\Staff\Models\Staff;
 use App\Services\User\Database\Seeders\UserSeeder;
 use App\Services\User\Models\User;
-use App\Services\Vault\Models\Vault;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
@@ -41,12 +40,12 @@ class StaffTest extends TestCase
     public function setParams(): array
     {
         return [
-            'name'            => $this->faker->name,
-            'surname'         => $this->faker->lastName,
-            'phone'           => $this->faker->sentence(1),
-            'email'           => $this->faker->email,
-            'type'            => $this->faker->randomElement(StaffType::values()),
-            'salary'          => $this->faker->numberBetween(1000, 10000),
+            'name' => $this->faker->name,
+            'surname' => $this->faker->lastName,
+            'phone' => '5360533251',
+            'email' => $this->faker->email,
+            'type' => $this->faker->randomElement(StaffType::values()),
+            'salary' => $this->faker->numberBetween(1000, 10000),
             'salary_currency_id' => Currency::inRandomOrder()->first()->id
         ];
     }
@@ -59,7 +58,9 @@ class StaffTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 '*' => ['id', 'name', 'surname', 'phone', 'email', 'salary', 'salary_currency', 'type']
-            ], 'links', 'meta'
+            ],
+            'links',
+            'meta'
         ]);
     }
 
@@ -84,7 +85,14 @@ class StaffTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                'id', 'name', 'surname', 'phone', 'email', 'salary', 'salary_currency', 'type'
+                'id',
+                'name',
+                'surname',
+                'phone',
+                'email',
+                'salary',
+                'salary_currency',
+                'type'
             ]
         ]);
     }
@@ -124,7 +132,7 @@ class StaffTest extends TestCase
 
     public function test_authenticated_user_cant_store_staff_wrong_params(): void
     {
-        unset($this->params['amount']);
+        unset($this->params['name']);
         Sanctum::actingAs($this->user);
         $response = $this->postJson(route('staff.store'), $this->params);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -153,7 +161,7 @@ class StaffTest extends TestCase
         $response = $this->putJson(route('staff.update', $this->staff->id), $this->params);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas('staffs', [
-            'id'   => $this->staff->id,
+            'id' => $this->staff->id,
             'name' => $this->params["name"]
         ]);
     }
@@ -203,13 +211,15 @@ class StaffTest extends TestCase
         $this->searchBindings = ['%a%'];
         $response = $this->postJson(route('staff.search'), [
             'expression' => $this->searchExpression,
-            'bindings'   => $this->searchBindings
+            'bindings' => $this->searchBindings
         ]);
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
                 '*' => ['id', 'name', 'surname', 'phone', 'email', 'salary', 'salary_currency', 'type']
-            ], 'links', 'meta'
+            ],
+            'links',
+            'meta'
         ]);
     }
 
@@ -221,7 +231,7 @@ class StaffTest extends TestCase
         $this->searchBindings = ['%a%'];
         $response = $this->postJson(route('staff.search'), [
             'expression' => $this->searchExpression,
-            'bindings'   => $this->searchBindings
+            'bindings' => $this->searchBindings
         ]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
