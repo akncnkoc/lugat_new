@@ -58,7 +58,20 @@ class CargoTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'cargo_company', 'type', 'amount_type', 'tracking_no', 'price', 'price_currency', 'date_of_paid']
+                '*' => [
+                    'id',
+                    'cargo_company',
+                    'type',
+                    'amount',
+                    'amount_type',
+                    'tracking_no',
+                    'price',
+                    'price_currency',
+                    'ready_to_ship_date',
+                    'shipped_date',
+                    'delivered_date',
+                    'returned_date'
+                ]
             ],
             'links',
             'meta'
@@ -89,11 +102,15 @@ class CargoTest extends TestCase
                 'id',
                 'cargo_company',
                 'type',
+                'amount',
                 'amount_type',
                 'tracking_no',
                 'price',
                 'price_currency',
-                'date_of_paid'
+                'ready_to_ship_date',
+                'shipped_date',
+                'delivered_date',
+                'returned_date'
             ]
         ]);
     }

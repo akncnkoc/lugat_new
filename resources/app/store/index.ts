@@ -32,6 +32,7 @@ const persistConfig = {
     'subProductApi',
     'supplierApi',
     'settingApi',
+    'currencyApi',
   ],
 }
 

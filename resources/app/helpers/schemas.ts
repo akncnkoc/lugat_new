@@ -8,6 +8,7 @@ import { SettingFormDataType } from '@/types/setting-types'
 import { StaffStoreFormType } from '@/types/staff-types'
 import { VaultStoreFormType } from '@/types/vault-types'
 import parse from 'date-fns/parse'
+import moment from 'moment-timezone'
 import { date, number, object, string } from 'yup'
 
 export const LoginFormValidationSchema = object<LoginFormType>({
@@ -51,13 +52,18 @@ export const CustomerEditValidationSchema = object().shape<Shape<Partial<Custome
     }),
 })
 
-export const ExpenseCreateValidationSchema = object().shape<Shape<ExpenseStoreFormType>>({
+export const ExpenseStoreValidationSchema = object().shape<Shape<ExpenseStoreFormType>>({
   amount: number().label('Amount').required().min(1).max(100000),
-  comment: string(),
+  comment: string().nullable(),
   type: object()
     .label('Expense Type')
     .shape({
       value: string().required().notOneOf(['-1'], 'Expense Type must be selected'),
+    }),
+  status: object()
+    .label('Expense Status')
+    .shape({
+      value: string().required().notOneOf(['-1'], 'Expense Status must be selected'),
     }),
   currency: object()
     .label('Currency')
@@ -65,34 +71,16 @@ export const ExpenseCreateValidationSchema = object().shape<Shape<ExpenseStoreFo
       value: string().required().notOneOf(['-1'], 'Currency must be selected'),
     }),
   receipt_date: date()
+    .nullable()
     .label('Receipt Date')
-    .transform(function (value, originalValue) {
-      if (this.isType(value)) {
-        return value
-      }
-      return parse(originalValue, 'dd.MM.yyyy', new Date())
+    .when('status', ([status], schema) => {
+      return status.value === 'paided' ? schema.nonNullable().max(moment().toDate(), 'Maxiumum selectable receipt date is today') : schema
     }),
-})
-
-export const ExpenseEditValidationSchema = object().shape<Shape<Partial<ExpenseStoreFormType>>>({
-  amount: number().label('Amount').required().min(1).max(100000),
-  type: object()
-    .label('Expense Type')
-    .shape({
-      value: string().required().notOneOf(['-1'], 'Expense Type must be selected'),
-    }),
-  currency: object()
-    .label('Vault')
-    .shape({
-      value: string().required().notOneOf(['-1'], 'Currency must be selected'),
-    }),
-  receipt_date: date()
-    .label('Receipt Date')
-    .transform(function (value, originalValue) {
-      if (this.isType(value)) {
-        return value
-      }
-      return parse(originalValue, 'dd.MM.yyyy', new Date())
+  scheduled_date: date()
+    .nullable()
+    .label('Scheduled Date')
+    .when('status', ([status], schema) => {
+      return status.value === 'scheduled' ? schema.nonNullable().min(moment().toDate(), 'Min selectable receipt date is today') : schema
     }),
 })
 

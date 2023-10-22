@@ -21,12 +21,14 @@ class ExpenseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'           => $this->id,
-            'amount'       => $this->amount,
-            'currency'     => CurrencyResource::make($this->currency),
-            'comment'      => $this->comment,
+            'id' => $this->id,
+            'amount' => $this->amount,
+            'currency' => CurrencyResource::make($this->currency),
+            'comment' => $this->comment,
             'receipt_date' => $this->whenNotNull(Carbon::make($this->receipt_date)?->format('d.m.Y H:i:s')),
-            'type'         => $this->type
+            'type' => $this->type,
+            'status' => $this->status,
+            'scheduled_date' => $this->whenNotNull(Carbon::make($this->scheduled_date)?->format('d.m.Y H:i:s'))
         ];
     }
 }

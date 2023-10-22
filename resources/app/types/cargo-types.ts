@@ -1,11 +1,12 @@
 import { CollectionDataType, CurrencyDataType, DefaultResponseCollectionType, SelectOption } from '@/helpers/types'
 
 export const CargoTypes = {
+  preparing: 'Preparing',
   ready_to_ship: 'Ready To Ship',
   shipped: 'Shipped',
   delivered: 'Delivered',
   returned: 'Returned',
-}
+} as const
 export type CargoTypesUnion = keyof typeof CargoTypes
 
 export const AmountTypes = {
@@ -42,21 +43,29 @@ export type CargoDataType = {
   id: string
   cargo_company: CargoCompanyDataType
   type: CargoTypesUnion
+  amount: string
   amount_type: AmountTypesUnion
   tracking_no: string
   price: number
   price_currency: CurrencyDataType
-  date_of_paid: string
+  ready_to_ship_date: Date | string
+  shipped_date: Date | string
+  delivered_date: Date | string
+  returned_date: Date | string
 }
 
 export type CargoStoreFormType = {
   cargo_company: SelectOption
   type: SelectOption
-  amount_type: SelectOption
   tracking_no: string
+  amount: string
+  amount_type: SelectOption
   price: number
   price_currency: SelectOption
-  date_of_paid: Date | null
+  ready_to_ship_date: Date | string | null
+  shipped_date: Date | string | null
+  delivered_date: Date | string | null
+  returned_date: Date | string | null
 }
 
 export type CargoStoreType = {

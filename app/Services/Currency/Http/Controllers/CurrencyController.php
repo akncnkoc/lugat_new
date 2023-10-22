@@ -18,14 +18,18 @@ class CurrencyController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
+        return CurrencyResource::collection(Currency::all());
+    }
+
+    public function search(): AnonymousResourceCollection
+    {
         return CurrencyResource::collection(Currency::paginate());
     }
 
     public function updatePrimaryCurrency(Currency $currency): JsonResponse
     {
         DB::transaction(static function () use ($currency) {
-            DB::table('currencies')->update(['primary' => false]);
-
+            Currency::query()->update(['primary' => false]);
             $currency->update(['primary' => true]);
         });
         return $this->success('currency updated primary');
@@ -44,7 +48,7 @@ class CurrencyController extends Controller
         $currencyConverted = [
             [
                 'unit' => 1,
-                'name' => "Türk Lirası",
+                'name' => "TURKISH LIRA",
                 'code' => 'TRY',
                 'forex_buy' => 1,
                 'forex_sell' => 1,
@@ -55,7 +59,7 @@ class CurrencyController extends Controller
         foreach ($xml->children() as $currency) {
             $currencyConverted[] = [
                 'unit' => $currency->Unit,
-                'name' => $currency->Isim,
+                'name' => $currency->CurrencyName,
                 'code' => $currency->attributes()->CurrencyCode,
                 'forex_buy' => $currency->ForexBuying == '' ? 1 : $currency->ForexBuying,
                 'forex_sell' => $currency->ForexSelling == '' ? 1 : $currency->ForexSelling,

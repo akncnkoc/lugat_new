@@ -4,6 +4,7 @@ namespace App\Services\Cargo\Enums;
 
 enum CargoType: string
 {
+    case PREPARING = 'preparing';
     case READY_TO_SHIP = 'ready_to_ship';
     case SHIPPED = 'shipped';
     case DELIVERED = 'delivered';

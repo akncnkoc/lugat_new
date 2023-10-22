@@ -5,6 +5,7 @@ namespace App\Services\Expense\Tests\Feature;
 use App\Services\Currency\Http\Controllers\CurrencyController;
 use App\Services\Currency\Models\Currency;
 use App\Services\Expense\Database\Seeders\ExpenseSeeder;
+use App\Services\Expense\Enums\ExpenseStatus;
 use App\Services\Expense\Enums\ExpenseType;
 use App\Services\Expense\Models\Expense;
 use App\Services\User\Database\Seeders\UserSeeder;
@@ -40,11 +41,12 @@ class ExpenseTest extends TestCase
     public function setParams(): array
     {
         return array(
-            'amount'       => $this->faker->numberBetween(1, 50),
-            'currency_id'  => Currency::inRandomOrder()->first()->id,
-            'comment'      => $this->faker->sentence,
+            'amount' => $this->faker->numberBetween(1, 50),
+            'currency_id' => Currency::inRandomOrder()->first()->id,
+            'comment' => $this->faker->sentence,
             'receipt_date' => $this->faker->dateTimeBetween('-2 month')->format('d.m.Y H:i:s'),
-            'type'         => $this->faker->randomElement(ExpenseType::cases())->value,
+            'type' => $this->faker->randomElement(ExpenseType::cases())->value,
+            'status' => $this->faker->randomElement(ExpenseStatus::cases())->value,
         );
     }
 
@@ -55,7 +57,7 @@ class ExpenseTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'amount', 'currency', 'receipt_date', 'comment', 'type']
+                '*' => ['id', 'amount', 'currency', 'receipt_date', 'comment', 'type', 'status']
             ],
             'links',
             'meta'
@@ -88,7 +90,9 @@ class ExpenseTest extends TestCase
                 'currency',
                 'receipt_date',
                 'comment',
-                'type'
+                'type',
+                'status',
+                'scheduled_date'
             ]
         ]);
     }
@@ -122,9 +126,9 @@ class ExpenseTest extends TestCase
         $response = $this->postJson(route('expense.store'), $this->params);
         $response->assertStatus(Response::HTTP_CREATED);
         $this->assertDatabaseHas('expenses', [
-            'amount'       => $this->expense->amount,
-            'currency_id'  => $this->expense->currency_id,
-            'comment'      => $this->expense->comment,
+            'amount' => $this->expense->amount,
+            'currency_id' => $this->expense->currency_id,
+            'comment' => $this->expense->comment,
             'receipt_date' => $this->expense->receipt_date,
         ]);
     }
@@ -160,7 +164,7 @@ class ExpenseTest extends TestCase
         $response = $this->putJson(route('expense.update', $this->expense->id), $this->params);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas('expenses', [
-            'id'     => $this->expense->id,
+            'id' => $this->expense->id,
             'amount' => $this->params["amount"]
         ]);
     }
@@ -210,12 +214,12 @@ class ExpenseTest extends TestCase
         $this->searchBindings = ['%a%'];
         $response = $this->postJson(route('expense.search'), [
             'expression' => $this->searchExpression,
-            'bindings'   => $this->searchBindings
+            'bindings' => $this->searchBindings
         ]);
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'amount', 'currency', 'receipt_date', 'comment', 'type']
+                '*' => ['id', 'amount', 'currency', 'receipt_date', 'comment', 'type', 'status', 'scheduled_date']
             ],
             'links',
             'meta'
@@ -230,7 +234,7 @@ class ExpenseTest extends TestCase
         $this->searchBindings = ['%a%'];
         $response = $this->postJson(route('expense.search'), [
             'expression' => $this->searchExpression,
-            'bindings'   => $this->searchBindings
+            'bindings' => $this->searchBindings
         ]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }

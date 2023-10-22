@@ -37,6 +37,7 @@ export type CurrencyDataType = {
   forex_sell: number
   banknote_buy: number
   banknote_sell: number
+  primary: boolean
   updated_at: number
 }
 

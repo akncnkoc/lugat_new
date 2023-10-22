@@ -19,7 +19,7 @@ class ExpenseController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $this->authorize('expenseView', Expense::class);
-        $expensePaginateQuery = Expense::with('currency')->orderBy('receipt_date', 'DESC')->paginate();
+        $expensePaginateQuery = Expense::with('currency')->orderBy('created_at', 'DESC')->paginate();
         activity()->causedBy(Auth::user())->withProperties(['listing' => 'Page ' . $expensePaginateQuery->currentPage() . ' listed'])->log('expense_index');
         return ExpenseResource::collection($expensePaginateQuery);
     }

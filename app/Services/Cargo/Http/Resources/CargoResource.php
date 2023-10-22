@@ -25,11 +25,15 @@ class CargoResource extends JsonResource
             'id' => $this->id,
             'cargo_company' => CargoCompanyResource::make($this->cargoCompany),
             'type' => $this->type,
+            'amount' => $this->amount,
             'amount_type' => $this->amount_type,
             'tracking_no' => $this->tracking_no,
             'price' => $this->price,
             'price_currency' => CurrencyResource::make($this->priceCurrency),
-            'date_of_paid' => $this->whenNotNull(Carbon::make($this->date_of_paid)?->format('d.m.Y H:i:s'))
+            'ready_to_ship_date' => $this->whenNotNull(Carbon::make($this->ready_to_ship_date)?->format('d.m.Y H:i:s')),
+            'shipped_date' => $this->whenNotNull(Carbon::make($this->shipped_date)?->format('d.m.Y H:i:s')),
+            'delivered_date' => $this->whenNotNull(Carbon::make($this->delivered_date)?->format('d.m.Y H:i:s')),
+            'returned_date' => $this->whenNotNull(Carbon::make($this->returned_date)?->format('d.m.Y H:i:s')),
         ];
     }
 }

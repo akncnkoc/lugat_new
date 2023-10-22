@@ -1,12 +1,14 @@
+import LugatBadge from '@/components/LugatBadge'
 import LugatButton from '@/components/form/LugatButton'
 import LugatInput from '@/components/form/LugatInput'
 import LugatModal from '@/components/modal'
 import LugatTable from '@/components/table/LugatTable'
 import { CurrencyCodeToSign, ListingPageStateParams } from '@/helpers/types'
 import { useLazyGetCargosQuery } from '@/services/api/cargo-api'
-import { CargoDataType, CargoTypes } from '@/types/cargo-types'
+import { AmountTypes, CargoDataType, CargoTypes, CargoTypesUnion } from '@/types/cargo-types'
+import { Menu, Transition } from '@headlessui/react'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import CargoTableActionColumn from './components/CargoTableActionColumn'
 import CargoCompanyModal from './modal/CargoCompanyModal'
@@ -33,18 +35,79 @@ const CargoPage: React.FC = () => {
     {
       header: 'Type',
       accessorFn: (originialRow) => CargoTypes[originialRow.type],
+      cell: ({ getValue }) => {
+        const value = getValue() as (typeof CargoTypes)[CargoTypesUnion]
+        const data = () => {
+          switch (value) {
+            case 'Preparing':
+              return <LugatBadge variant='success'>{value}</LugatBadge>
+            case 'Ready To Ship':
+              return <LugatBadge variant='info'>{value}</LugatBadge>
+            case 'Shipped':
+              return <LugatBadge variant='secondary'>{value}</LugatBadge>
+            case 'Delivered':
+              return <LugatBadge variant='success'>{value}</LugatBadge>
+            case 'Returned':
+              return <LugatBadge variant='danger'>{value}</LugatBadge>
+          }
+        }
+        return (
+          <Menu as='div' className='relative inline-block text-left '>
+            <div>
+              <Menu.Button>{data}</Menu.Button>
+            </div>
+            <Transition
+              as={Fragment}
+              enter='transition ease-out duration-100'
+              enterFrom='transform opacity-0 scale-95'
+              enterTo='transform opacity-100 scale-100'
+              leave='transition ease-in duration-75'
+              leaveFrom='transform opacity-100 scale-100'
+              leaveTo='transform opacity-0 scale-95'
+            >
+              <Menu.Items className='absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 z-5050 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+                {Object.keys(CargoTypes).map((cargo_type, index: number) => (
+                  <div className='px-1 py-1' key={index}>
+                    <Menu.Item>
+                      <button className={`group flex w-full items-center rounded-md px-2 py-2 text-sm`}>
+                        {CargoTypes[cargo_type as CargoTypesUnion]}
+                      </button>
+                    </Menu.Item>
+                  </div>
+                ))}
+              </Menu.Items>
+            </Transition>
+          </Menu>
+        )
+      },
     },
     {
-      header: 'Amount Type',
-      accessorKey: 'amount_type',
+      header: 'Amount',
+      accessorKey: 'amount',
+    },
+    {
+      header: 'Amount type',
+      accessorFn: (originialRow) => AmountTypes[originialRow.amount_type],
     },
     {
       header: 'Price',
       accessorFn: (originalRow) => originalRow.price + '' + CurrencyCodeToSign(originalRow.price_currency.code),
     },
     {
-      header: 'Date Of Paid',
-      accessorKey: 'date_of_paid',
+      header: 'Ready To Ship Date',
+      accessorKey: 'ready_to_ship_date',
+    },
+    {
+      header: 'Shipped Date',
+      accessorKey: 'shipped_date',
+    },
+    {
+      header: 'Delivered Date',
+      accessorKey: 'delivered_date',
+    },
+    {
+      header: 'Returned Date',
+      accessorKey: 'returned_date',
     },
     {
       header: 'Actions',

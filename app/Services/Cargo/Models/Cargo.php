@@ -20,7 +20,10 @@ class Cargo extends Model
     protected $casts = [
         'type' => CargoType::class,
         'amount_type' => AmountType::class,
-        'date_of_paid' => 'datetime'
+        'ready_to_ship_date' => 'datetime',
+        'shipped_date' => 'datetime',
+        'delivered_date' => 'datetime',
+        'returned_date' => 'datetime',
     ];
 
 

@@ -1,5 +1,5 @@
 import LoaderComponent from '@/components/anims/LoaderComponent'
-import ProtectedRoute, { pageLoader } from '@/layouts/ProtectedRoute'
+import ProtectedRoute from '@/layouts/ProtectedRoute'
 import { customerLoader } from '@/pages/customer/CustomerEdit'
 import { expenseLoader } from '@/pages/expense/ExpenseEdit'
 import { productLoader } from '@/pages/product/ProductEdit'
@@ -36,7 +36,7 @@ const NotfoundPage = React.lazy(() => import('@/pages/notfound'))
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path='/' element={<ProtectedRoute />} loader={pageLoader}>
+      <Route path='/' element={<ProtectedRoute />}>
         <Route
           index
           element={

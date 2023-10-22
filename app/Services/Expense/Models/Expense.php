@@ -4,6 +4,7 @@ namespace App\Services\Expense\Models;
 
 use App\Services\Currency\Models\Currency;
 use App\Services\Expense\Database\Factories\ExpenseFactory;
+use App\Services\Expense\Enums\ExpenseStatus;
 use App\Services\Expense\Enums\ExpenseType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +22,8 @@ class Expense extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'type' => ExpenseType::class
+        'type' => ExpenseType::class,
+        'status' => ExpenseStatus::class
     ];
 
     protected static function newFactory(): ExpenseFactory
@@ -37,7 +39,7 @@ class Expense extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-                         ->setDescriptionForEvent(fn(string $eventName) => "This model has been $eventName")
-                         ->dontSubmitEmptyLogs();
+            ->setDescriptionForEvent(fn(string $eventName) => "This model has been $eventName")
+            ->dontSubmitEmptyLogs();
     }
 }

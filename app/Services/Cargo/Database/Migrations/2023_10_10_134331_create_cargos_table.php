@@ -17,12 +17,16 @@ return new class extends Migration {
             $table->foreignUuid('cargo_company_id')->constrained('cargo_companies')->restrictOnDelete();
             $table->enum('type', CargoType::values());
             $table->string('tracking_no')->nullable();
+            $table->string('amount')->nullable();
             $table->enum('amount_type', AmountType::values());
-            $table->double('price')->default(0);
+            $table->decimal('price', 15)->default(0);
             $table->foreignUuid('price_currency_id')->nullable()->constrained('currencies')->restrictOnDelete();
-            $table->dateTime('date_of_paid')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
+            $table->dateTimeTz('ready_to_ship_date')->nullable();
+            $table->dateTimeTz('shipped_date')->nullable();
+            $table->dateTimeTz('delivered_date')->nullable();
+            $table->dateTimeTz('returned_date')->nullable();
+            $table->timestampsTz();
+            $table->softDeletesTz();
         });
     }
 

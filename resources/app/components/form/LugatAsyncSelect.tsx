@@ -8,12 +8,12 @@ import { withAsyncPaginate } from 'react-select-async-paginate'
 import type { CreatableProps } from 'react-select/creatable'
 import Creatable from 'react-select/creatable'
 
-const controlStyles = {
+export const controlStyles = {
   base: 'border rounded-lg bg-white hover:cursor-pointer text-left font-semibold',
-  focus: 'border-gray-200 ring-1 ring-gray-200 ',
-  nonFocus: 'border-gray-100 hover:border-gray-400 ',
+  focus: 'border-gray-200 ring-1 ring-gray-200',
+  nonFocus: 'border-gray-200',
 }
-const optionStyles = {
+export const optionStyles = {
   base: 'hover:cursor-pointer px-3 py-2 rounded text-left ',
   focus: 'bg-gray-100 active:bg-gray-200',
   selected: "after:content-['✔'] after:ml-2 after:text-green-500 text-gray-500",
@@ -31,7 +31,7 @@ type AsyncPaginateCreatableType = <OptionType, Group extends GroupBase<OptionTyp
   props: AsyncPaginateCreatableProps<OptionType, Group, Additional, IsMulti>,
 ) => ReactElement
 
-const CreatableAsyncPaginate = withAsyncPaginate(Creatable) as AsyncPaginateCreatableType
+export const CreatableAsyncPaginate = withAsyncPaginate(Creatable) as AsyncPaginateCreatableType
 
 const LugatAsyncSelect: React.FC<any> = (props) => {
   const { label, required, error, loadOptions, ...otherProps } = props
