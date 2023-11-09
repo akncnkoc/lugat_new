@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Services\Cargo\Database\Seeders\CargoCompanySeeder;
 use App\Services\Cargo\Database\Seeders\CargoSeeder;
+use App\Services\Customer\Database\Seeders\CustomerSeeder;
 use App\Services\Expense\Database\Seeders\ExpenseSeeder;
 use App\Services\Product\Database\Seeders\ProductSeeder;
 use App\Services\Product\Database\Seeders\VariantSeeder;
@@ -25,11 +27,12 @@ class DatabaseSeeder extends Seeder
             ExpenseSeeder::class,
             UserSeeder::class,
             SupplierSeeder::class,
-                //            CustomerSeeder::class,
+            CustomerSeeder::class,
             StaffSeeder::class,
             VariantSeeder::class,
             ProductSeeder::class,
-            CargoSeeder::class
+            CargoCompanySeeder::class,
+            CargoSeeder::class,
         ]);
     }
 }

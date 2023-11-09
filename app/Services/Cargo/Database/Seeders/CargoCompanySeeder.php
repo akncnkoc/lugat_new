@@ -12,6 +12,25 @@ class CargoCompanySeeder extends Seeder
      */
     public function run(): void
     {
-        CargoCompany::factory(10)->create();
+        $cargoCompanies = [
+            "MNG",
+            "Aras",
+            "Sürat",
+            "Yurtiçi",
+            "PTT",
+            "Vatan",
+            "UPS",
+            "İyi",
+            "Kargo Türk",
+            "Git",
+            "Aykargo",
+            "DHL",
+            "Trendyol Express",
+            "Kargoist",
+            "Rabbit"
+        ];
+        foreach ($cargoCompanies as $cargoCompany) {
+            CargoCompany::create(['name' => $cargoCompany]);
+        }
     }
 }

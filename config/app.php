@@ -21,7 +21,7 @@ return [
     'providers' => ServiceProvider::defaultProviders()->merge([
         \App\Global\Providers\AppServiceProvider::class,
         \App\Global\Providers\AuthServiceProvider::class,
-            // App\Providers\BroadcastServiceProvider::class,
+        \App\Global\Providers\BroadcastServiceProvider::class,
         \App\Global\Providers\EventServiceProvider::class,
         \App\Global\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
@@ -39,6 +39,7 @@ return [
         App\Services\Dashboard\Providers\DashboardServiceProvider::class,
         App\Services\Cargo\Providers\CargoServiceProvider::class,
         App\Services\Setting\Providers\SettingServiceProvider::class,
+        App\Services\Notification\Providers\NotificationServiceProvider::class,
     ])->toArray(),
 
     'aliases' => [

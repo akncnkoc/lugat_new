@@ -7,6 +7,7 @@ import { useLazyGetExpensesQuery } from '@/services/api/expense-api'
 import { ExpenseDataType, ExpenseStatusType, ExpenseTypeData } from '@/types/expense-types'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { clsx } from 'clsx'
+import moment from 'moment-timezone'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
@@ -30,21 +31,24 @@ const ExpensePage: React.FC = () => {
       header: 'Status',
       accessorFn: (originalRow) => ExpenseStatusType[originalRow.status],
       cell: ({ getValue }) => {
-        switch (getValue()) {
+        const value = getValue() as ReactNode
+        switch (value) {
           case 'Paided':
-            return <LugatBadge variant='success'>{getValue() as ReactNode}</LugatBadge>
+            return <LugatBadge variant='success'>{value}</LugatBadge>
           case 'Scheduled':
-            return <LugatBadge variant='secondary'>{getValue() as ReactNode}</LugatBadge>
+            return <LugatBadge variant='secondary'>{value}</LugatBadge>
         }
       },
     },
     {
       header: 'Receipt Date',
       accessorKey: 'receipt_date',
+      cell: ({ getValue }) => ((getValue() as string) ? moment(getValue() as string).format('DD.MM.YYYY HH:mm:ss') : null),
     },
     {
       header: 'Scheduled Date',
       accessorKey: 'scheduled_date',
+      cell: ({ getValue }) => ((getValue() as string) ? moment(getValue() as string).format('DD.MM.YYYY HH:mm:ss') : null),
     },
     {
       header: 'Actions',

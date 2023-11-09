@@ -33,6 +33,8 @@ const persistConfig = {
     'supplierApi',
     'settingApi',
     'currencyApi',
+    'cargoApi',
+    'cargoCompanyApi',
   ],
 }
 

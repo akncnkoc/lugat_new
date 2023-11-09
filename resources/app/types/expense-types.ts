@@ -21,6 +21,7 @@ export enum ExpenseStatusType {
   paided = 'Paided',
   scheduled = 'Scheduled',
 }
+export type ExpenseStatusTypeUnion = keyof typeof ExpenseStatusType
 
 export type ExpenseStoreType = {
   amount: number

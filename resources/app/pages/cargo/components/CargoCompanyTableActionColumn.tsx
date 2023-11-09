@@ -16,14 +16,13 @@ const CargoCompanyTableActionColumn: React.FC<{
   cell: Cell<CargoCompanyDataType, unknown>
   refetch: Function
 }> = ({ cell, refetch }) => {
+  const [deleteCargoCompany, { isLoading: deleteIsLoading }] = useDeleteCargoCompanyMutation()
   const showConfirmDialog = useModal({
     Component: ConfirmationDialog,
     closeOnEsc: true,
     closeOnOverlayClick: true,
     defaultResolved: ConfirmationDialogResponse.NO,
   })
-  const [deleteCargoCompany, { isLoading: deleteIsLoading }] = useDeleteCargoCompanyMutation()
-
   const handleDelete = async () => {
     const confirmResponse = await showConfirmDialog()
     if (confirmResponse === ConfirmationDialogResponse.NO) {

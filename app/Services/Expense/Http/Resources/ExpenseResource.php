@@ -25,10 +25,10 @@ class ExpenseResource extends JsonResource
             'amount' => $this->amount,
             'currency' => CurrencyResource::make($this->currency),
             'comment' => $this->comment,
-            'receipt_date' => $this->whenNotNull(Carbon::make($this->receipt_date)?->format('d.m.Y H:i:s')),
+            'receipt_date' => $this->whenNotNull(Carbon::make($this->receipt_date)),
             'type' => $this->type,
             'status' => $this->status,
-            'scheduled_date' => $this->whenNotNull(Carbon::make($this->scheduled_date)?->format('d.m.Y H:i:s'))
+            'scheduled_date' => $this->whenNotNull(Carbon::make($this->scheduled_date))
         ];
     }
 }

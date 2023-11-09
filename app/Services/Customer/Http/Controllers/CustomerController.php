@@ -27,7 +27,7 @@ class CustomerController extends Controller
         $this->authorize('customerView', Customer::class);
         $customerQuery = Customer::query();
         $customerQuery->whereRaw($request->get('expression'), $request->get('bindings'));
-        $customerQuery->orderBy($request->get('orderByColumn') ?? 'id', $request->get('orderByColumnDirection') ?? 'desc');
+        $customerQuery->orderBy($request->get('orderByColumn', 'id'), $request->get('orderByColumnDirection', 'id'));
         return CustomerResource::collection($customerQuery->paginate());
     }
 
@@ -35,7 +35,10 @@ class CustomerController extends Controller
     {
         $this->authorize('customerStore', Customer::class);
         DB::transaction(static function () use ($request) {
-            Customer::create($request->safe()->all());
+            $customer = Customer::create($request->safe()->only('customer'));
+            $customer->billingAddress()->create($request->safe()->only('billing_address'));
+            $customer->shippingAddress()->create($request->safe()->only('shipping_address'));
+            $customer->customerInfo()->create($request->safe()->only('customer_info'));
         });
         return $this->success('customer created', statusCode: Response::HTTP_CREATED);
     }
@@ -50,7 +53,6 @@ class CustomerController extends Controller
     {
         $this->authorize('customerUpdate', Customer::class);
         DB::transaction(static function () use ($request, $customer) {
-
             $customer->update($request->safe()->all());
         });
         return $this->success('customer updated');

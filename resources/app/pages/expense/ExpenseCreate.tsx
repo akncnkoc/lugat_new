@@ -5,11 +5,18 @@ import LugatButton from '@/components/form/LugatButton'
 import LugatCurrencyInputWithAsyncSelect from '@/components/form/LugatCurrencyInputWithAsyncSelect'
 import LugatTextarea from '@/components/form/LugatTextarea'
 import SeperatedRow from '@/components/form/SeperatedRow'
+import { expenseStatusCheckIn } from '@/helpers/functions'
 import { ExpenseStoreValidationSchema } from '@/helpers/schemas'
 import useCurrencies from '@/hooks/useCurrencies'
 import { useStoreExpenseMutation } from '@/services/api/expense-api'
 import { useAppSelector } from '@/store/hooks'
-import { ExpenseStatusType, ExpenseStoreFormType, ExpenseStoreInitialValues, ExpenseTypeData } from '@/types/expense-types'
+import {
+  ExpenseStatusType,
+  ExpenseStatusTypeUnion,
+  ExpenseStoreFormType,
+  ExpenseStoreInitialValues,
+  ExpenseTypeData,
+} from '@/types/expense-types'
 import { clsx } from 'clsx'
 import { getIn, useFormik } from 'formik'
 import { motion } from 'framer-motion'
@@ -36,14 +43,20 @@ const ExpenseCreate: React.FC = () => {
     validateOnBlur: false,
     validationSchema: ExpenseStoreValidationSchema,
     onSubmit: (values) => {
+      let dates: Array<null | string> = [null, null]
+
+      if (expenseStatusCheckIn(['paided'], values.status.value as ExpenseStatusTypeUnion))
+        dates[0] = moment(values.receipt_date).tz('Europe/Istanbul').format()
+      if (expenseStatusCheckIn(['scheduled'], values.status.value as ExpenseStatusTypeUnion))
+        dates[1] = moment(values.scheduled_date).tz('Europe/Istanbul').format()
       toast.promise(
         storeExpense({
           ...values,
           currency_id: values.currency.value,
           type: values.type.value as keyof typeof ExpenseTypeData,
           status: values.status.value as keyof typeof ExpenseTypeData,
-          receipt_date: values.receipt_date ? moment(values.receipt_date).tz('Europe/Istanbul').format() : null,
-          scheduled_date: values.scheduled_date ? moment(values.scheduled_date).tz('Europe/Istanbul').format() : null,
+          receipt_date: dates[0],
+          scheduled_date: dates[1],
         }).unwrap(),
         {
           loading: 'Loading...',

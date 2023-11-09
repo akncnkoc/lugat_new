@@ -16,10 +16,11 @@ class InvoiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'description'  => $this->faker->sentence,
-            'customer_id'  => Customer::factory(),
-            'invoice_date' => $this->faker->dateTime(),
-            'total'        => $this->faker->numberBetween(1000, 5000)
+            'description' => $this->faker->sentence,
+            'customer_id' => Customer::factory(),
+            'bill_date' => $this->faker->dateTime(),
+            'total' => $this->faker->numberBetween(1000, 5000),
+            'status' => 'live'
         ];
     }
 }

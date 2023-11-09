@@ -7,9 +7,9 @@ import { ProductStoreFormType } from '@/types/product-types'
 import { SettingFormDataType } from '@/types/setting-types'
 import { StaffStoreFormType } from '@/types/staff-types'
 import { VaultStoreFormType } from '@/types/vault-types'
-import parse from 'date-fns/parse'
 import moment from 'moment-timezone'
 import { date, number, object, string } from 'yup'
+import { cargoTypesCheckIn } from './functions'
 
 export const LoginFormValidationSchema = object<LoginFormType>({
   email: string().required('E-Posta alanı gereklidir').email('E-Posta geçersiz'),
@@ -84,7 +84,7 @@ export const ExpenseStoreValidationSchema = object().shape<Shape<ExpenseStoreFor
     }),
 })
 
-export const StaffCreateValidationSchema = object().shape<Shape<Partial<StaffStoreFormType>>>({
+export const StaffCreateValidationSchema = object().shape<Shape<StaffStoreFormType>>({
   name: string().label('Name').required().max(255),
   surname: string().label('Surname').required().max(255),
   email: string().label('Email').email().required().max(255),
@@ -99,6 +99,12 @@ export const StaffCreateValidationSchema = object().shape<Shape<Partial<StaffSto
     .label('Salary Currency')
     .shape({
       value: string().required().notOneOf(['-1'], 'Salary Currency must be selected'),
+    }),
+  salary: number(),
+  type: object()
+    .label('Staff Type')
+    .shape({
+      value: string().required().notOneOf(['-1'], 'Staff Type must be selected'),
     }),
 })
 
@@ -148,29 +154,6 @@ export const ProductCreateValidationSchema = object().shape<Shape<Partial<Produc
     }),
 })
 
-export const SettingStoreInitialValues = {
-  name: '',
-  timezone: {
-    value: '-1',
-    label: 'Select',
-  },
-  defaultCurrency: {
-    value: '-1',
-    label: 'Select',
-  },
-  dateFormat: {
-    value: '-1',
-    label: 'Select',
-  },
-  companyVatNumber: '',
-  companyPostCode: '',
-  companyName: '',
-  companyContactPhoneNumber: '',
-  companyAddress: '',
-  companyContactEmail: '',
-  companyWebsite: '',
-}
-
 export const SettingStoreValidationSchema = object().shape<Shape<SettingFormDataType>>({
   name: string().label('Name').required(),
   companyAddress: string(),
@@ -197,24 +180,6 @@ export const SettingStoreValidationSchema = object().shape<Shape<SettingFormData
     }),
 })
 
-export const CargoStoreInitialValues: CargoStoreFormType = {
-  cargo_company: {
-    value: '-1',
-    label: 'Select',
-  },
-  type: {
-    value: '-1',
-    label: 'Select',
-  },
-  amount_type: { value: '-1', label: 'Select' },
-  tracking_no: '',
-  price: 0,
-  price_currency: {
-    value: '-1',
-    label: 'Select',
-  },
-  date_of_paid: new Date(),
-}
 export const CargoCreateValidationSchema = object().shape<Shape<CargoStoreFormType>>({
   cargo_company: object()
     .label('Cargo Company')
@@ -238,15 +203,29 @@ export const CargoCreateValidationSchema = object().shape<Shape<CargoStoreFormTy
       value: string().required().notOneOf(['-1'], 'Currency must be selected'),
     }),
   tracking_no: string(),
-  date_of_paid: date()
+  amount: string(),
+  ready_to_ship_date: date()
     .nullable()
-    .default(undefined)
-    .label('Date of paid')
-    .transform(function (value, originalValue) {
-      if (originalValue == '') return null
-      if (this.isType(value)) {
-        return value
-      }
-      return parse(originalValue, 'dd.MM.yyyy', new Date())
+    .label('Ready To Ship Date')
+    .when('type', ([type], schema) => {
+      return cargoTypesCheckIn(['ready_to_ship', 'shipped', 'delivered', 'returned'], type.value) ? schema.nonNullable() : schema
+    }),
+  shipped_date: date()
+    .nullable()
+    .label('Shipped Date')
+    .when('type', ([type], schema) => {
+      return cargoTypesCheckIn(['shipped', 'delivered', 'returned'], type.value) ? schema.nonNullable() : schema
+    }),
+  delivered_date: date()
+    .nullable()
+    .label('Delivered Date')
+    .when('type', ([type], schema) => {
+      return cargoTypesCheckIn(['delivered'], type.value) ? schema.nonNullable() : schema
+    }),
+  returned_date: date()
+    .nullable()
+    .label('Returned Date')
+    .when('type', ([type], schema) => {
+      return cargoTypesCheckIn(['returned'], type.value) ? schema.nonNullable() : schema
     }),
 })

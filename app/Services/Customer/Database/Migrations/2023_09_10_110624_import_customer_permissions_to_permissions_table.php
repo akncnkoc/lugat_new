@@ -35,31 +35,6 @@ return new class extends Migration {
         'guard_name' => 'web',
         'type' => 'customer'
       ],
-
-      [
-        'id' => Str::uuid(),
-        'name' => 'view customer type',
-        'guard_name' => 'web',
-        'type' => 'customer-type'
-      ],
-      [
-        'id' => Str::uuid(),
-        'name' => 'store customer type',
-        'guard_name' => 'web',
-        'type' => 'customer-type'
-      ],
-      [
-        'id' => Str::uuid(),
-        'name' => 'update customer type',
-        'guard_name' => 'web',
-        'type' => 'customer-type'
-      ],
-      [
-        'id' => Str::uuid(),
-        'name' => 'delete customer type',
-        'guard_name' => 'web',
-        'type' => 'customer-type'
-      ],
     ]);
   }
 };

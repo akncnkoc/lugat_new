@@ -40,9 +40,9 @@ class CargoFactory extends Factory
                 break;
         }
         return [
-            'cargo_company_id' => CargoCompany::factory(),
+            'cargo_company_id' => CargoCompany::inRandomOrder()->first()->id,
             'type' => $type,
-            'tracking_no' => $ready_to_ship_date != null ? $this->faker->uuid() : '',
+            'tracking_no' => $ready_to_ship_date != null ? $this->faker->isbn10() : '',
             'amount' => (string) $this->faker->numberBetween(10, 20),
             'amount_type' => $this->faker->randomElement(AmountType::values()),
             'price' => $this->faker->numberBetween(100, 250),

@@ -31,12 +31,13 @@ const ProductCreatePage = React.lazy(() => import('@/pages/product/ProductCreate
 const ProductEditPage = React.lazy(() => import('@/pages/product/ProductEdit'))
 const LoginPage = React.lazy(() => import('@/pages/auth/Login'))
 const Setting = React.lazy(() => import('@/pages/setting'))
-const NotfoundPage = React.lazy(() => import('@/pages/notfound'))
+const NotfoundPage = React.lazy(() => import('@/pages/defaults/notfound'))
+const ErrorBoundaryElementPage = React.lazy(() => import('@/pages/defaults/error'))
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path='/' element={<ProtectedRoute />}>
+      <Route path='/' element={<ProtectedRoute />} errorElement={<ErrorBoundaryElementPage />}>
         <Route
           index
           element={

@@ -8,7 +8,9 @@ import { useLazyGetCargosQuery } from '@/services/api/cargo-api'
 import { AmountTypes, CargoDataType, CargoTypes, CargoTypesUnion } from '@/types/cargo-types'
 import { Menu, Transition } from '@headlessui/react'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import moment from 'moment-timezone'
 import React, { Fragment, useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import CargoTableActionColumn from './components/CargoTableActionColumn'
 import CargoCompanyModal from './modal/CargoCompanyModal'
@@ -96,18 +98,22 @@ const CargoPage: React.FC = () => {
     {
       header: 'Ready To Ship Date',
       accessorKey: 'ready_to_ship_date',
+      cell: ({ getValue }) => ((getValue() as string) ? moment(getValue() as string).format('DD.MM.YYYY HH:mm:ss') : null),
     },
     {
       header: 'Shipped Date',
       accessorKey: 'shipped_date',
+      cell: ({ getValue }) => ((getValue() as string) ? moment(getValue() as string).format('DD.MM.YYYY HH:mm:ss') : null),
     },
     {
       header: 'Delivered Date',
       accessorKey: 'delivered_date',
+      cell: ({ getValue }) => ((getValue() as string) ? moment(getValue() as string).format('DD.MM.YYYY HH:mm:ss') : null),
     },
     {
       header: 'Returned Date',
       accessorKey: 'returned_date',
+      cell: ({ getValue }) => ((getValue() as string) ? moment(getValue() as string).format('DD.MM.YYYY HH:mm:ss') : null),
     },
     {
       header: 'Actions',
@@ -146,6 +152,9 @@ const CargoPage: React.FC = () => {
   }
   return (
     <>
+      <Helmet>
+        <title>Cargo Listing Page</title>
+      </Helmet>
       <div className={'flex space-x-4 justify-between px-4 items-center'}>
         <div>
           <div className='w-fit'>

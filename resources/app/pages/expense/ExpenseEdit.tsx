@@ -6,11 +6,19 @@ import LugatButton from '@/components/form/LugatButton'
 import LugatCurrencyInputWithAsyncSelect from '@/components/form/LugatCurrencyInputWithAsyncSelect'
 import LugatTextarea from '@/components/form/LugatTextarea'
 import SeperatedRow from '@/components/form/SeperatedRow'
+import { expenseStatusCheckIn } from '@/helpers/functions'
 import { ExpenseStoreValidationSchema } from '@/helpers/schemas'
 import useCurrencies from '@/hooks/useCurrencies'
 import { expenseApi, useUpdateExpenseMutation } from '@/services/api/expense-api'
 import { storeDispatch } from '@/store'
-import { ExpenseDataType, ExpenseStatusType, ExpenseStoreFormType, ExpenseStoreInitialValues, ExpenseTypeData } from '@/types/expense-types'
+import {
+  ExpenseDataType,
+  ExpenseStatusType,
+  ExpenseStatusTypeUnion,
+  ExpenseStoreFormType,
+  ExpenseStoreInitialValues,
+  ExpenseTypeData,
+} from '@/types/expense-types'
 import { TrackedPromise } from '@remix-run/router/utils'
 import { clsx } from 'clsx'
 import { getIn, useFormik } from 'formik'
@@ -42,26 +50,33 @@ const ExpenseEdit: React.FC = () => {
     validateOnBlur: false,
     validationSchema: ExpenseStoreValidationSchema,
     onSubmit: (values) => {
-      updateExpense({
-        body: {
-          ...values,
-          currency_id: values.currency.value,
-          type: values.type.value as keyof typeof ExpenseTypeData,
-          status: values.status.value as keyof typeof ExpenseTypeData,
-          receipt_date: values.receipt_date ? moment(values.receipt_date).tz('Europe/Istanbul').format() : null,
-          scheduled_date: values.scheduled_date ? moment(values.scheduled_date).tz('Europe/Istanbul').format() : null,
+      let dates: Array<null | string> = [null, null]
+
+      if (expenseStatusCheckIn(['paided'], values.status.value as ExpenseStatusTypeUnion))
+        dates[0] = moment(values.receipt_date).tz('Europe/Istanbul').format()
+      if (expenseStatusCheckIn(['scheduled'], values.status.value as ExpenseStatusTypeUnion))
+        dates[1] = moment(values.scheduled_date).tz('Europe/Istanbul').format()
+      toast.promise(
+        updateExpense({
+          body: {
+            ...values,
+            currency_id: values.currency.value,
+            type: values.type.value as keyof typeof ExpenseTypeData,
+            status: values.status.value as keyof typeof ExpenseTypeData,
+            receipt_date: dates[0],
+            scheduled_date: dates[1],
+          },
+          id: id ?? '',
+        }).unwrap(),
+        {
+          loading: 'Loading',
+          success: () => {
+            navigate('/expense/list')
+            return 'Expense updated'
+          },
+          error: 'Expense cant stored',
         },
-        id: id ?? '',
-      })
-        .unwrap()
-        .then((_) => {
-          toast.success('Expense updated')
-          expenseUpdateFormik.resetForm()
-          navigate('/expense/list')
-        })
-        .catch((_) => {
-          toast.error('Expense cant stored')
-        })
+      )
     },
   })
   useEffect(() => {
@@ -93,7 +108,7 @@ const ExpenseEdit: React.FC = () => {
     <React.Suspense
       fallback={
         <div className={'h-96 w-full flex items-center justify-center'}>
-          <LoaderComponent loaderClassName={'after:bg-gray-100'} />
+          <LoaderComponent />
         </div>
       }
     >
@@ -105,7 +120,7 @@ const ExpenseEdit: React.FC = () => {
                 <Card className='flex-1'>
                   <Card.Header>
                     <h3 className={'text-lg font-semibold'}>
-                      Create New Expense{' '}
+                      Update Expense{' '}
                       <span className={'text-xs'}>
                         (<span className={'text-red-700'}> *</span>
                         required fields to be filled )

@@ -2,7 +2,7 @@ import ConfirmationDialog from '@/components/ConfirmationDialog'
 import LugatButton from '@/components/form/LugatButton'
 import { useModal } from '@/components/modal/useModal'
 import { ConfirmationDialogResponse } from '@/helpers/types'
-import { useDeleteStaffMutation } from '@/services/api/staff-api'
+import { useDeleteCargoMutation } from '@/services/api/cargo-api'
 import { CargoDataType } from '@/types/cargo-types'
 import { Cell } from '@tanstack/react-table'
 import React from 'react'
@@ -20,7 +20,7 @@ const CargoTableActionColumn: React.FC<{
     closeOnOverlayClick: true,
     defaultResolved: ConfirmationDialogResponse.NO,
   })
-  const [deleteStaff, { isLoading: deleteIsLoading }] = useDeleteStaffMutation()
+  const [deleteStaff, { isLoading: deleteIsLoading }] = useDeleteCargoMutation()
 
   const handleDelete = async () => {
     const confirmResponse = await showConfirmDialog()

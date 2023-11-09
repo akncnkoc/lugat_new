@@ -28,11 +28,15 @@ class CargoStoreRequest extends FormRequest
         return [
             'cargo_company_id' => 'required|exists:cargo_companies,id',
             'type' => ['required', Rule::in(CargoType::values())],
+            'amount' => 'sometimes|max:255',
             'tracking_no' => 'sometimes|max:255',
             'amount_type' => ['required', Rule::in(AmountType::values())],
             'price' => 'required|numeric|min:0',
             'price_currency_id' => 'required|uuid|exists:currencies,id',
-            'date_of_paid' => 'sometimes|date'
+            'ready_to_ship_date' => 'required_if:type,ready_to_ship,shipped,delivered,returned|nullable|date',
+            'shipped_date' => 'required_if:type,shipped,delivered,returned|nullable|date',
+            'delivered_date' => 'required_if:type,delivered|nullable|date',
+            'returned_date' => 'required_if:type,returned|nullable|date',
         ];
     }
 }

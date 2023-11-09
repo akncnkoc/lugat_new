@@ -37,7 +37,6 @@ const LugatCurrencyInputWithAsyncSelect: React.FC<LugatCurrencyInputWithAsyncSel
           className={clsx(
             'text-sm',
             'font-semibold',
-            'mt-2',
             'rounded-bl',
             'rounded-tl',
             'border-r-0',
@@ -76,16 +75,17 @@ const LugatCurrencyInputWithAsyncSelect: React.FC<LugatCurrencyInputWithAsyncSel
               ...base,
               transition: 'none',
             }),
-            menuPortal: (base) => ({ ...base, zIndex: 9999999, width: '8rem' }),
+            menuPortal: (base) => ({ ...base, zIndex: 9999999, width: '8.5rem' }),
           }}
+          menuPosition='fixed'
           classNames={{
             control: () =>
               clsx(
-                controlStyles.base + ' w-max mt-2 border-l border-gray-100 rounded-tl-none rounded-bl-none text-right focus:!outline-none',
+                controlStyles.base + ' w-36  border-l border-gray-100 rounded-tl-none rounded-bl-none focus:!outline-none',
                 (input.error || select.error) && 'focus:!ring-red-500 text-red-500 placeholder-red-500 !border-red-500',
               ),
-            placeholder: () => 'text-gray-500 pl-1 py-0.5 text-right',
-            input: () => 'pl-1 py-0.5 text-right caret-transparent',
+            placeholder: () => 'text-gray-500 pl-1 py-0.5 ',
+            input: () => 'pl-1 py-0.5  caret-transparent',
             valueContainer: () => 'p-1 gap-1 border-gray-100',
             singleValue: () => 'leading-7 ml-1',
             multiValue: () => 'bg-gray-100 rounded items-center py-0.5 pl-2 pr-1 gap-1.5',
@@ -95,7 +95,7 @@ const LugatCurrencyInputWithAsyncSelect: React.FC<LugatCurrencyInputWithAsyncSel
             indicatorsContainer: () => 'p-1 gap-1 !border-none',
             clearIndicator: () => 'text-gray-500 p-1 rounded-md hover:bg-red-50 hover:text-red-800',
             dropdownIndicator: () => 'p-1 hover:bg-gray-100 text-gray-500 rounded-md hover:text-black',
-            menu: () => 'p-1 mt-2 border border-gray-50 bg-white rounded-lg w-32',
+            menu: () => 'p-1 mt-2 border border-gray-50 bg-white rounded-lg',
             groupHeading: () => 'ml-3 mt-2 mb-1 text-gray-500 text-sm',
             option: ({ isFocused, isSelected }) =>
               clsx(isFocused && optionStyles.focus, isSelected && optionStyles.selected, optionStyles.base),

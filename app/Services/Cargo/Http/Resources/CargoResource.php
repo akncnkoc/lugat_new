@@ -30,10 +30,10 @@ class CargoResource extends JsonResource
             'tracking_no' => $this->tracking_no,
             'price' => $this->price,
             'price_currency' => CurrencyResource::make($this->priceCurrency),
-            'ready_to_ship_date' => $this->whenNotNull(Carbon::make($this->ready_to_ship_date)?->format('d.m.Y H:i:s')),
-            'shipped_date' => $this->whenNotNull(Carbon::make($this->shipped_date)?->format('d.m.Y H:i:s')),
-            'delivered_date' => $this->whenNotNull(Carbon::make($this->delivered_date)?->format('d.m.Y H:i:s')),
-            'returned_date' => $this->whenNotNull(Carbon::make($this->returned_date)?->format('d.m.Y H:i:s')),
+            'ready_to_ship_date' => $this->whenNotNull(Carbon::make($this->ready_to_ship_date)),
+            'shipped_date' => $this->whenNotNull(Carbon::make($this->shipped_date)),
+            'delivered_date' => $this->whenNotNull(Carbon::make($this->delivered_date)),
+            'returned_date' => $this->whenNotNull(Carbon::make($this->returned_date)),
         ];
     }
 }

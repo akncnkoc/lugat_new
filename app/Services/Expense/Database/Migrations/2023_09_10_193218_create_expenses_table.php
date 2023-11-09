@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('expenses', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->enum('type', ExpenseType::values());
-            $table->decimal('amount', 15);
+            $table->decimal('amount');
             $table->foreignUuid('currency_id')->constrained('currencies')->restrictOnDelete();
             $table->string('comment')->nullable();
             $table->dateTimeTz('receipt_date')->nullable();

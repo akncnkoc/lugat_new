@@ -2,6 +2,28 @@ import { CurrencyDataType, DefaultResponseCollectionType, SelectOption } from '@
 
 export const dateFormats: string[] = ['m/d/Y H:i:s', 'd/m/Y H:i:s', 'Y/m/d H:i:s']
 
+export const SettingStoreInitialValues = {
+  name: '',
+  timezone: {
+    value: '-1',
+    label: 'Select',
+  },
+  defaultCurrency: {
+    value: '-1',
+    label: 'Select',
+  },
+  dateFormat: {
+    value: '-1',
+    label: 'Select',
+  },
+  companyVatNumber: '',
+  companyPostCode: '',
+  companyName: '',
+  companyContactPhoneNumber: '',
+  companyAddress: '',
+  companyContactEmail: '',
+  companyWebsite: '',
+}
 export type SettingDataType = {
   name: string
   defaultCurrency: CurrencyDataType

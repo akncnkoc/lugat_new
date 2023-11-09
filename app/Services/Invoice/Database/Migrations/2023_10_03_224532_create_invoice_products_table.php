@@ -15,10 +15,10 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->foreignUuid('invoice_id')->constrained('invoices')->restrictOnDelete();
             $table->foreignUuid('sub_product_id')->constrained('sub_products')->restrictOnDelete();
-            $table->decimal('price', 15)->default(1);
+            $table->decimal('price')->default(1);
             $table->foreignUuid('price_currency_id')->constrained('currencies')->restrictOnDelete();
             $table->enum('tax', TaxType::values());
-            $table->decimal('tax_price', 15)->default(0);
+            $table->decimal('tax_price')->default(0);
             $table->timestamps();
         });
     }

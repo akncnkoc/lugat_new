@@ -33,7 +33,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password'          => 'hashed'
+        'password' => 'hashed'
     ];
 
     protected static function newFactory(): UserFactory
@@ -46,6 +46,6 @@ class User extends Authenticatable
         return Attribute::make(get: fn(
             $value,
             $attributes
-        ) => $attributes['name'].' '.$attributes['surname']);
+        ) => $attributes['name'] . ' ' . $attributes['surname']);
     }
 }
